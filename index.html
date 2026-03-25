@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editor Lev | Portfolio</title>
+    <!-- Иконки Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Твои стили из style.css -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,7 +20,10 @@
             <p class="tagline">Create vertical high-quality stories</p>
             
             <div class="social-links">
+                <!-- Telegram -->
                 <a href="https://t.me/editor_lev" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+                
+                <!-- Email с исправленной функцией копирования -->
                 <a href="javascript:void(0)" onclick="copyEmail()" class="email-btn">
                     <i class="fas fa-envelope"></i>
                     <span class="copy-tooltip" id="tooltip">Copy Email</span>
@@ -39,6 +44,7 @@
         <div class="portfolio-wrapper">
             <h2 class="section-title">MY WORK</h2>
             <div class="work-grid">
+                <!-- Карточка 1 -->
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline>
                         <source src="video1.mp4" type="video/mp4">
@@ -50,6 +56,7 @@
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
+                <!-- Карточка 2 -->
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline>
                         <source src="video2.mp4" type="video/mp4">
@@ -61,6 +68,7 @@
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
+                <!-- Карточка 3 -->
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline>
                         <source src="video3.mp4" type="video/mp4">
@@ -77,10 +85,13 @@
     </section>
 
     <script>
+        // ИСПРАВЛЕННАЯ ФУНКЦИЯ КОПИРОВАНИЯ (Работает на HTTP и HTTPS)
         function copyEmail() {
             const email = "editorafterwork@gmail.com";
             const tooltip = document.getElementById("tooltip");
-            navigator.clipboard.writeText(email).then(() => {
+
+            // Функция для анимации успеха
+            const showSuccess = () => {
                 tooltip.innerText = "Copied!";
                 tooltip.classList.add('copied-active');
                 setTimeout(() => {
@@ -91,9 +102,41 @@
                         }
                     }, 300);
                 }, 2000);
-            });
+            };
+
+            // 1. Пробуем современный метод (требует HTTPS)
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(email)
+                    .then(showSuccess)
+                    .catch(err => fallbackCopy(email, showSuccess));
+            } else {
+                // 2. Используем запасной метод для HTTP
+                fallbackCopy(email, showSuccess);
+            }
         }
 
+        // Запасной метод через создание временного элемента
+        function fallbackCopy(text, callback) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            // Убираем поле из области видимости
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            textArea.style.top = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) callback();
+            } catch (err) {
+                console.error('Не удалось скопировать', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Логика работы видео (звук, наведение, громкость)
         document.querySelectorAll('.work-card').forEach(card => {
             const video = card.querySelector('video');
             if(!video) return;
@@ -102,8 +145,10 @@
             const slider = card.querySelector('.volume-slider');
             const controls = card.querySelector('.video-controls');
 
+            // Установка начальной громкости
             video.volume = 0.3;
 
+            // Кнопка включения/выключения звука
             muteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 video.muted = !video.muted;
@@ -113,18 +158,35 @@
                 } else {
                     controls.classList.add('sound-active');
                     icon.className = 'fas fa-volume-up';
+                    if(video.volume === 0) {
+                        video.volume = 0.3;
+                        slider.value = 0.3;
+                    }
                 }
             });
 
+            // Слайдер громкости
             slider.addEventListener('input', (e) => {
                 const val = parseFloat(e.target.value);
                 video.volume = val;
                 video.muted = (val === 0);
-                icon.className = video.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+                if (video.muted) {
+                    controls.classList.remove('sound-active');
+                    icon.className = 'fas fa-volume-mute';
+                } else {
+                    controls.classList.add('sound-active');
+                    icon.className = 'fas fa-volume-up';
+                }
             });
 
+            // Воспроизведение при наведении
             card.addEventListener('mouseenter', () => video.play());
-            card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+            
+            // Остановка при уходе курсора
+            card.addEventListener('mouseleave', () => { 
+                video.pause(); 
+                video.currentTime = 0; 
+            });
         });
     </script>
 </body>
