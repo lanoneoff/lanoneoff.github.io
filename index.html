@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editor Lev | Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -19,7 +19,7 @@
             
             <div class="social-links">
                 <a href="https://t.me/editor_lev" target="_blank"><i class="fab fa-telegram-plane"></i></a>
-                <a href="javascript:void(0)" onclick="copyEmail()" id="email-btn">
+                <a href="javascript:void(0)" onclick="copyEmail()" class="email-btn">
                     <i class="fas fa-envelope"></i>
                     <span class="copy-tooltip" id="tooltip">Copy Email</span>
                 </a>
@@ -27,8 +27,11 @@
 
             <div class="action-group">
                 <a href="https://t.me/editor_lev" target="_blank" class="btn-hire">Hire me</a>
-                <a href="#portfolio" class="scroll-btn"><i class="fas fa-chevron-down"></i></a>
             </div>
+        </div>
+        
+        <div class="scroll-down-container">
+            <a href="#portfolio" class="scroll-btn"><i class="fas fa-chevron-down"></i></a>
         </div>
     </section>
 
@@ -37,29 +40,35 @@
             <h2 class="section-title">MY WORK</h2>
             <div class="work-grid">
                 <div class="work-card">
-                    <video class="portfolio-video" muted loop playsinline preload="metadata">
+                    <video class="portfolio-video" muted loop playsinline>
                         <source src="video1.mp4" type="video/mp4">
                     </video>
-                    <div class="volume-control">
-                        <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
+                    <div class="video-controls">
+                        <div class="mute-btn-container">
+                            <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
+                        </div>
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
                 <div class="work-card">
-                    <video class="portfolio-video" muted loop playsinline preload="metadata">
+                    <video class="portfolio-video" muted loop playsinline>
                         <source src="video2.mp4" type="video/mp4">
                     </video>
-                    <div class="volume-control">
-                        <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
+                    <div class="video-controls">
+                        <div class="mute-btn-container">
+                            <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
+                        </div>
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
                 <div class="work-card">
-                    <video class="portfolio-video" muted loop playsinline preload="metadata">
+                    <video class="portfolio-video" muted loop playsinline>
                         <source src="video3.mp4" type="video/mp4">
                     </video>
-                    <div class="volume-control">
-                        <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
+                    <div class="video-controls">
+                        <div class="mute-btn-container">
+                            <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
+                        </div>
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
@@ -67,76 +76,55 @@
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2026 @editor_lev</p>
-    </footer>
-
     <script>
         function copyEmail() {
             const email = "editorafterwork@gmail.com";
             const tooltip = document.getElementById("tooltip");
             navigator.clipboard.writeText(email).then(() => {
                 tooltip.innerText = "Copied!";
-                tooltip.classList.add("show");
+                tooltip.classList.add('copied-active');
                 setTimeout(() => {
-                    tooltip.innerText = "Copy Email";
-                    tooltip.classList.remove("show");
+                    tooltip.classList.remove('copied-active');
+                    setTimeout(() => { 
+                        if(!tooltip.classList.contains('copied-active')) {
+                            tooltip.innerText = "Copy Email"; 
+                        }
+                    }, 300);
                 }, 2000);
             });
         }
 
-        const cards = document.querySelectorAll('.work-card');
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-        cards.forEach(card => {
+        document.querySelectorAll('.work-card').forEach(card => {
             const video = card.querySelector('video');
+            if(!video) return;
             const muteBtn = card.querySelector('.mute-btn');
-            const muteIcon = muteBtn.querySelector('i');
+            const icon = muteBtn.querySelector('i');
             const slider = card.querySelector('.volume-slider');
+            const controls = card.querySelector('.video-controls');
 
             video.volume = 0.3;
-
-            if (!isMobile) {
-                card.addEventListener('mouseenter', () => video.play());
-                card.addEventListener('mouseleave', () => {
-                    video.pause();
-                    video.currentTime = 0;
-                });
-            } else {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            video.play().catch(() => {});
-                        } else {
-                            video.pause();
-                        }
-                    });
-                }, { threshold: 0.5 });
-                observer.observe(video);
-            }
 
             muteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 video.muted = !video.muted;
-                updateIcon(video.muted);
+                if (video.muted) {
+                    controls.classList.remove('sound-active');
+                    icon.className = 'fas fa-volume-mute';
+                } else {
+                    controls.classList.add('sound-active');
+                    icon.className = 'fas fa-volume-up';
+                }
             });
 
             slider.addEventListener('input', (e) => {
-                e.stopPropagation();
-                video.volume = e.target.value;
-                video.muted = (video.volume === 0);
-                updateIcon(video.muted);
+                const val = parseFloat(e.target.value);
+                video.volume = val;
+                video.muted = (val === 0);
+                icon.className = video.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
             });
 
-            function updateIcon(isMuted) {
-                if (isMuted || video.volume === 0) {
-                    muteIcon.className = 'fas fa-volume-mute';
-                } else if (video.volume < 0.5) {
-                    muteIcon.className = 'fas fa-volume-down';
-                } else {
-                    muteIcon.className = 'fas fa-volume-up';
-                }
-            }
+            card.addEventListener('mouseenter', () => video.play());
+            card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
         });
     </script>
 </body>
