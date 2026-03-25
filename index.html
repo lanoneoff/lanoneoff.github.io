@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editor Lev | Portfolio</title>
-    <!-- Иконки Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- Твои стили из style.css -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,10 +19,7 @@
             <p class="tagline">Create vertical high-quality stories</p>
             
             <div class="social-links">
-                <!-- Telegram -->
                 <a href="https://t.me/editor_lev" target="_blank"><i class="fab fa-telegram-plane"></i></a>
-                
-                <!-- Email с исправленной функцией копирования -->
                 <a href="javascript:void(0)" onclick="copyEmail()" class="email-btn">
                     <i class="fas fa-envelope"></i>
                     <span class="copy-tooltip" id="tooltip">Copy Email</span>
@@ -42,9 +38,8 @@
 
     <section class="portfolio" id="portfolio">
         <div class="portfolio-wrapper">
-            <h2 class="section-title">MY WORK</h2>
+            <h2 class="section-title">MY WORKS</h2>
             <div class="work-grid">
-                <!-- Карточка 1 -->
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline>
                         <source src="video1.mp4" type="video/mp4">
@@ -56,7 +51,6 @@
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
-                <!-- Карточка 2 -->
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline>
                         <source src="video2.mp4" type="video/mp4">
@@ -68,7 +62,6 @@
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
-                <!-- Карточка 3 -->
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline>
                         <source src="video3.mp4" type="video/mp4">
@@ -85,70 +78,37 @@
     </section>
 
     <script>
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ КОПИРОВАНИЯ (Работает на HTTP и HTTPS)
         function copyEmail() {
             const email = "editorafterwork@gmail.com";
             const tooltip = document.getElementById("tooltip");
-
-            // Функция для анимации успеха
             const showSuccess = () => {
                 tooltip.innerText = "Copied!";
                 tooltip.classList.add('copied-active');
                 setTimeout(() => {
                     tooltip.classList.remove('copied-active');
-                    setTimeout(() => { 
-                        if(!tooltip.classList.contains('copied-active')) {
-                            tooltip.innerText = "Copy Email"; 
-                        }
-                    }, 300);
+                    setTimeout(() => { if(!tooltip.classList.contains('copied-active')) tooltip.innerText = "Copy Email"; }, 300);
                 }, 2000);
             };
-
-            // 1. Пробуем современный метод (требует HTTPS)
             if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(email)
-                    .then(showSuccess)
-                    .catch(err => fallbackCopy(email, showSuccess));
+                navigator.clipboard.writeText(email).then(showSuccess);
             } else {
-                // 2. Используем запасной метод для HTTP
-                fallbackCopy(email, showSuccess);
+                const textArea = document.createElement("textarea");
+                textArea.value = email;
+                textArea.style.position = "fixed"; textArea.style.left = "-9999px";
+                document.body.appendChild(textArea);
+                textArea.focus(); textArea.select();
+                try { document.execCommand('copy'); showSuccess(); } catch (err) { console.error(err); }
+                document.body.removeChild(textArea);
             }
         }
 
-        // Запасной метод через создание временного элемента
-        function fallbackCopy(text, callback) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            // Убираем поле из области видимости
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            textArea.style.top = "0";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) callback();
-            } catch (err) {
-                console.error('Не удалось скопировать', err);
-            }
-            document.body.removeChild(textArea);
-        }
-
-        // Логика работы видео (звук, наведение, громкость)
         document.querySelectorAll('.work-card').forEach(card => {
             const video = card.querySelector('video');
-            if(!video) return;
             const muteBtn = card.querySelector('.mute-btn');
-            const icon = muteBtn.querySelector('i');
             const slider = card.querySelector('.volume-slider');
+            const icon = muteBtn.querySelector('i');
             const controls = card.querySelector('.video-controls');
-
-            // Установка начальной громкости
             video.volume = 0.3;
-
-            // Кнопка включения/выключения звука
             muteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 video.muted = !video.muted;
@@ -158,35 +118,24 @@
                 } else {
                     controls.classList.add('sound-active');
                     icon.className = 'fas fa-volume-up';
-                    if(video.volume === 0) {
-                        video.volume = 0.3;
-                        slider.value = 0.3;
-                    }
+                    if (video.volume === 0) { video.volume = 0.3; slider.value = 0.3; }
                 }
             });
-
-            // Слайдер громкости
             slider.addEventListener('input', (e) => {
                 const val = parseFloat(e.target.value);
                 video.volume = val;
-                video.muted = (val === 0);
-                if (video.muted) {
-                    controls.classList.remove('sound-active');
-                    icon.className = 'fas fa-volume-mute';
-                } else {
+                if (val > 0) {
+                    video.muted = false;
                     controls.classList.add('sound-active');
                     icon.className = 'fas fa-volume-up';
+                } else {
+                    video.muted = true;
+                    controls.classList.remove('sound-active');
+                    icon.className = 'fas fa-volume-mute';
                 }
             });
-
-            // Воспроизведение при наведении
             card.addEventListener('mouseenter', () => video.play());
-            
-            // Остановка при уходе курсора
-            card.addEventListener('mouseleave', () => { 
-                video.pause(); 
-                video.currentTime = 0; 
-            });
+            card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
         });
     </script>
 </body>
