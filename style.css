@@ -1,5 +1,8 @@
 /* --- ОСНОВНОЕ --- */
-html { scroll-behavior: smooth; }
+html { 
+    scroll-behavior: smooth; 
+    scroll-padding-top: 20px; /* Регулирует точку остановки скролла */
+}
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -20,12 +23,12 @@ body::before {
                 url('https://wallpapers.com/images/hd/red-moon-night-sky-jey5ix1d1m74bsxz.jpg');
     background-size: cover;
     background-position: center top;
-    filter: blur(1px); /* БЛЮР 1 ПИКСЕЛЬ */
+    filter: blur(1px); /* БЛЮР 1px */
     transform: scale(1.02);
     z-index: -1;
 }
 
-/* HERO — ЦЕНТРОВКА */
+/* HERO */
 .hero { 
     width: 100%; height: 100vh; height: 100dvh;
     display: flex; flex-direction: column;
@@ -34,7 +37,8 @@ body::before {
 
 h1 { 
     font-weight: 900; font-size: clamp(3rem, 10vw, 8.5rem); 
-    line-height: 0.9; text-transform: uppercase; letter-spacing: 0.01em;
+    line-height: 0.9; /* ОТСТУП 0.9 */
+    text-transform: uppercase; letter-spacing: 0.01em;
     margin-bottom: 20px;
 }
 
@@ -83,32 +87,24 @@ h1 {
 }
 .btn-hire:hover { background: #ff3366; box-shadow: 0 0 20px rgba(255, 51, 102, 0.4); }
 
-/* СТРЕЛКА — ПОДНЯТА ВЫШЕ, АНИМАЦИЯ УБРАНА */
-.scroll-down-container { 
-    position: absolute; 
-    bottom: 150px; /* СДЕЛАЛ ВЫШЕ */
-    left: 50%; transform: translateX(-50%); 
-}
-.scroll-btn { 
-    color: #ff3366; 
-    font-size: 2.2rem; 
-    text-decoration: none; 
-    opacity: 0.7; 
-    /* animation: bounce убрана */
-}
+/* СТРЕЛКА — ПК */
+.scroll-down-container { position: absolute; bottom: 150px; left: 50%; transform: translateX(-50%); }
+.scroll-btn { color: #ff3366; font-size: 2.2rem; text-decoration: none; opacity: 0.7; }
 
 /* ПОРТФОЛИО */
 .portfolio { 
     width: 100%; min-height: 100vh; display: flex; 
-    justify-content: center; align-items: center; padding: 80px 0;
-    scroll-margin-top: 50px; 
+    justify-content: center; align-items: center; padding: 100px 0;
+    scroll-margin-top: 0; 
 }
 .portfolio-wrapper { width: 90%; max-width: 1100px; display: flex; flex-direction: column; align-items: center; }
+
 .section-title { 
     font-weight: 900; font-size: 3rem; margin-bottom: 40px; text-transform: uppercase; text-align: center; width: 100%;
     background: linear-gradient(180deg, #ff3366 30%, #66001a 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
+
 .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; width: 100%; }
 .work-card { position: relative; aspect-ratio: 9/16; background: #000; border: 1px solid rgba(255, 51, 102, 0.2); border-radius: 20px; overflow: hidden; }
 .work-card video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
@@ -125,20 +121,11 @@ h1 {
 .video-controls.sound-active .volume-slider { width: 90px; opacity: 1; margin: 0 10px 0 5px; }
 .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #ff3366; border: 2px solid #fff; border-radius: 50%; }
 
-/* АДАПТИВ МОБИЛКИ */
+/* --- АДАПТИВ МОБИЛКИ --- */
 @media (max-width: 900px) {
+    html { scroll-padding-top: 10px; } /* Остановка прямо перед текстом */
     h1 { font-size: 3.3rem; line-height: 0.9; }
     .tagline { font-size: 1.1rem; padding: 0 20px; margin-bottom: 20px; }
-    .scroll-down-container { bottom: 60px; } /* На мобилках стрелка чуть ниже */
+    .scroll-down-container { bottom: 60px; }
     
-    .portfolio { padding: 40px 0; scroll-margin-top: 100px; }
-    .section-title { font-size: 2.3rem; margin-bottom: 25px; }
-    .work-grid { 
-        grid-template-columns: 1fr; 
-        max-width: 260px; 
-        margin: 0 auto; 
-        gap: 35px; 
-    }
-    
-    .video-controls { opacity: 1 !important; bottom: 10px; right: 10px; }
-}
+    .portfolio { padding: 40px 0
