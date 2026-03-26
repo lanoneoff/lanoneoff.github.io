@@ -20,12 +20,12 @@ body::before {
                 url('https://wallpapers.com/images/hd/red-moon-night-sky-jey5ix1d1m74bsxz.jpg');
     background-size: cover;
     background-position: center top;
-    filter: blur(1px);
+    filter: blur(1px); /* БЛЮР 1 ПИКСЕЛЬ */
     transform: scale(1.02);
     z-index: -1;
 }
 
-/* HERO */
+/* HERO — ИДЕАЛЬНЫЙ ЦЕНТР */
 .hero { 
     width: 100%; height: 100vh; height: 100dvh;
     display: flex; flex-direction: column;
@@ -34,7 +34,8 @@ body::before {
 
 h1 { 
     font-weight: 900; font-size: clamp(3rem, 10vw, 8.5rem); 
-    line-height: 0.9; text-transform: uppercase; letter-spacing: 0.01em;
+    line-height: 0.9; /* ОТСТУП 0.9 */
+    text-transform: uppercase; letter-spacing: 0.01em;
     margin-bottom: 20px;
 }
 
@@ -83,10 +84,10 @@ h1 {
 }
 .btn-hire:hover { background: #ff3366; box-shadow: 0 0 20px rgba(255, 51, 102, 0.4); }
 
-/* СТРЕЛКА — ПОНИЖЕ */
+/* СТРЕЛКА — ПОДНЯТА ВЫШЕ НА ПК */
 .scroll-down-container { 
     position: absolute; 
-    bottom: 120px; /* Было 150, стало 120 (опустилась) */
+    bottom: 120px; /* Вернул на 120px */
     left: 50%; transform: translateX(-50%); 
 }
 .scroll-btn { color: #ff3366; font-size: 2.2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.7; }
@@ -123,10 +124,9 @@ h1 {
 /* АДАПТИВ МОБИЛКИ */
 @media (max-width: 900px) {
     h1 { font-size: clamp(3rem, 12vw, 5rem); line-height: 0.9; }
-    .tagline { font-size: 1.4rem; padding: 0 15px; margin-bottom: 20px; }
+    .tagline { font-size: 1.1rem; padding: 0 20px; margin-bottom: 20px; }
     
-    /* СТРЕЛКА НА МОБИЛКАХ — ЧУТЬ НИЖЕ */
-    .scroll-down-container { bottom: 70px; } 
+    .scroll-down-container { bottom: 60px; } /* На мобилках чуть ниже */
     
     .portfolio { padding: 40px 0; scroll-margin-top: 100px; }
     .section-title { font-size: 2.3rem; margin-bottom: 25px; }
