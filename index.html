@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Editor Lev | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -45,7 +45,9 @@
                         <source src="video1.mp4" type="video/mp4">
                     </video>
                     <div class="video-controls">
-                        <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
+                        <div class="mute-btn-container">
+                            <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
+                        </div>
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
@@ -54,7 +56,9 @@
                         <source src="video2.mp4" type="video/mp4">
                     </video>
                     <div class="video-controls">
-                        <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
+                        <div class="mute-btn-container">
+                            <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
+                        </div>
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
@@ -63,7 +67,9 @@
                         <source src="video3.mp4" type="video/mp4">
                     </video>
                     <div class="video-controls">
-                        <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
+                        <div class="mute-btn-container">
+                            <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
+                        </div>
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
@@ -102,9 +108,7 @@
             const slider = card.querySelector('.volume-slider');
             const icon = muteBtn.querySelector('i');
             const controls = card.querySelector('.video-controls');
-
             video.volume = 0.3;
-
             muteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 video.muted = !video.muted;
@@ -117,21 +121,19 @@
                     if (video.volume < 0.1) { video.volume = 0.3; slider.value = 0.3; }
                 }
             });
-
             slider.addEventListener('input', (e) => {
                 const val = parseFloat(e.target.value);
                 video.volume = val;
-                video.muted = (val === 0);
-                if (!video.muted) {
+                if (val > 0) {
+                    video.muted = false;
                     controls.classList.add('sound-active');
                     icon.className = 'fas fa-volume-up';
                 } else {
+                    video.muted = true;
+                    controls.classList.remove('sound-active');
                     icon.className = 'fas fa-volume-mute';
                 }
             });
-
-            slider.addEventListener('click', (e) => e.stopPropagation());
-
             card.addEventListener('mouseenter', () => video.play());
             card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
         });
