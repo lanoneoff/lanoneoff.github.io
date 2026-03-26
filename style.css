@@ -21,7 +21,7 @@ body::before {
                 url('https://wallpapers.com/images/hd/red-moon-night-sky-jey5ix1d1m74bsxz.jpg');
     background-size: cover;
     background-position: center top;
-    filter: blur(8px);
+    filter: blur(1px);
     transform: scale(1.1);
     z-index: -1;
 }
