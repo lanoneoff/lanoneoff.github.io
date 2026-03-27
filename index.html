@@ -6,8 +6,8 @@
     <title>Editor Lev | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- Версия v=14.0 для сброса кэша -->
-    <link rel="stylesheet" href="style.css?v=14.0">
+    <!-- v=15.0 для сброса кэша -->
+    <link rel="stylesheet" href="style.css?v=15.0">
 </head>
 <body>
 
@@ -33,7 +33,10 @@
         </div>
         
         <div class="scroll-down-container">
-            <a href="#portfolio" class="scroll-btn"><i class="fas fa-chevron-down"></i></a>
+            <!-- Умный скролл через JS -->
+            <a href="javascript:void(0)" onclick="smartScroll()" class="scroll-btn">
+                <i class="fas fa-chevron-down"></i>
+            </a>
         </div>
     </section>
 
@@ -73,6 +76,21 @@
     </section>
 
     <script>
+        // Функция Умного скролла (фиксит проблему мобилок)
+        function smartScroll() {
+            const target = document.getElementById('portfolio');
+            const offset = window.innerWidth < 900 ? 20 : 60; // Отступ от верха
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = target.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+
         function copyEmail() {
             const email = "editorafterwork@gmail.com";
             const tooltip = document.getElementById("tooltip");
@@ -81,7 +99,7 @@
                 tooltip.classList.add('copied-active');
                 setTimeout(() => {
                     tooltip.classList.remove('copied-active');
-                    setTimeout(() => { if(!tooltip.classList.contains('copied-active')) tooltip.innerText = "Copy Email"; }, 300);
+                    setTimeout(() => { tooltip.innerText = "Copy Email"; }, 300);
                 }, 2000);
             };
             if (navigator.clipboard && window.isSecureContext) {
