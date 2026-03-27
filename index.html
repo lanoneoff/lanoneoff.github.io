@@ -6,8 +6,8 @@
     <title>Editor Lev | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- Сброс кэша -->
-    <link rel="stylesheet" href="style.css?v=21.0">
+    <!-- v=23.0 -->
+    <link rel="stylesheet" href="style.css?v=23.0">
 </head>
 <body>
 
@@ -43,27 +43,30 @@
         <div class="portfolio-wrapper">
             <h2 class="section-title">MY WORKS</h2>
             <div class="work-grid">
+                <!-- Видео 1 -->
                 <div class="work-card">
-                    <video class="portfolio-video" muted loop playsinline disablePictureInPicture disableremoteplayback>
-                        <source src="video1.mp4" type="video/mp4">
+                    <video class="portfolio-video" muted loop playsinline preload="metadata" disablePictureInPicture disableremoteplayback>
+                        <source src="video1.mp4#t=0.001" type="video/mp4">
                     </video>
                     <div class="video-controls">
                         <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
+                <!-- Видео 2 (С ФИКСОМ ЧЕРНОГО ЭКРАНА) -->
                 <div class="work-card">
-                    <video class="portfolio-video" muted loop playsinline disablePictureInPicture disableremoteplayback>
-                        <source src="video2.mp4" type="video/mp4">
+                    <video class="portfolio-video" muted loop playsinline preload="metadata" disablePictureInPicture disableremoteplayback>
+                        <source src="video2.mp4#t=0.001" type="video/mp4">
                     </video>
                     <div class="video-controls">
                         <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
+                <!-- Видео 3 -->
                 <div class="work-card">
-                    <video class="portfolio-video" muted loop playsinline disablePictureInPicture disableremoteplayback>
-                        <source src="video3.mp4" type="video/mp4">
+                    <video class="portfolio-video" muted loop playsinline preload="metadata" disablePictureInPicture disableremoteplayback>
+                        <source src="video3.mp4#t=0.001" type="video/mp4">
                     </video>
                     <div class="video-controls">
                         <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
@@ -77,7 +80,6 @@
     <script>
         function smartScroll() {
             const target = document.getElementById('portfolio');
-            // Остановка идеально по границе заголовка
             const offset = window.innerWidth < 900 ? 15 : 40; 
             const bodyRect = document.body.getBoundingClientRect().top;
             const elementRect = target.getBoundingClientRect().top;
@@ -94,7 +96,7 @@
                 tooltip.classList.add('copied-active');
                 setTimeout(() => {
                     tooltip.classList.remove('copied-active');
-                    setTimeout(() => { tooltip.innerText = "Copy Email"; }, 300);
+                    setTimeout(() => { if(!tooltip.classList.contains('copied-active')) tooltip.innerText = "Copy Email"; }, 300);
                 }, 2000);
             };
             if (navigator.clipboard && window.isSecureContext) {
@@ -103,47 +105,3 @@
                 const textArea = document.createElement("textarea");
                 textArea.value = email;
                 textArea.style.position = "fixed"; textArea.style.left = "-9999px";
-                document.body.appendChild(textArea);
-                textArea.focus(); textArea.select();
-                try { document.execCommand('copy'); showSuccess(); } catch (err) { console.error(err); }
-                document.body.removeChild(textArea);
-            }
-        }
-
-        document.querySelectorAll('.work-card').forEach(card => {
-            const video = card.querySelector('video');
-            const muteBtn = card.querySelector('.mute-btn');
-            const slider = card.querySelector('.volume-slider');
-            const icon = muteBtn.querySelector('i');
-            const controls = card.querySelector('.video-controls');
-            video.volume = 0.3;
-            muteBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                video.muted = !video.muted;
-                if (video.muted) {
-                    controls.classList.remove('sound-active');
-                    icon.className = 'fas fa-volume-mute';
-                } else {
-                    controls.classList.add('sound-active');
-                    icon.className = 'fas fa-volume-up';
-                    if (video.volume < 0.1) { video.volume = 0.3; slider.value = 0.3; }
-                }
-            });
-            slider.addEventListener('input', (e) => {
-                const val = parseFloat(e.target.value);
-                video.volume = val;
-                video.muted = (val === 0);
-                if (!video.muted) {
-                    controls.classList.add('sound-active');
-                    icon.className = 'fas fa-volume-up';
-                } else {
-                    icon.className = 'fas fa-volume-mute';
-                }
-            });
-            slider.addEventListener('click', (e) => e.stopPropagation());
-            card.addEventListener('mouseenter', () => video.play());
-            card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
-        });
-    </script>
-</body>
-</html>

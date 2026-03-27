@@ -48,15 +48,15 @@ h1 {
     margin-bottom: 35px; color: rgba(255, 255, 255, 0.7); 
 }
 
-/* СОЦСЕТИ */
+/* СОЦСЕТИ — ФИКС ОТСТУПОВ */
 .social-links { 
     display: flex; gap: 15px; 
-    margin-bottom: 52px; /* 8px зазор до кнопки после подсказки */
+    margin-bottom: 52px; /* Создает идеальный зазор до кнопки под подсказкой */
     justify-content: center; position: relative; 
 }
 .social-links a {
     position: relative; color: #ff3366; width: 60px; height: 60px;
-    display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+    display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
     border: 1px solid rgba(255, 51, 102, 0.3); border-radius: 50%; text-decoration: none;
     transition: 0.3s;
 }
@@ -76,7 +76,7 @@ h1 {
     border-width: 5px; border-style: solid; border-color: transparent transparent #ff3366 transparent;
 }
 
-/* КНОПКА */
+/* КНОПКА HIRE ME */
 .action-group { position: relative; margin-top: 0; }
 .btn-hire {
     display: inline-block; padding: 14px 50px; font-size: 0.9rem; font-weight: 900; color: #fff;
@@ -102,7 +102,10 @@ h1 {
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; width: 100%; }
-.work-card { position: relative; aspect-ratio: 9/16; background: #000; border: 1px solid rgba(255, 51, 102, 0.2); border-radius: 20px; overflow: hidden; }
+.work-card { 
+    position: relative; aspect-ratio: 9/16; background: #000; 
+    border: 1px solid rgba(255, 51, 102, 0.2); border-radius: 20px; overflow: hidden; 
+}
 .work-card video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
 
 /* ЗВУК */
@@ -117,30 +120,21 @@ h1 {
 .video-controls.sound-active .volume-slider { width: 90px; opacity: 1; margin: 0 10px 0 5px; }
 .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #ff3366; border: 2px solid #fff; border-radius: 50%; }
 
-/* --- МОБИЛЬНЫЙ АДАПТИВ (УДОБНЫЙ СКРОЛЛ) --- */
+/* --- МОБИЛЬНЫЙ АДАПТИВ --- */
 @media (max-width: 900px) {
     h1 { font-size: 3.8rem; line-height: 1.0; }
     .tagline { font-size: 0.9rem; padding: 0 40px; margin-bottom: 25px; }
     .scroll-down-container { bottom: 50px; }
     
     .portfolio { padding: 40px 0; }
-    .section-title { font-size: 2.3rem; margin-bottom: 25px; }
-    
     .work-grid { 
         grid-template-columns: 1fr; 
         max-width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 60px; /* УДОБНЫЙ ОТСТУП ДЛЯ ГЛАЗ */
+        gap: 60px; 
     }
-    
-    /* ВИДЕО СТАЛО БОЛЬШЕ (70% высоты экрана) */
-    .work-card { 
-        width: auto; 
-        height: 70vh; 
-        aspect-ratio: 9/16; 
-    }
-    
+    .work-card { width: auto; height: 70vh; aspect-ratio: 9/16; }
     .video-controls { opacity: 1 !important; bottom: 10px; right: 10px; }
 }
