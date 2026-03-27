@@ -1,4 +1,7 @@
 /* --- ОСНОВНОЕ --- */
+html { 
+    scroll-behavior: smooth; 
+}
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -24,7 +27,7 @@ body::before {
     z-index: -1;
 }
 
-/* HERO — ЦЕНТРОВКА ПК */
+/* HERO — ЦЕНТРОВКА */
 .hero { 
     width: 100%; height: 100vh; height: 100dvh;
     display: flex; flex-direction: column;
@@ -48,10 +51,10 @@ h1 {
     margin-bottom: 35px; color: rgba(255, 255, 255, 0.7); 
 }
 
-/* СОЦСЕТИ — ФИКС ОТСТУПОВ */
+/* СОЦСЕТИ — ИСПРАВЛЕН ОТСТУП + 4px */
 .social-links { 
-    display: flex; gap: 15px; 
-    margin-bottom: 52px; /* Создает идеальный зазор до кнопки под подсказкой */
+    display: flex; gap: 25px; 
+    margin-bottom: 42px; /* УВЕЛИЧЕНО НА 4px для зазора до кнопки */
     justify-content: center; position: relative; 
 }
 .social-links a {
@@ -67,7 +70,8 @@ h1 {
     position: absolute; left: 50%; transform: translateX(-50%);
     background: #ff3366; color: white; padding: 5px 12px; border-radius: 4px; 
     font-size: 11px; font-weight: 700; opacity: 0; visibility: hidden; 
-    transition: all 0.3s; white-space: nowrap; z-index: 100; top: 72px;
+    transition: all 0.3s; white-space: nowrap; z-index: 100; 
+    top: 68px; /* Расстояние от иконки */
 }
 .email-btn:hover .copy-tooltip, .copy-tooltip.copied-active { opacity: 1; visibility: visible; }
 .copy-tooltip.copied-active { background: #4caf50 !important; }
@@ -79,7 +83,7 @@ h1 {
 /* КНОПКА HIRE ME */
 .action-group { position: relative; margin-top: 0; }
 .btn-hire {
-    display: inline-block; padding: 14px 50px; font-size: 0.9rem; font-weight: 900; color: #fff;
+    display: inline-block; padding: 16px 60px; font-size: 1rem; font-weight: 900; color: #fff;
     border: 2px solid #ff3366; border-radius: 50px; text-decoration: none;
     text-transform: uppercase; transition: 0.3s; background: transparent;
 }
@@ -87,13 +91,14 @@ h1 {
 
 /* СТРЕЛКА — ПК */
 .scroll-down-container { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); }
-.scroll-btn { color: #ff3366; font-size: 2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.6; cursor: pointer; }
+.scroll-btn { color: #ff3366; font-size: 2.2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.7; }
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(10px);} }
 
 /* ПОРТФОЛИО */
 .portfolio { 
     width: 100%; min-height: 100vh; display: flex; 
     justify-content: center; align-items: center; padding: 80px 0;
+    scroll-margin-top: 20px; 
 }
 .portfolio-wrapper { width: 90%; max-width: 1100px; display: flex; flex-direction: column; align-items: center; }
 .section-title { 
@@ -102,10 +107,7 @@ h1 {
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; width: 100%; }
-.work-card { 
-    position: relative; aspect-ratio: 9/16; background: #000; 
-    border: 1px solid rgba(255, 51, 102, 0.2); border-radius: 20px; overflow: hidden; 
-}
+.work-card { position: relative; aspect-ratio: 9/16; background: #000; border: 1px solid rgba(255, 51, 102, 0.2); border-radius: 20px; overflow: hidden; }
 .work-card video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
 
 /* ЗВУК */
@@ -120,21 +122,12 @@ h1 {
 .video-controls.sound-active .volume-slider { width: 90px; opacity: 1; margin: 0 10px 0 5px; }
 .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #ff3366; border: 2px solid #fff; border-radius: 50%; }
 
-/* --- МОБИЛЬНЫЙ АДАПТИВ --- */
+/* МОБИЛКИ */
 @media (max-width: 900px) {
     h1 { font-size: 3.8rem; line-height: 1.0; }
     .tagline { font-size: 0.9rem; padding: 0 40px; margin-bottom: 25px; }
-    .scroll-down-container { bottom: 50px; }
-    
-    .portfolio { padding: 40px 0; }
-    .work-grid { 
-        grid-template-columns: 1fr; 
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 60px; 
-    }
-    .work-card { width: auto; height: 70vh; aspect-ratio: 9/16; }
+    .scroll-down-container { bottom: 70px; }
+    .portfolio { padding: 40px 0; scroll-margin-top: 100px; }
+    .work-grid { grid-template-columns: 1fr; max-width: 250px; margin: 0 auto; gap: 35px; }
     .video-controls { opacity: 1 !important; bottom: 10px; right: 10px; }
 }
