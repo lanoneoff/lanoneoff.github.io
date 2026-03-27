@@ -6,8 +6,8 @@
     <title>Editor Lev | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- Сброс кэша v=25.0 -->
-    <link rel="stylesheet" href="style.css?v=25.0">
+    <!-- Сброс кэша -->
+    <link rel="stylesheet" href="style.css?v=27.0">
 </head>
 <body>
 
@@ -33,12 +33,14 @@
         </div>
         
         <div class="scroll-down-container">
+            <!-- Вернул стандартный якорь #portfolio -->
             <a href="#portfolio" class="scroll-btn">
                 <i class="fas fa-chevron-down"></i>
             </a>
         </div>
     </section>
 
+    <!-- Секция портфолио с ID -->
     <section class="portfolio" id="portfolio">
         <div class="portfolio-wrapper">
             <h2 class="section-title">MY WORKS</h2>
@@ -93,4 +95,46 @@
                 textArea.value = email;
                 textArea.style.position = "fixed"; textArea.style.left = "-9999px";
                 document.body.appendChild(textArea);
-                textArea.focus(); textArea.select
+                textArea.focus(); textArea.select();
+                try { document.execCommand('copy'); showSuccess(); } catch (err) { console.error(err); }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        document.querySelectorAll('.work-card').forEach(card => {
+            const video = card.querySelector('video');
+            const muteBtn = card.querySelector('.mute-btn');
+            const slider = card.querySelector('.volume-slider');
+            const icon = muteBtn.querySelector('i');
+            const controls = card.querySelector('.video-controls');
+            video.volume = 0.3;
+            muteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                video.muted = !video.muted;
+                if (video.muted) {
+                    controls.classList.remove('sound-active');
+                    icon.className = 'fas fa-volume-mute';
+                } else {
+                    controls.classList.add('sound-active');
+                    icon.className = 'fas fa-volume-up';
+                    if (video.volume < 0.1) { video.volume = 0.3; slider.value = 0.3; }
+                }
+            });
+            slider.addEventListener('input', (e) => {
+                const val = parseFloat(e.target.value);
+                video.volume = val;
+                video.muted = (val === 0);
+                if (!video.muted) {
+                    controls.classList.add('sound-active');
+                    icon.className = 'fas fa-volume-up';
+                } else {
+                    icon.className = 'fas fa-volume-mute';
+                }
+            });
+            slider.addEventListener('click', (e) => e.stopPropagation());
+            card.addEventListener('mouseenter', () => video.play());
+            card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+        });
+    </script>
+</body>
+</html>

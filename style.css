@@ -27,7 +27,7 @@ body::before {
     z-index: -1;
 }
 
-/* HERO — ЦЕНТРОВКА */
+/* HERO — ЦЕНТРОВКА ПК */
 .hero { 
     width: 100%; height: 100vh; height: 100dvh;
     display: flex; flex-direction: column;
@@ -35,8 +35,11 @@ body::before {
 }
 
 h1 { 
-    font-weight: 900; font-size: clamp(3.5rem, 12vw, 9.5rem); 
-    line-height: 0.95; letter-spacing: -1px; margin-bottom: 20px;
+    font-weight: 900; 
+    font-size: clamp(3.5rem, 12vw, 9.5rem); 
+    line-height: 0.95; 
+    letter-spacing: -1px;
+    margin-bottom: 20px;
 }
 
 .gradient-text-video, .gradient-text-editor {
@@ -51,10 +54,10 @@ h1 {
     margin-bottom: 35px; color: rgba(255, 255, 255, 0.7); 
 }
 
-/* СОЦСЕТИ — ИСПРАВЛЕН ОТСТУП + 4px */
+/* СОЦСЕТИ — ФИКС ОТСТУПОВ */
 .social-links { 
     display: flex; gap: 25px; 
-    margin-bottom: 42px; /* УВЕЛИЧЕНО НА 4px для зазора до кнопки */
+    margin-bottom: 42px; /* Создает 8px зазор от подсказки до кнопки */
     justify-content: center; position: relative; 
 }
 .social-links a {
@@ -95,12 +98,13 @@ h1 {
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(10px);} }
 
 /* ПОРТФОЛИО */
-.portfolio { 
+#portfolio { 
     width: 100%; min-height: 100vh; display: flex; 
-    justify-content: center; align-items: center; padding: 80px 0;
-    scroll-margin-top: 20px; 
+    justify-content: center; align-items: center; padding: 100px 0;
+    scroll-margin-top: 20px; /* Фикс скролла на ПК */
 }
 .portfolio-wrapper { width: 90%; max-width: 1100px; display: flex; flex-direction: column; align-items: center; }
+
 .section-title { 
     font-weight: 900; font-size: 3rem; margin-bottom: 40px; text-transform: uppercase; text-align: center; width: 100%;
     background: linear-gradient(180deg, #ff3366 30%, #66001a 100%);
@@ -122,12 +126,22 @@ h1 {
 .video-controls.sound-active .volume-slider { width: 90px; opacity: 1; margin: 0 10px 0 5px; }
 .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #ff3366; border: 2px solid #fff; border-radius: 50%; }
 
-/* МОБИЛКИ */
+/* --- МОБИЛЬНЫЙ АДАПТИВ (ФИКС ВСЕГО) --- */
 @media (max-width: 900px) {
     h1 { font-size: 3.8rem; line-height: 1.0; }
     .tagline { font-size: 0.9rem; padding: 0 40px; margin-bottom: 25px; }
-    .scroll-down-container { bottom: 70px; }
-    .portfolio { padding: 40px 0; scroll-margin-top: 100px; }
-    .work-grid { grid-template-columns: 1fr; max-width: 250px; margin: 0 auto; gap: 35px; }
+    .scroll-down-container { bottom: 50px; }
+    
+    /* Огромный отступ при скролле, чтобы MY WORKS не уезжал вверх */
+    #portfolio { 
+        scroll-margin-top: 120px; 
+    }
+    
+    .section-title { font-size: 2.3rem; margin-bottom: 20px; }
+    .work-grid { 
+        grid-template-columns: 1fr; 
+        max-width: 250px; 
+        margin: 0 auto; 
+    }
     .video-controls { opacity: 1 !important; bottom: 10px; right: 10px; }
 }
