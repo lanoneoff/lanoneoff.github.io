@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- Сброс кэша -->
-    <link rel="stylesheet" href="style.css?v=30.0">
+    <link rel="stylesheet" href="style.css?v=32.0">
 </head>
 <body>
 
@@ -33,19 +33,20 @@
         </div>
         
         <div class="scroll-down-container">
-            <a href="javascript:void(0)" onclick="centerScroll()" class="scroll-btn">
+            <!-- Скролл через нативный якорь с CSS фиксом -->
+            <a href="#portfolio" class="scroll-btn">
                 <i class="fas fa-chevron-down"></i>
             </a>
         </div>
     </section>
 
     <section class="portfolio" id="portfolio">
-        <div class="portfolio-wrapper" id="centering-target">
+        <div class="portfolio-wrapper">
             <h2 class="section-title">MY WORKS</h2>
             <div class="work-grid">
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline preload="metadata" disablePictureInPicture disableremoteplayback>
-                        <source src="video1.mp4#t=0.01" type="video/mp4">
+                        <source src="video1.mp4#t=0.5" type="video/mp4">
                     </video>
                     <div class="video-controls">
                         <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
@@ -54,7 +55,7 @@
                 </div>
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline preload="metadata" disablePictureInPicture disableremoteplayback>
-                        <source src="video2.mp4#t=0.01" type="video/mp4">
+                        <source src="video2.mp4#t=0.5" type="video/mp4">
                     </video>
                     <div class="video-controls">
                         <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
@@ -63,7 +64,7 @@
                 </div>
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline preload="metadata" disablePictureInPicture disableremoteplayback>
-                        <source src="video3.mp4#t=0.01" type="video/mp4">
+                        <source src="video3.mp4#t=0.5" type="video/mp4">
                     </video>
                     <div class="video-controls">
                         <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
@@ -75,12 +76,6 @@
     </section>
 
     <script>
-        // ФУНКЦИЯ ИДЕАЛЬНОЙ ЦЕНТРОВКИ
-        function centerScroll() {
-            const target = document.getElementById('centering-target');
-            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
         function copyEmail() {
             const email = "editorafterwork@gmail.com";
             const tooltip = document.getElementById("tooltip");
