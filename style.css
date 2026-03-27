@@ -1,4 +1,7 @@
 /* --- ОСНОВНОЕ --- */
+html { 
+    scroll-behavior: smooth; 
+}
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -19,7 +22,7 @@ body::before {
                 url('https://wallpapers.com/images/hd/red-moon-night-sky-jey5ix1d1m74bsxz.jpg');
     background-size: cover;
     background-position: center top;
-    filter: blur(1px); /* РОВНО 1 ПИКСЕЛЬ */
+    filter: blur(1px); /* БЛЮР 1 ПИКСЕЛЬ */
     transform: scale(1.02);
     z-index: -1;
 }
@@ -48,10 +51,10 @@ h1 {
     margin-bottom: 35px; color: rgba(255, 255, 255, 0.7); 
 }
 
-/* СОЦСЕТИ */
+/* СОЦСЕТИ — ФИКС ОТСТУПОВ ПК */
 .social-links { 
     display: flex; gap: 25px; 
-    margin-bottom: 52px; /* Зазор 8px под подсказкой до кнопки */
+    margin-bottom: 42px; /* 8px зазор от подсказки до кнопки */
     justify-content: center; position: relative; 
 }
 .social-links a {
@@ -87,7 +90,7 @@ h1 {
 
 /* СТРЕЛКА — ПК */
 .scroll-down-container { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); }
-.scroll-btn { color: #ff3366; font-size: 2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.7; cursor: pointer; }
+.scroll-btn { color: #ff3366; font-size: 2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.6; }
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(10px);} }
 
 /* ПОРТФОЛИО */
@@ -114,21 +117,22 @@ h1 {
 .video-controls.sound-active .volume-slider { width: 90px; opacity: 1; margin: 0 10px 0 5px; }
 .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #ff3366; border: 2px solid #fff; border-radius: 50%; }
 
-/* --- МОБИЛЬНЫЙ АДАПТИВ (ФИКС) --- */
+/* --- МОБИЛЬНЫЙ АДАПТИВ (ФИКС КОНТРАСТА И СКРОЛЛА) --- */
 @media (max-width: 900px) {
-    h1 { font-size: 3.8rem; line-height: 1.0; }
-    .tagline { font-size: 0.9rem; padding: 0 40px; margin-bottom: 25px; }
-    .scroll-down-container { bottom: 60px; }
+    h1 { font-size: 4rem; line-height: 1.0; } /* ЗАГОЛОВОК ЕЩЕ БОЛЬШЕ */
+    .tagline { font-size: 0.85rem; padding: 0 40px; margin-bottom: 25px; } /* ТЕКСТ МЕНЬШЕ */
+    .scroll-down-container { bottom: 50px; }
     
+    /* Скролл остановится идеально за счет невидимого якоря в HTML */
     .portfolio { padding: 40px 0; }
-    .section-title { font-size: 2.3rem; margin-bottom: 20px; }
+    .section-title { font-size: 2.3rem; margin-bottom: 25px; }
     
     .work-grid { 
         grid-template-columns: 1fr; 
-        max-width: 260px; /* ШИРИНА 260px ИДЕАЛЬНО ВХОДИТ ПО ВЫСОТЕ С ЗАГОЛОВКОМ */
+        max-width: 230px; /* Сузили видео, чтобы оно не было слишком высоким */
         margin: 0 auto; 
+        gap: 30px; 
     }
     
     .video-controls { opacity: 1 !important; bottom: 10px; right: 10px; }
-    .video-controls.sound-active .volume-slider { width: 60px; }
 }

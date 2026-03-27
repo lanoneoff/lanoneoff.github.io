@@ -6,8 +6,8 @@
     <title>Editor Lev | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- v=35.0 -->
-    <link rel="stylesheet" href="style.css?v=35.0">
+    <!-- Принудительное обновление v=40.0 -->
+    <link rel="stylesheet" href="style.css?v=40.0">
 </head>
 <body>
 
@@ -33,12 +33,13 @@
         </div>
         
         <div class="scroll-down-container">
-            <!-- Скролл к началу работ -->
-            <a href="javascript:void(0)" onclick="scrollToWorks()" class="scroll-btn">
-                <i class="fas fa-chevron-down"></i>
-            </a>
+            <!-- Стрелка ведет на невидимую точку -->
+            <a href="#scroll-anchor" class="scroll-btn"><i class="fas fa-chevron-down"></i></a>
         </div>
     </section>
+
+    <!-- НЕВИДИМЫЙ ЯКОРЬ ДЛЯ ИДЕАЛЬНОЙ ОСТАНОВКИ -->
+    <div id="scroll-anchor" style="position: relative; top: -20px;"></div>
 
     <section class="portfolio" id="portfolio">
         <div class="portfolio-wrapper">
@@ -76,19 +77,6 @@
     </section>
 
     <script>
-        // СКРОЛЛ СТРОГО В НАЧАЛО СЕКЦИИ
-        function scrollToWorks() {
-            const portfolio = document.getElementById('portfolio');
-            // На мобилках делаем минимальный отступ 15px, на ПК 40px
-            const offset = window.innerWidth < 900 ? 15 : 40; 
-            const top = portfolio.getBoundingClientRect().top + window.pageYOffset - offset;
-            
-            window.scrollTo({
-                top: top,
-                behavior: 'smooth'
-            });
-        }
-
         function copyEmail() {
             const email = "editorafterwork@gmail.com";
             const tooltip = document.getElementById("tooltip");
@@ -97,7 +85,7 @@
                 tooltip.classList.add('copied-active');
                 setTimeout(() => {
                     tooltip.classList.remove('copied-active');
-                    setTimeout(() => { tooltip.innerText = "Copy Email"; }, 300);
+                    setTimeout(() => { if(!tooltip.classList.contains('copied-active')) tooltip.innerText = "Copy Email"; }, 300);
                 }, 2000);
             };
             if (navigator.clipboard && window.isSecureContext) {
