@@ -1,7 +1,7 @@
 /* --- ОСНОВНОЕ --- */
 html { 
     scroll-behavior: smooth; 
-    scroll-padding-top: 10px; /* Прижимает скролл к самому верху для мобил */
+    scroll-padding-top: 10px; 
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -23,12 +23,12 @@ body::before {
                 url('https://wallpapers.com/images/hd/red-moon-night-sky-jey5ix1d1m74bsxz.jpg');
     background-size: cover;
     background-position: center top;
-    filter: blur(1px); /* РОВНО 1 ПИКСЕЛЬ */
+    filter: blur(1px); /* БЛЮР 1 ПИКСЕЛЬ */
     transform: scale(1.02);
     z-index: -1;
 }
 
-/* HERO */
+/* HERO — ЦЕНТРОВКА ПК */
 .hero { 
     width: 100%; height: 100vh; height: 100dvh;
     display: flex; flex-direction: column;
@@ -37,7 +37,7 @@ body::before {
 
 h1 { 
     font-weight: 900; font-size: clamp(3.5rem, 12vw, 9.5rem); 
-    line-height: 0.95; /* НЕ СПЛЮЩЕНО */
+    line-height: 0.95; 
     letter-spacing: -1px;
     margin-bottom: 20px;
 }
@@ -80,14 +80,15 @@ h1 {
 }
 
 /* КНОПКА */
+.action-group { margin-bottom: 30px; }
 .btn-hire {
-    display: inline-block; padding: 14px 50px; font-size: 0.9rem; font-weight: 900; color: #fff;
+    display: inline-block; padding: 14px 45px; font-size: 0.9rem; font-weight: 900; color: #fff;
     border: 2px solid #ff3366; border-radius: 50px; text-decoration: none;
     text-transform: uppercase; transition: 0.3s; background: transparent;
 }
 .btn-hire:hover { background: #ff3366; box-shadow: 0 0 20px rgba(255, 51, 102, 0.4); }
 
-/* СТРЕЛКА */
+/* СТРЕЛКА — ПК */
 .scroll-down-container { position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%); }
 .scroll-btn { color: #ff3366; font-size: 2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.6; }
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(10px);} }
@@ -120,21 +121,18 @@ h1 {
 .video-controls.sound-active .volume-slider { width: 90px; opacity: 1; margin: 0 10px 0 5px; }
 .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #ff3366; border: 2px solid #fff; border-radius: 50%; }
 
-/* --- МОБИЛЬНЫЙ АДАПТИВ (ФИКС ВСЕГО) --- */
+/* --- МОБИЛЬНЫЙ АДАПТИВ (ФИКС РАЗМЕРОВ) --- */
 @media (max-width: 900px) {
-    h1 { font-size: 3.5rem; line-height: 1.1; }
-    .tagline { font-size: 1.1rem; padding: 0 20px; margin-bottom: 20px; }
+    h1 { font-size: 3.5rem; line-height: 1.0; } /* Заголовок остается БОЛЬШИМ */
+    .tagline { font-size: 0.95rem; padding: 0 40px; margin-bottom: 25px; } /* Подзаголовок СТАЛ МЕНЬШЕ */
     .scroll-down-container { bottom: 50px; }
     
-    .portfolio { 
-        padding: 20px 0; 
-        scroll-margin-top: 5px; /* Заставляет MY WORKS встать под самый верх */
-    }
-    .section-title { font-size: 2.2rem; margin-bottom: 15px; }
+    .portfolio { padding: 40px 0; scroll-margin-top: 100px; }
+    .section-title { font-size: 2.3rem; margin-bottom: 20px; }
     
     .work-grid { 
         grid-template-columns: 1fr; 
-        max-width: 280px; /* УВЕЛИЧЕНО ВИДЕО (было 200, теперь 280) */
+        max-width: 250px; /* Видео уже -> Видео ниже -> Всё влазит в экран */
         margin: 0 auto; 
         gap: 30px; 
     }
