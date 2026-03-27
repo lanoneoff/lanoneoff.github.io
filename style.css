@@ -1,7 +1,5 @@
 /* --- ОСНОВНОЕ --- */
-html { 
-    scroll-behavior: smooth; 
-}
+html { scroll-behavior: smooth; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -51,10 +49,10 @@ h1 {
     margin-bottom: 35px; color: rgba(255, 255, 255, 0.7); 
 }
 
-/* СОЦСЕТИ — ФИКС ОТСТУПОВ ПК */
+/* СОЦСЕТИ — ПК */
 .social-links { 
     display: flex; gap: 25px; 
-    margin-bottom: 42px; /* 8px зазор от подсказки до кнопки */
+    margin-bottom: 52px; /* Зазор 8px под подсказкой до кнопки */
     justify-content: center; position: relative; 
 }
 .social-links a {
@@ -82,7 +80,7 @@ h1 {
 /* КНОПКА HIRE ME */
 .action-group { position: relative; margin-top: 0; }
 .btn-hire {
-    display: inline-block; padding: 16px 60px; font-size: 1rem; font-weight: 900; color: #fff;
+    display: inline-block; padding: 14px 50px; font-size: 0.9rem; font-weight: 900; color: #fff;
     border: 2px solid #ff3366; border-radius: 50px; text-decoration: none;
     text-transform: uppercase; transition: 0.3s; background: transparent;
 }
@@ -90,11 +88,15 @@ h1 {
 
 /* СТРЕЛКА — ПК */
 .scroll-down-container { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); }
-.scroll-btn { color: #ff3366; font-size: 2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.6; }
+.scroll-btn { color: #ff3366; font-size: 2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.6; cursor: pointer; }
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(10px);} }
 
-/* ПОРТФОЛИО */
-.portfolio { width: 100%; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 80px 0; }
+/* ПОРТФОЛИО — ФИКС СКРОЛЛА */
+#portfolio { 
+    width: 100%; min-height: 100vh; display: flex; 
+    justify-content: center; align-items: center; padding: 80px 0;
+    scroll-margin-top: 20px; /* Идеальная остановка на ПК */
+}
 .portfolio-wrapper { width: 90%; max-width: 1100px; display: flex; flex-direction: column; align-items: center; }
 .section-title { 
     font-weight: 900; font-size: 3rem; margin-bottom: 40px; text-transform: uppercase; text-align: center; width: 100%;
@@ -117,22 +119,33 @@ h1 {
 .video-controls.sound-active .volume-slider { width: 90px; opacity: 1; margin: 0 10px 0 5px; }
 .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #ff3366; border: 2px solid #fff; border-radius: 50%; }
 
-/* --- МОБИЛЬНЫЙ АДАПТИВ (ФИКС КОНТРАСТА И СКРОЛЛА) --- */
+/* --- МОБИЛЬНЫЙ АДАПТИВ (УДОБСТВО И СКРОЛЛ) --- */
 @media (max-width: 900px) {
-    h1 { font-size: 4rem; line-height: 1.0; } /* ЗАГОЛОВОК ЕЩЕ БОЛЬШЕ */
-    .tagline { font-size: 0.85rem; padding: 0 40px; margin-bottom: 25px; } /* ТЕКСТ МЕНЬШЕ */
+    h1 { font-size: 3.8rem; line-height: 1.0; }
+    .tagline { font-size: 0.9rem; padding: 0 40px; margin-bottom: 25px; }
     .scroll-down-container { bottom: 50px; }
     
-    /* Скролл остановится идеально за счет невидимого якоря в HTML */
-    .portfolio { padding: 40px 0; }
-    .section-title { font-size: 2.3rem; margin-bottom: 25px; }
+    #portfolio { 
+        scroll-margin-top: 15px; /* Заголовок MY WORKS будет у самой верхней границы */
+    }
+    .section-title { font-size: 2.3rem; margin-bottom: 20px; }
     
     .work-grid { 
         grid-template-columns: 1fr; 
-        max-width: 230px; /* Сузили видео, чтобы оно не было слишком высоким */
-        margin: 0 auto; 
-        gap: 30px; 
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 50px; /* УДОБНОЕ РАССТОЯНИЕ ДЛЯ ЛИСТАНИЯ */
+    }
+    
+    /* Видео занимает 60% высоты — так оно ТОЧНО влезет с заголовком в экран телефона */
+    .work-card { 
+        width: auto; 
+        height: 60vh; 
+        aspect-ratio: 9/16; 
     }
     
     .video-controls { opacity: 1 !important; bottom: 10px; right: 10px; }
+    .video-controls.sound-active .volume-slider { width: 60px; }
 }
