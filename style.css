@@ -19,7 +19,7 @@ body::before {
                 url('https://wallpapers.com/images/hd/red-moon-night-sky-jey5ix1d1m74bsxz.jpg');
     background-size: cover;
     background-position: center top;
-    filter: blur(1px); /* РОВНО 1 ПИКСЕЛЬ */
+    filter: blur(1px); /* БЛЮР 1 ПИКСЕЛЬ */
     transform: scale(1.02);
     z-index: -1;
 }
@@ -50,8 +50,8 @@ h1 {
 
 /* СОЦСЕТИ */
 .social-links { 
-    display: flex; gap: 30px; /* Увеличено расстояние между значками */
-    margin-bottom: 42px; /* Зазор 8px от подсказки до кнопки */
+    display: flex; gap: 30px; 
+    margin-bottom: 52px; /* 8px зазор до кнопки под подсказкой */
     justify-content: center; position: relative; 
 }
 .social-links a {
@@ -67,7 +67,7 @@ h1 {
     position: absolute; left: 50%; transform: translateX(-50%);
     background: #ff3366; color: white; padding: 5px 12px; border-radius: 4px; 
     font-size: 11px; font-weight: 700; opacity: 0; visibility: hidden; 
-    transition: all 0.3s; white-space: nowrap; z-index: 100; top: 68px;
+    transition: all 0.3s; white-space: nowrap; z-index: 100; top: 72px;
 }
 .email-btn:hover .copy-tooltip, .copy-tooltip.copied-active { opacity: 1; visibility: visible; }
 .copy-tooltip.copied-active { background: #4caf50 !important; }
@@ -76,7 +76,8 @@ h1 {
     border-width: 5px; border-style: solid; border-color: transparent transparent #ff3366 transparent;
 }
 
-/* КНОПКА */
+/* КНОПКА HIRE ME */
+.action-group { position: relative; margin-top: 0; }
 .btn-hire {
     display: inline-block; padding: 16px 60px; font-size: 1rem; font-weight: 900; color: #fff;
     border: 2px solid #ff3366; border-radius: 50px; text-decoration: none;
@@ -84,23 +85,29 @@ h1 {
 }
 .btn-hire:hover { background: #ff3366; box-shadow: 0 0 20px rgba(255, 51, 102, 0.4); }
 
-/* СТРЕЛКА — ПК (ВЫСОКО) */
+/* СТРЕЛКА — ПК */
 .scroll-down-container { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); }
-.scroll-btn { color: #ff3366; font-size: 2.2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.7; cursor: pointer; }
+.scroll-btn { color: #ff3366; font-size: 2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.7; cursor: pointer; }
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(10px);} }
 
-/* ПОРТФОЛИО */
+/* ПОРТФОЛИО — ФИНАЛЬНАЯ ЦЕНТРОВКА */
 .portfolio { 
-    width: 100%; min-height: 100vh; display: flex; 
-    justify-content: center; align-items: center; padding: 80px 0;
+    width: 100%; 
+    min-height: 100vh; 
+    min-height: 100dvh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 20px 0;
 }
 .portfolio-wrapper { width: 90%; max-width: 1100px; display: flex; flex-direction: column; align-items: center; }
 
 .section-title { 
-    font-weight: 900; font-size: 3rem; margin-bottom: 40px; text-transform: uppercase; text-align: center; width: 100%;
+    font-weight: 900; font-size: 3rem; margin-bottom: 30px; text-transform: uppercase; text-align: center; width: 100%;
     background: linear-gradient(180deg, #ff3366 30%, #66001a 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
+
 .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; width: 100%; }
 .work-card { position: relative; aspect-ratio: 9/16; background: #000; border: 1px solid rgba(255, 51, 102, 0.2); border-radius: 20px; overflow: hidden; }
 .work-card video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
@@ -117,14 +124,14 @@ h1 {
 .video-controls.sound-active .volume-slider { width: 90px; opacity: 1; margin: 0 10px 0 5px; }
 .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #ff3366; border: 2px solid #fff; border-radius: 50%; }
 
-/* --- МОБИЛЬНЫЙ АДАПТИВ (ФИКС КОНТРАСТА И СКРОЛЛА) --- */
+/* --- МОБИЛЬНЫЙ АДАПТИВ (МАКСИМАЛЬНОЕ ВЛЕЗАНИЕ) --- */
 @media (max-width: 900px) {
     h1 { font-size: 3.8rem; line-height: 1.0; }
-    .tagline { font-size: 0.85rem; padding: 0 40px; margin-bottom: 25px; }
-    .scroll-down-container { bottom: 60px; }
+    .tagline { font-size: 0.9rem; padding: 0 40px; margin-bottom: 25px; }
+    .scroll-down-container { bottom: 50px; }
     
-    .portfolio { padding: 40px 0; }
-    .section-title { font-size: 2.3rem; margin-bottom: 20px; }
+    .portfolio { padding: 0; }
+    .section-title { font-size: 2.3rem; margin-bottom: 15px; }
     
     .work-grid { 
         grid-template-columns: 1fr; 
@@ -135,13 +142,12 @@ h1 {
         gap: 60px; 
     }
     
-    /* Видео занимает 60% высоты — так оно ТОЧНО влезет с заголовком в экран */
+    /* ОГРАНИЧИЛИ ВЫСОТУ ВИДЕО — теперь оно ТОЧНО влезет с заголовком */
     .work-card { 
         width: auto; 
-        height: 60vh; 
+        height: 60vh; /* Ровно 60% высоты экрана смартфона */
         aspect-ratio: 9/16; 
     }
     
     .video-controls { opacity: 1 !important; bottom: 10px; right: 10px; }
-    .video-controls.sound-active .volume-slider { width: 60px; }
 }
