@@ -6,8 +6,8 @@
     <title>Editor Lev | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- v=7.0 заставит телефон обновить стили -->
-    <link rel="stylesheet" href="style.css?v=7.0">
+    <!-- Версия v=10.0 для сброса кэша на телефоне -->
+    <link rel="stylesheet" href="style.css?v=10.0">
 </head>
 <body>
 
@@ -33,7 +33,10 @@
         </div>
         
         <div class="scroll-down-container">
-            <a href="#portfolio" class="scroll-btn"><i class="fas fa-chevron-down"></i></a>
+            <!-- Исправленный скролл через JS функцию -->
+            <a href="javascript:void(0)" onclick="smartScroll()" class="scroll-btn">
+                <i class="fas fa-chevron-down"></i>
+            </a>
         </div>
     </section>
 
@@ -73,6 +76,22 @@
     </section>
 
     <script>
+        // Функция "умного" скролла
+        function smartScroll() {
+            const portfolio = document.getElementById('portfolio');
+            // На мобилках делаем отступ больше, чтобы заголовок встал идеально
+            const offset = window.innerWidth < 900 ? 60 : 30; 
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = portfolio.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+
         function copyEmail() {
             const email = "editorafterwork@gmail.com";
             const tooltip = document.getElementById("tooltip");
