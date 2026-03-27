@@ -1,7 +1,4 @@
 /* --- ОСНОВНОЕ --- */
-html { 
-    scroll-behavior: smooth; 
-}
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -22,7 +19,7 @@ body::before {
                 url('https://wallpapers.com/images/hd/red-moon-night-sky-jey5ix1d1m74bsxz.jpg');
     background-size: cover;
     background-position: center top;
-    filter: blur(1px); /* БЛЮР 1 ПИКСЕЛЬ */
+    filter: blur(1px); /* РОВНО 1 ПИКСЕЛЬ */
     transform: scale(1.02);
     z-index: -1;
 }
@@ -51,11 +48,10 @@ h1 {
     margin-bottom: 35px; color: rgba(255, 255, 255, 0.7); 
 }
 
-/* СОЦСЕТИ — УВЕЛИЧЕН ОТСТУП МЕЖДУ НИМИ */
+/* СОЦСЕТИ */
 .social-links { 
-    display: flex; 
-    gap: 30px; /* УВЕЛИЧЕНО С 15px ДО 30px */
-    margin-bottom: 52px; 
+    display: flex; gap: 30px; /* Увеличено расстояние между значками */
+    margin-bottom: 42px; /* Зазор 8px от подсказки до кнопки */
     justify-content: center; position: relative; 
 }
 .social-links a {
@@ -71,7 +67,7 @@ h1 {
     position: absolute; left: 50%; transform: translateX(-50%);
     background: #ff3366; color: white; padding: 5px 12px; border-radius: 4px; 
     font-size: 11px; font-weight: 700; opacity: 0; visibility: hidden; 
-    transition: all 0.3s; white-space: nowrap; z-index: 100; top: 72px;
+    transition: all 0.3s; white-space: nowrap; z-index: 100; top: 68px;
 }
 .email-btn:hover .copy-tooltip, .copy-tooltip.copied-active { opacity: 1; visibility: visible; }
 .copy-tooltip.copied-active { background: #4caf50 !important; }
@@ -80,8 +76,7 @@ h1 {
     border-width: 5px; border-style: solid; border-color: transparent transparent #ff3366 transparent;
 }
 
-/* КНОПКА HIRE ME */
-.action-group { position: relative; margin-top: 0; }
+/* КНОПКА */
 .btn-hire {
     display: inline-block; padding: 16px 60px; font-size: 1rem; font-weight: 900; color: #fff;
     border: 2px solid #ff3366; border-radius: 50px; text-decoration: none;
@@ -89,18 +84,18 @@ h1 {
 }
 .btn-hire:hover { background: #ff3366; box-shadow: 0 0 20px rgba(255, 51, 102, 0.4); }
 
-/* СТРЕЛКА — ПК */
+/* СТРЕЛКА — ПК (ВЫСОКО) */
 .scroll-down-container { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); }
-.scroll-btn { color: #ff3366; font-size: 2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.7; cursor: pointer; }
+.scroll-btn { color: #ff3366; font-size: 2.2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.7; cursor: pointer; }
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(10px);} }
 
-/* ПОРТФОЛИО — ФИКС СКРОЛЛА */
-#portfolio { 
+/* ПОРТФОЛИО */
+.portfolio { 
     width: 100%; min-height: 100vh; display: flex; 
-    justify-content: center; align-items: center; padding: 100px 0;
-    scroll-margin-top: 20px; /* ЭТО ОСТАНОВИТ СКРОЛЛ ИДЕАЛЬНО */
+    justify-content: center; align-items: center; padding: 80px 0;
 }
 .portfolio-wrapper { width: 90%; max-width: 1100px; display: flex; flex-direction: column; align-items: center; }
+
 .section-title { 
     font-weight: 900; font-size: 3rem; margin-bottom: 40px; text-transform: uppercase; text-align: center; width: 100%;
     background: linear-gradient(180deg, #ff3366 30%, #66001a 100%);
@@ -110,19 +105,43 @@ h1 {
 .work-card { position: relative; aspect-ratio: 9/16; background: #000; border: 1px solid rgba(255, 51, 102, 0.2); border-radius: 20px; overflow: hidden; }
 .work-card video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
 
-/* --- МОБИЛЬНЫЙ АДАПТИВ (ФИКС ВСЕГО) --- */
+/* ЗВУК */
+.video-controls {
+    position: absolute; bottom: 15px; right: 15px; display: flex; align-items: center;
+    background: rgba(0, 0, 0, 0.7); padding: 4px; border-radius: 40px;
+    border: 1px solid rgba(255, 51, 102, 0.4); backdrop-filter: blur(8px); opacity: 0; transition: 0.3s;
+}
+.work-card:hover .video-controls { opacity: 1; }
+.mute-btn { background: none; border: none; color: #ff3366; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+.volume-slider { -webkit-appearance: none; width: 0; opacity: 0; height: 4px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; outline: none; transition: 0.3s ease; }
+.video-controls.sound-active .volume-slider { width: 90px; opacity: 1; margin: 0 10px 0 5px; }
+.volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #ff3366; border: 2px solid #fff; border-radius: 50%; }
+
+/* --- МОБИЛЬНЫЙ АДАПТИВ (ФИКС КОНТРАСТА И СКРОЛЛА) --- */
 @media (max-width: 900px) {
     h1 { font-size: 3.8rem; line-height: 1.0; }
-    .tagline { font-size: 0.9rem; padding: 0 40px; margin-bottom: 25px; }
-    .social-links { gap: 30px; } /* И тут тоже увеличил */
+    .tagline { font-size: 0.85rem; padding: 0 40px; margin-bottom: 25px; }
     .scroll-down-container { bottom: 60px; }
     
-    #portfolio { scroll-margin-top: 100px; } /* Увеличен зазор при скролле для мобилок */
+    .portfolio { padding: 40px 0; }
+    .section-title { font-size: 2.3rem; margin-bottom: 20px; }
     
     .work-grid { 
         grid-template-columns: 1fr; 
-        max-width: 250px; 
-        margin: 0 auto; 
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 60px; 
     }
+    
+    /* Видео занимает 60% высоты — так оно ТОЧНО влезет с заголовком в экран */
+    .work-card { 
+        width: auto; 
+        height: 60vh; 
+        aspect-ratio: 9/16; 
+    }
+    
     .video-controls { opacity: 1 !important; bottom: 10px; right: 10px; }
+    .video-controls.sound-active .volume-slider { width: 60px; }
 }

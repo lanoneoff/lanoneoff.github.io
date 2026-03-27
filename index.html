@@ -6,8 +6,8 @@
     <title>Editor Lev | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- Сброс кэша -->
-    <link rel="stylesheet" href="style.css?v=32.0">
+    <!-- Смена версии v=33.0 -->
+    <link rel="stylesheet" href="style.css?v=33.0">
 </head>
 <body>
 
@@ -33,8 +33,8 @@
         </div>
         
         <div class="scroll-down-container">
-            <!-- Скролл через нативный якорь с CSS фиксом -->
-            <a href="#portfolio" class="scroll-btn">
+            <!-- Исправленный скролл -->
+            <a href="javascript:void(0)" onclick="perfectScroll()" class="scroll-btn">
                 <i class="fas fa-chevron-down"></i>
             </a>
         </div>
@@ -42,7 +42,7 @@
 
     <section class="portfolio" id="portfolio">
         <div class="portfolio-wrapper">
-            <h2 class="section-title">MY WORKS</h2>
+            <h2 class="section-title" id="works-header">MY WORKS</h2>
             <div class="work-grid">
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline preload="metadata" disablePictureInPicture disableremoteplayback>
@@ -76,6 +76,21 @@
     </section>
 
     <script>
+        // ФУНКЦИЯ ПРЕЦИЗИОННОГО СКРОЛЛА
+        function perfectScroll() {
+            const header = document.getElementById('works-header');
+            const offset = window.innerWidth < 900 ? 15 : 40; 
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = header.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+
         function copyEmail() {
             const email = "editorafterwork@gmail.com";
             const tooltip = document.getElementById("tooltip");
