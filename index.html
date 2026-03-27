@@ -6,7 +6,8 @@
     <title>Editor Lev | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=6.0">
+    <!-- v=7.0 заставит телефон обновить стили -->
+    <link rel="stylesheet" href="style.css?v=7.0">
 </head>
 <body>
 
@@ -80,7 +81,7 @@
                 tooltip.classList.add('copied-active');
                 setTimeout(() => {
                     tooltip.classList.remove('copied-active');
-                    setTimeout(() => { tooltip.innerText = "Copy Email"; }, 300);
+                    setTimeout(() => { if(!tooltip.classList.contains('copied-active')) tooltip.innerText = "Copy Email"; }, 300);
                 }, 2000);
             };
             if (navigator.clipboard && window.isSecureContext) {

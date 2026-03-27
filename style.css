@@ -33,7 +33,7 @@ body::before {
 }
 
 h1 { 
-    font-weight: 900; font-size: clamp(3rem, 10vw, 8.5rem); 
+    font-weight: 900; font-size: clamp(3.5rem, 12vw, 9.5rem); 
     line-height: 0.95; letter-spacing: -1px; margin-bottom: 20px;
 }
 
@@ -45,15 +45,15 @@ h1 {
 }
 
 .tagline { 
-    font-weight: 300; font-size: 1.4rem; line-height: 1.4;
-    margin-bottom: 35px; color: rgba(255, 255, 255, 0.8); letter-spacing: 1px;
+    font-weight: 300; font-size: 1.3rem; margin-bottom: 35px; 
+    color: rgba(255, 255, 255, 0.7); letter-spacing: 1px;
 }
 
 /* СОЦСЕТИ */
 .social-links { display: flex; gap: 15px; margin-bottom: 50px; justify-content: center; position: relative; }
 .social-links a {
-    position: relative; color: #ff3366; width: 60px; height: 60px;
-    display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+    position: relative; color: #ff3366; width: 55px; height: 55px;
+    display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
     border: 1px solid rgba(255, 51, 102, 0.3); border-radius: 50%; text-decoration: none;
     transition: 0.3s;
 }
@@ -64,7 +64,7 @@ h1 {
     position: absolute; left: 50%; transform: translateX(-50%);
     background: #ff3366; color: white; padding: 5px 12px; border-radius: 4px; 
     font-size: 10px; font-weight: 700; opacity: 0; visibility: hidden; 
-    transition: all 0.3s; white-space: nowrap; z-index: 100; top: 72px;
+    transition: all 0.3s; white-space: nowrap; z-index: 100; top: 65px;
 }
 .email-btn:hover .copy-tooltip, .copy-tooltip.copied-active { opacity: 1; visibility: visible; }
 .copy-tooltip.copied-active { background: #4caf50 !important; }
@@ -73,9 +73,10 @@ h1 {
     border-width: 5px; border-style: solid; border-color: transparent transparent #ff3366 transparent;
 }
 
-/* КНОПКА */
+/* КНОПКА HIRE ME */
+.action-group { position: relative; margin-top: 0; }
 .btn-hire {
-    display: inline-block; padding: 16px 60px; font-size: 1rem; font-weight: 900; color: #fff;
+    display: inline-block; padding: 14px 50px; font-size: 0.9rem; font-weight: 900; color: #fff;
     border: 2px solid #ff3366; border-radius: 50px; text-decoration: none;
     text-transform: uppercase; transition: 0.3s; background: transparent;
 }
@@ -83,13 +84,13 @@ h1 {
 
 /* СТРЕЛКА — ПК */
 .scroll-down-container { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); }
-.scroll-btn { color: #ff3366; font-size: 2.2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.7; }
+.scroll-btn { color: #ff3366; font-size: 2rem; animation: bounce 2s infinite; text-decoration: none; opacity: 0.6; }
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(10px);} }
 
 /* ПОРТФОЛИО */
-.portfolio { 
+#portfolio { 
     width: 100%; min-height: 100vh; display: flex; 
-    justify-content: center; align-items: center; padding: 80px 0;
+    justify-content: center; align-items: center; padding: 100px 0;
 }
 .portfolio-wrapper { width: 90%; max-width: 1100px; display: flex; flex-direction: column; align-items: center; }
 
@@ -98,7 +99,6 @@ h1 {
     background: linear-gradient(180deg, #ff3366 30%, #66001a 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
-
 .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; width: 100%; }
 .work-card { position: relative; aspect-ratio: 9/16; background: #000; border: 1px solid rgba(255, 51, 102, 0.2); border-radius: 20px; overflow: hidden; }
 .work-card video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
@@ -115,25 +115,22 @@ h1 {
 .video-controls.sound-active .volume-slider { width: 90px; opacity: 1; margin: 0 10px 0 5px; }
 .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #ff3366; border: 2px solid #fff; border-radius: 50%; }
 
-/* --- МОБИЛЬНЫЙ АДАПТИВ (РЕШЕНИЕ ПРОБЛЕМЫ) --- */
+/* --- МОБИЛЬНЫЙ АДАПТИВ (ФИНАЛЬНЫЙ ФИКС) --- */
 @media (max-width: 900px) {
-    h1 { font-size: 3.8rem; line-height: 1.0; } 
-    .tagline { font-size: 0.9rem; padding: 0 40px; margin-bottom: 25px; } 
+    h1 { font-size: 3.8rem; line-height: 1.0; }
+    .tagline { font-size: 0.9rem; padding: 0 40px; margin-bottom: 25px; }
     
-    .scroll-down-container { bottom: 80px; } 
+    .scroll-down-container { bottom: 50px; }
     
-    /* Скролл останавливается идеально за счет большого scroll-margin */
-    .portfolio { 
+    /* Скролл остановится идеально за счет большого scroll-margin */
+    #portfolio { 
         padding: 40px 0; 
-        scroll-margin-top: 150px; /* ГАРАНТИРУЕТ, ЧТО ПРЕДЫДУЩАЯ СТРЕЛКА УЙДЕТ ВВЕРХ */
+        scroll-margin-top: 150px; /* ГЛУБОКИЙ СКРОЛЛ: старая стрелка улетает вверх */
     }
-    
-    .section-title { font-size: 2.3rem; margin-bottom: 25px; }
     
     .work-grid { 
         grid-template-columns: 1fr; 
-        /* ОГРАНИЧИВАЕМ ВИДЕО ПО ВЫСОТЕ, А НЕ ПО ШИРИНЕ */
-        max-width: none; 
+        /* ОГРАНИЧИВАЕМ ВИДЕО ПО ВЫСОТЕ, ЧТОБЫ ОНО ВЛЕЗЛО В ЭКРАН С ЗАГОЛОВКОМ */
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -142,10 +139,9 @@ h1 {
     
     .work-card { 
         width: auto; 
-        height: 60vh; /* Видео занимает ровно 60% высоты экрана */
+        height: 60vh; /* Видео занимает только 60% высоты экрана смартфона */
         aspect-ratio: 9/16; 
     }
     
     .video-controls { opacity: 1 !important; bottom: 10px; right: 10px; }
-    .video-controls.sound-active .volume-slider { width: 60px; }
 }
