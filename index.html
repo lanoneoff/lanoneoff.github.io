@@ -6,8 +6,8 @@
     <title>Editor Lev | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- Версия v=4.0 для принудительного обновления -->
-    <link rel="stylesheet" href="style.css?v=4.0">
+    <!-- v=5.0 для сброса кэша -->
+    <link rel="stylesheet" href="style.css?v=5.0">
 </head>
 <body>
 
@@ -41,6 +41,7 @@
         <div class="portfolio-wrapper">
             <h2 class="section-title">MY WORKS</h2>
             <div class="work-grid">
+                <!-- Карточка 1 -->
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline disablePictureInPicture disableremoteplayback>
                         <source src="video1.mp4" type="video/mp4">
@@ -50,6 +51,7 @@
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
+                <!-- Карточка 2 -->
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline disablePictureInPicture disableremoteplayback>
                         <source src="video2.mp4" type="video/mp4">
@@ -59,6 +61,7 @@
                         <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="0.3">
                     </div>
                 </div>
+                <!-- Карточка 3 -->
                 <div class="work-card">
                     <video class="portfolio-video" muted loop playsinline disablePictureInPicture disableremoteplayback>
                         <source src="video3.mp4" type="video/mp4">
@@ -81,7 +84,7 @@
                 tooltip.classList.add('copied-active');
                 setTimeout(() => {
                     tooltip.classList.remove('copied-active');
-                    setTimeout(() => { if(!tooltip.classList.contains('copied-active')) tooltip.innerText = "Copy Email"; }, 300);
+                    setTimeout(() => { tooltip.innerText = "Copy Email"; }, 300);
                 }, 2000);
             };
             if (navigator.clipboard && window.isSecureContext) {
