@@ -6,8 +6,8 @@
     <title>Editor Lev | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- Сброс кэша -->
-    <link rel="stylesheet" href="style.css?v=27.0">
+    <!-- v=28.0 -->
+    <link rel="stylesheet" href="style.css?v=28.0">
 </head>
 <body>
 
@@ -33,14 +33,13 @@
         </div>
         
         <div class="scroll-down-container">
-            <!-- Вернул стандартный якорь #portfolio -->
-            <a href="#portfolio" class="scroll-btn">
+            <!-- Умный скролл через JS -->
+            <a href="javascript:void(0)" onclick="mobileScroll()" class="scroll-btn">
                 <i class="fas fa-chevron-down"></i>
             </a>
         </div>
     </section>
 
-    <!-- Секция портфолио с ID -->
     <section class="portfolio" id="portfolio">
         <div class="portfolio-wrapper">
             <h2 class="section-title">MY WORKS</h2>
@@ -77,6 +76,22 @@
     </section>
 
     <script>
+        // Функция идеального скролла для мобилок и ПК
+        function mobileScroll() {
+            const target = document.getElementById('portfolio');
+            // На мобилках отступ сверху всего 20px, на ПК - 40px
+            const offset = window.innerWidth < 900 ? 20 : 40; 
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = target.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+
         function copyEmail() {
             const email = "editorafterwork@gmail.com";
             const tooltip = document.getElementById("tooltip");
@@ -85,7 +100,7 @@
                 tooltip.classList.add('copied-active');
                 setTimeout(() => {
                     tooltip.classList.remove('copied-active');
-                    setTimeout(() => { if(!tooltip.classList.contains('copied-active')) tooltip.innerText = "Copy Email"; }, 300);
+                    setTimeout(() => { tooltip.innerText = "Copy Email"; }, 300);
                 }, 2000);
             };
             if (navigator.clipboard && window.isSecureContext) {
