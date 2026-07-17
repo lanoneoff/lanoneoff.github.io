@@ -1,121 +1,613 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lev Editor | Portfolio</title>
-    <!-- Шрифт -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Иконки -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- v=57.0 (обнови версию, если не видишь изменений) -->
-    <link rel="stylesheet" href="style.css?v=57.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lev | Video Editor</title>
+    <meta name="description" content="Professional Video Editor Portfolio" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg: #050505;
+            --surface: #101010;
+            --white: #F7F7F7;
+            --text: #D8D8D8;
+            --gray: #9A9A9A;
+            --accent: #B71C1C;
+            --accent-hover: #D32F2F;
+            --border: rgba(255,255,255,.08);
+            --shadow: 0 10px 35px rgba(0,0,0,.35);
+            --shadow-red: 0 15px 40px rgba(183,28,28,.18);
+            --radius: 18px;
+            --speed: .22s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: "Montserrat", sans-serif;
+            background: var(--bg);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background:
+                linear-gradient(rgba(0,0,0,.05), rgba(0,0,0,.15)),
+                url("fineday_clean.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(1.05) contrast(1.08) saturate(1.15);
+            animation: blurPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes blurPulse {
+            0%   { filter: brightness(1.05) contrast(1.08) saturate(1.15) blur(0px); transform: scale(1); }
+            50%  { filter: brightness(1.08) contrast(1.05) saturate(1.1)  blur(2px); transform: scale(1.02); }
+            100% { filter: brightness(1.05) contrast(1.08) saturate(1.15) blur(0px); transform: scale(1); }
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle, transparent 45%, rgba(0,0,0,.05) 75%, rgba(0,0,0,.25) 100%);
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .hero-container { width: 100%; max-width: 720px; }
+
+        .main-title {
+            display: flex;
+            flex-direction: column;
+            line-height: .9;
+            font-size: clamp(4.8rem, 9.5vw, 8.5rem);
+            font-weight: 800;
+            letter-spacing: 4px;
+            word-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            align-items: center;
+            font-feature-settings: "kern" 1;
+            text-rendering: optimizeLegibility;
+        }
+
+        .white { color: white; }
+        .purple {
+            color: var(--accent);
+            text-shadow: 0 0 18px rgba(183,28,28,.25);
+            margin-top: -2px;
+        }
+
+        .tagline {
+            max-width: 480px;
+            margin: 0 auto 32px;
+            color: var(--text);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 18px;
+            margin: 0 0 38px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-item {
+            height: 48px;
+            padding: 0 22px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255,255,255,.08);
+            background: rgba(20,20,20,.72);
+            cursor: pointer;
+            transition: all var(--speed);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            justify-content: center;
+        }
+
+        .social-item i {
+            font-size: 1.1rem;
+            width: 1.1rem;
+            text-align: center;
+            transition: opacity var(--speed), transform var(--speed);
+        }
+
+        .social-item span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: opacity var(--speed), transform var(--speed);
+        }
+
+        .social-item:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .copy-tooltip {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: transparent;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0;
+            border-radius: 0;
+            opacity: 0;
+            transition: opacity .25s, transform .25s;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 2;
+            box-shadow: none;
+        }
+
+        .email-btn:hover .copy-tooltip {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .email-btn:hover i,
+        .email-btn:hover span:not(.copy-tooltip) {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .copy-tooltip::after { display: none; }
+
+        .btn-hire {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            height: 58px;
+            padding: 0 34px;
+            border-radius: 999px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all var(--speed);
+            box-shadow: var(--shadow);
+            margin: 0 auto 30px;
+        }
+
+        .btn-hire:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-red);
+        }
+
+        .scroll-btn {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: .8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 0;
+        }
+
+        .scroll-btn i {
+            font-size: 1.5rem;
+            transition: transform .3s;
+        }
+
+        .scroll-btn:hover i { transform: translateY(6px); }
+
+        .portfolio {
+            padding: 80px 8% 120px;
+            scroll-margin-top: 0px;
+        }
+
+        .portfolio-wrapper { max-width: 1280px; margin: auto; }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 70px;
+            letter-spacing: -2px;
+        }
+
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .work-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 22px;
+            border: 2px solid rgba(255,255,255,.3);
+            background: #0a0a0a;
+            box-shadow: var(--shadow);
+            transition: all .22s;
+            min-height: 480px;
+        }
+
+        .work-card:hover {
+            transform: scale(1.02);
+            border-color: rgba(255,255,255,.5);
+            box-shadow: var(--shadow-red);
+        }
+
+        .portfolio-video {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 9/16;
+            object-fit: cover;
+        }
+
+        /* ===== VIDEO CONTROLS ===== */
+        .video-controls {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity .3s ease;
+            pointer-events: none;
+            background: rgba(0,0,0,.5);
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,.08);
+            box-shadow: 0 0 0 1px rgba(255,255,255,.06);
+            backdrop-filter: blur(8px);
+            min-height: 34px;
+        }
+
+        .work-card:hover .video-controls {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Кнопка – без красной обводки, идеальное центрирование */
+        .mute-btn {
+            width: 26px;
+            height: 26px;
+            min-width: 26px;
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 50%;
+            cursor: pointer;
+            background: rgba(255,255,255,.08);
+            color: white;
+            transition: all .2s;
+            flex-shrink: 0;
+            margin: 0;
+            padding: 0;
+            order: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .mute-btn i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-size: .7rem;
+            line-height: 1;
+        }
+
+        .mute-btn:hover {
+            background: var(--accent);
+            transform: scale(1.08);
+            /* обводка остаётся прежней */
+        }
+
+        .mute-btn.muted {
+            border-color: transparent !important;
+            background: rgba(255,255,255,.05) !important;
+        }
+
+        .mute-btn.muted:hover {
+            background: var(--accent) !important;
+            border-color: transparent !important;
+        }
+
+        /* Ползунок – при муте полностью убираем из потока */
+        .volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 60px;
+            height: 3px;
+            border-radius: 4px;
+            outline: none;
+            background: rgba(255,255,255,.15);
+            transition: width .3s ease, opacity .3s ease;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin: 0;
+            padding: 0;
+            border: none;
+            order: 1;
+            flex: 0 0 60px;
+        }
+
+        .volume-slider.muted {
+            display: none !important; /* полностью убираем элемент */
+        }
+
+        .volume-slider::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 3px;
+            background: rgba(255,255,255,.15);
+            border-radius: 4px;
+            border: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ffffff !important;
+            cursor: pointer;
+            margin-top: -3.5px;
+            box-shadow: none !important;
+            border: 1px solid rgba(255,255,255,.3);
+            transition: opacity .2s, transform .15s, background .2s;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            background: var(--accent) !important;
+            border-color: var(--accent);
+        }
+
+        .volume-slider::-moz-range-track {
+            width: 100%;
+            height: 3px;
+            background: rgba(255,255,255,.15);
+            border-radius: 4px;
+            border: none;
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ffffff !important;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,.3);
+            box-shadow: none !important;
+            transition: opacity .2s, transform .15s, background .2s;
+        }
+
+        .volume-slider::-moz-range-thumb:hover {
+            transform: scale(1.15);
+            background: var(--accent) !important;
+            border-color: var(--accent);
+        }
+
+        .volume-slider::-moz-range-progress {
+            height: 3px;
+            background: rgba(255,255,255,.3);
+            border-radius: 4px;
+        }
+
+        /* общие */
+        a { color: inherit; }
+        button { font-family: inherit; }
+        img, video { display: block; max-width: 100%; }
+
+        ::selection { background: var(--accent); color: white; }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #080808; }
+        ::-webkit-scrollbar-thumb { background: #3a3a3a; border-radius: 20px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        @media (max-width: 768px) {
+            .hero { padding: 40px 22px; }
+            .main-title { font-size: 4.2rem; }
+            .portfolio { padding: 60px 20px 80px; }
+            .section-title { font-size: 2.4rem; margin-bottom: 50px; }
+            .work-grid { gap: 24px; }
+            .video-controls {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <section class="hero">
+<section class="hero">
+    <div class="hero-container">
         <div class="hero-content">
             <h1 class="main-title">
                 <span class="white">Video</span>
-                <span class="pink">Editor</span>
+                <span class="purple">Editor</span>
             </h1>
-            <p class="tagline">Vertical high-quality stories & storytelling</p>
-            
+            <p class="tagline">Vertical high‑quality stories & storytelling</p>
             <div class="social-links">
                 <a href="https://t.me/editor_lev" target="_blank" class="social-item">
                     <i class="fab fa-telegram-plane"></i>
+                    <span>Telegram</span>
                 </a>
-                <a href="javascript:void(0)" onclick="copyEmail()" class="social-item email-btn">
+                <button class="social-item email-btn" onclick="copyEmail()">
                     <i class="fas fa-envelope"></i>
+                    <span>Email</span>
                     <span class="copy-tooltip" id="tooltip">Copy Email</span>
-                </a>
+                </button>
             </div>
-
-            <div class="action-group">
-                <a href="https://t.me/editor_lev" target="_blank" class="btn-hire">Hire me</a>
-            </div>
-        </div>
-        
-        <!-- Кнопка скролла -->
-        <div class="scroll-down-container">
+            <a href="https://t.me/editor_lev" target="_blank" class="btn-hire">
+                Hire me <i class="fas fa-arrow-right"></i>
+            </a>
             <a href="#portfolio" class="scroll-btn" id="scrollArrow">
                 <i class="fas fa-chevron-down"></i>
             </a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="portfolio" id="portfolio">
-        <div class="portfolio-wrapper">
-            <h2 class="section-title">My Works</h2>
-            <div class="work-grid">
-                <!-- Работа 1 -->
-                <div class="work-card">
-                    <video class="portfolio-video" muted loop playsinline preload="metadata">
-                        <source src="video1.mp4" type="video/mp4">
-                    </video>
-                    <div class="video-controls">
-                        <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
-                    </div>
+<section class="portfolio" id="portfolio">
+    <div class="portfolio-wrapper">
+        <h2 class="section-title">My Works</h2>
+        <div class="work-grid">
+            <article class="work-card">
+                <video class="portfolio-video" muted loop playsinline preload="metadata">
+                    <source src="video1.mp4" type="video/mp4" />
+                </video>
+                <div class="video-controls">
+                    <input type="range" class="volume-slider muted" min="0" max="1" step="0.01" value="0" />
+                    <button class="mute-btn muted">
+                        <i class="fas fa-volume-mute"></i>
+                    </button>
                 </div>
-                <!-- Работа 2 -->
-                <div class="work-card">
-                    <video class="portfolio-video" muted loop playsinline preload="metadata">
-                        <source src="video2.mp4" type="video/mp4">
-                    </video>
-                    <div class="video-controls">
-                        <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
-                    </div>
+            </article>
+
+            <article class="work-card">
+                <video class="portfolio-video" muted loop playsinline preload="metadata">
+                    <source src="video2.mp4" type="video/mp4" />
+                </video>
+                <div class="video-controls">
+                    <input type="range" class="volume-slider muted" min="0" max="1" step="0.01" value="0" />
+                    <button class="mute-btn muted">
+                        <i class="fas fa-volume-mute"></i>
+                    </button>
                 </div>
-                <!-- Работа 3 -->
-                <div class="work-card">
-                    <video class="portfolio-video" muted loop playsinline preload="metadata">
-                        <source src="video3.mp4" type="video/mp4">
-                    </video>
-                    <div class="video-controls">
-                        <button class="mute-btn"><i class="fas fa-volume-mute"></i></button>
-                    </div>
+            </article>
+
+            <article class="work-card">
+                <video class="portfolio-video" muted loop playsinline preload="metadata">
+                    <source src="video3.mp4" type="video/mp4" />
+                </video>
+                <div class="video-controls">
+                    <input type="range" class="volume-slider muted" min="0" max="1" step="0.01" value="0" />
+                    <button class="mute-btn muted">
+                        <i class="fas fa-volume-mute"></i>
+                    </button>
                 </div>
-            </div>
+            </article>
         </div>
-    </section>
+    </div>
+</section>
 
-    <script>
-        // ГАРАНТИРОВАННО ПЛАВНЫЙ СКРОЛЛ
-        document.getElementById('scrollArrow').addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector('#portfolio');
-            window.scrollTo({
-                top: target.offsetTop,
-                behavior: 'smooth'
-            });
+<script>
+    const tooltip = document.getElementById("tooltip");
+
+    function copyEmail() {
+        navigator.clipboard.writeText("editorafterwork@gmail.com");
+        tooltip.textContent = "Copied";
+        setTimeout(() => {
+            tooltip.textContent = "Copy Email";
+        }, 1800);
+    }
+
+    document.querySelectorAll(".work-card").forEach(card => {
+        const video = card.querySelector("video");
+        const muteBtn = card.querySelector(".mute-btn");
+        const volumeSlider = card.querySelector(".volume-slider");
+
+        card.addEventListener("mouseenter", () => {
+            video.muted = false;
+            video.volume = 0.5;
+            volumeSlider.value = 0.5;
+            volumeSlider.classList.remove('muted');
+            muteBtn.classList.remove('muted');
+            muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            video.play();
         });
 
-        // Копирование Email
-        function copyEmail() {
-            const email = "editorafterwork@gmail.com";
-            const tooltip = document.getElementById("tooltip");
-            navigator.clipboard.writeText(email).then(() => {
-                tooltip.innerText = "Copied!";
-                tooltip.classList.add('copied-active');
-                setTimeout(() => {
-                    tooltip.classList.remove('copied-active');
-                    setTimeout(() => { tooltip.innerText = "Copy Email"; }, 300);
-                }, 2000);
-            });
-        }
-
-        // Логика видео
-        document.querySelectorAll('.work-card').forEach(card => {
-            const video = card.querySelector('video');
-            const muteBtn = card.querySelector('.mute-btn');
-            card.addEventListener('mouseenter', () => video.play());
-            card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
-            muteBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                video.muted = !video.muted;
-                muteBtn.innerHTML = video.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
-            });
+        card.addEventListener("mouseleave", () => {
+            video.pause();
+            video.currentTime = 0;
+            video.muted = true;
+            volumeSlider.value = 0;
+            volumeSlider.classList.add('muted');
+            muteBtn.classList.add('muted');
+            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
         });
-    </script>
+
+        muteBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            video.muted = !video.muted;
+            if (video.muted) {
+                muteBtn.classList.add('muted');
+                muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                volumeSlider.value = 0;
+                volumeSlider.classList.add('muted');
+            } else {
+                muteBtn.classList.remove('muted');
+                muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                volumeSlider.value = 0.5;
+                video.volume = 0.5;
+                volumeSlider.classList.remove('muted');
+            }
+        });
+
+        volumeSlider.addEventListener("input", (e) => {
+            e.stopPropagation();
+            const volume = parseFloat(e.target.value);
+            video.volume = volume;
+            if (volume === 0) {
+                video.muted = true;
+                muteBtn.classList.add('muted');
+                muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                volumeSlider.classList.add('muted');
+            } else {
+                video.muted = false;
+                muteBtn.classList.remove('muted');
+                muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                volumeSlider.classList.remove('muted');
+            }
+        });
+    });
+
+    document.getElementById("scrollArrow").addEventListener("click", e => {
+        e.preventDefault();
+        document.getElementById("portfolio").scrollIntoView({ behavior: "smooth" });
+    });
+</script>
+
 </body>
 </html>
