@@ -137,6 +137,8 @@
             z-index: 1;
             overflow: hidden;
             justify-content: center;
+            min-width: 150px;
+            flex: 0 0 auto;
         }
 
         .social-item i {
@@ -193,7 +195,7 @@
         .btn-hire {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            justify-content: center;
             height: 58px;
             padding: 0 34px;
             border-radius: 999px;
@@ -204,6 +206,7 @@
             transition: all var(--speed);
             box-shadow: var(--shadow);
             margin: 0 auto 30px;
+            /* убираем gap, т.к. иконки нет */
         }
 
         .btn-hire:hover {
@@ -277,7 +280,6 @@
             object-fit: cover;
         }
 
-        /* ===== VIDEO CONTROLS ===== */
         .video-controls {
             position: absolute;
             bottom: 16px;
@@ -304,7 +306,6 @@
             pointer-events: auto;
         }
 
-        /* Кнопка – без красной обводки, идеальное центрирование */
         .mute-btn {
             width: 26px;
             height: 26px;
@@ -338,7 +339,6 @@
         .mute-btn:hover {
             background: var(--accent);
             transform: scale(1.08);
-            /* обводка остаётся прежней */
         }
 
         .mute-btn.muted {
@@ -351,7 +351,6 @@
             border-color: transparent !important;
         }
 
-        /* Ползунок – при муте полностью убираем из потока */
         .volume-slider {
             -webkit-appearance: none;
             appearance: none;
@@ -371,7 +370,7 @@
         }
 
         .volume-slider.muted {
-            display: none !important; /* полностью убираем элемент */
+            display: none !important;
         }
 
         .volume-slider::-webkit-slider-runnable-track {
@@ -433,7 +432,6 @@
             border-radius: 4px;
         }
 
-        /* общие */
         a { color: inherit; }
         button { font-family: inherit; }
         img, video { display: block; max-width: 100%; }
@@ -454,6 +452,9 @@
             .video-controls {
                 opacity: 1;
                 pointer-events: auto;
+            }
+            .social-item {
+                min-width: 120px;
             }
         }
     </style>
@@ -479,8 +480,9 @@
                     <span class="copy-tooltip" id="tooltip">Copy Email</span>
                 </button>
             </div>
+            <!-- Стрелка убрана -->
             <a href="https://t.me/editor_lev" target="_blank" class="btn-hire">
-                Hire me <i class="fas fa-arrow-right"></i>
+                Hire me
             </a>
             <a href="#portfolio" class="scroll-btn" id="scrollArrow">
                 <i class="fas fa-chevron-down"></i>
