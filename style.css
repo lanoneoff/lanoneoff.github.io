@@ -78,7 +78,7 @@ body::before {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 80px 20px 100px;
+    padding: 80px 20px 60px;
     text-align: center;
     overflow: hidden;
 }
@@ -236,7 +236,7 @@ body::before {
 /* ---------- Scroll Indicator ---------- */
 .scroll-indicator {
     position: absolute;
-    bottom: 100px;
+    bottom: 28px;
     left: 50%;
     transform: translateX(-50%);
     color: rgba(255,255,255,0.85);
@@ -276,7 +276,7 @@ body::before {
 
 /* ---------- Portfolio ---------- */
 .portfolio {
-    padding: 100px 5% 120px;
+    padding: 140px 5% 120px;
     position: relative;
     z-index: 1;
 }
@@ -367,7 +367,7 @@ body::before {
     flex-shrink: 0;
     margin: 0;
     padding: 0;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid transparent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -381,7 +381,16 @@ body::before {
 
 .mute-btn:hover {
     background: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.4);
+}
+
+/* Обводка кнопки mute появляется только при наведении на ползунок */
+.volume-slider:hover ~ .mute-btn {
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* При муте обводки нет — даже если наведён ползунок */
+.video-controls.muted .mute-btn {
+    border-color: transparent !important;
 }
 
 .volume-slider {
@@ -498,19 +507,19 @@ body::before {
 
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
-    .hero { padding: 80px 20px 60px; min-height: auto; }
-    .main-title { font-size: 3.2rem; letter-spacing: 1px; margin-bottom: 16px; }
-    .tagline { font-size: 0.9rem; margin-bottom: 28px; }
-    .social-links { gap: 10px; margin-bottom: 24px; }
-    .social-item { height: 46px; padding: 0 20px; font-size: 0.85rem; min-width: 130px; }
-    .btn-hire { height: 50px; padding: 0 32px; font-size: 0.9rem; }
-    .scroll-indicator { display: none; }
-    .portfolio { padding: 50px 16px 60px; }
-    .section-title { font-size: 1.8rem; margin-bottom: 30px; }
+    .hero { padding: 60px 20px 40px; min-height: auto; }
+    .main-title { font-size: 4rem; letter-spacing: 1px; margin-bottom: 16px; }
+    .tagline { font-size: 0.95rem; max-width: 320px; line-height: 1.6; margin-bottom: 28px; }
+    .social-links { gap: 12px; margin-bottom: 32px; }
+    .social-item { height: 48px; padding: 0 20px; font-size: 0.9rem; min-width: 140px; }
+    .btn-hire { height: 52px; padding: 0 36px; font-size: 0.95rem; }
+    .scroll-indicator { bottom: 16px; width: 40px; height: 40px; font-size: 1.1rem; }
+    .portfolio { padding: 60px 16px 60px; }
+    .section-title { font-size: 2rem; margin-bottom: 32px; }
     .work-grid { grid-template-columns: 1fr; gap: 20px; max-width: 380px; margin: 0 auto; }
     .work-card { min-height: auto; aspect-ratio: 9/16; border-radius: 14px; }
     .video-controls { opacity: 1; pointer-events: auto; bottom: 20px; right: 20px; padding: 6px 14px; min-height: 44px; gap: 12px; }
-    .mute-btn { width: 36px; height: 36px; min-width: 36px; }
+    .mute-btn { width: 36px; height: 36px; min-width: 36px; border-color: transparent !important; }
     .mute-btn svg { width: 14px; height: 14px; }
     .volume-slider { width: 80px; height: 4px; }
     .volume-slider::-webkit-slider-thumb { width: 16px; height: 16px; margin-top: -6px; }
@@ -518,15 +527,15 @@ body::before {
 }
 
 @media (max-width: 480px) {
-    .hero { padding: 60px 16px 40px; }
-    .main-title { font-size: 2.6rem; }
-    .tagline { font-size: 0.85rem; line-height: 1.6; }
-    .social-links { flex-direction: column; align-items: center; gap: 8px; }
-    .social-item { width: 100%; max-width: 220px; height: 48px; justify-content: center; }
-    .btn-hire { width: 100%; max-width: 220px; height: 48px; }
+    .hero { padding: 50px 16px 32px; }
+    .main-title { font-size: 3.2rem; }
+    .tagline { font-size: 0.9rem; max-width: 280px; line-height: 1.55; }
+    .social-links { flex-direction: column; align-items: center; gap: 10px; margin-bottom: 28px; }
+    .social-item { width: 100%; max-width: 220px; height: 50px; justify-content: center; }
+    .btn-hire { width: 100%; max-width: 220px; height: 50px; }
     .work-grid { gap: 16px; }
     .video-controls { bottom: 16px; right: 16px; padding: 5px 12px; min-height: 40px; gap: 10px; }
-    .mute-btn { width: 32px; height: 32px; min-width: 32px; }
+    .mute-btn { width: 32px; height: 32px; min-width: 32px; border-color: transparent !important; }
     .mute-btn svg { width: 12px; height: 12px; }
     .volume-slider { width: 70px; }
 }
