@@ -330,8 +330,6 @@ body::before {
     position: absolute;
     bottom: 16px;
     right: 16px;
-    left: auto;
-    transform: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -350,7 +348,6 @@ body::before {
 .video-controls.muted {
     padding: 0;
     gap: 0;
-    border: none;
     background: transparent;
 }
 
@@ -387,13 +384,13 @@ body::before {
     background: rgba(255,255,255,0.2);
 }
 
-/* Обводка кнопки mute появляется только при наведении на ползунок */
+/* Обводка кнопки mute появляется только при наведении/нажатии на ползунок */
 .volume-slider:hover ~ .mute-btn,
 .volume-slider:active ~ .mute-btn {
     border: 1px solid rgba(255,255,255,0.35);
 }
 
-/* При муте обводки нет — даже если наведён ползунок */
+/* При муте обводки нет */
 .video-controls.muted .mute-btn {
     border: 1px solid transparent !important;
 }
