@@ -24,6 +24,7 @@
 a, button, .social-item, .mute-btn, .volume-slider {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+    outline: none !important;
 }
 
 html { scroll-behavior: smooth; }
@@ -449,21 +450,19 @@ body::before {
 .volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: #ffffff !important;
     cursor: pointer;
-    margin-top: -3.5px;
-    box-shadow: none !important;
-    border: 1px solid rgba(255,255,255,.3);
+    margin-top: -4.5px;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.7) !important;
+    border: none;
     transition: opacity .2s, transform .15s, background .2s;
 }
 
 .volume-slider::-webkit-slider-thumb:hover {
     transform: scale(1.15);
-    background: var(--accent) !important;
-    border-color: var(--accent);
 }
 
 /* Firefox */
@@ -476,20 +475,18 @@ body::before {
 }
 
 .volume-slider::-moz-range-thumb {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: #ffffff !important;
     cursor: pointer;
-    border: 1px solid rgba(255,255,255,.3);
-    box-shadow: none !important;
+    border: none;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.7) !important;
     transition: opacity .2s, transform .15s, background .2s;
 }
 
 .volume-slider::-moz-range-thumb:hover {
     transform: scale(1.15);
-    background: var(--accent) !important;
-    border-color: var(--accent);
 }
 
 .volume-slider::-moz-range-progress {
@@ -530,6 +527,9 @@ body::before {
     }
 }
 @media (max-width: 768px) {
+    .bg-image {
+        filter: brightness(0.35) contrast(1.1);
+    }
     .hero {
         padding: 40px 20px 30px;
         min-height: 100vh;
