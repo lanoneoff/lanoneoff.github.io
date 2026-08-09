@@ -343,7 +343,7 @@ body::before {
     background: rgba(0,0,0,.75);
     padding: 6px 14px;
     border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: none;
     min-height: 38px;
 }
 
@@ -388,13 +388,14 @@ body::before {
 }
 
 /* Обводка кнопки mute появляется только при наведении на ползунок */
-.volume-slider:hover ~ .mute-btn {
-    border: 1px solid rgba(255,255,255,0.2);
+.volume-slider:hover ~ .mute-btn,
+.volume-slider:active ~ .mute-btn {
+    border: 1px solid rgba(255,255,255,0.35);
 }
 
 /* При муте обводки нет — даже если наведён ползунок */
 .video-controls.muted .mute-btn {
-    border-color: transparent !important;
+    border: 1px solid transparent !important;
 }
 
 .volume-slider {
@@ -514,10 +515,10 @@ body::before {
 /* На тач-устройствах отключаем hover-обводку у mute */
 @media (hover: none) {
     .volume-slider:hover ~ .mute-btn {
-        border: none !important;
+        border: 1px solid transparent;
     }
     .mute-btn:hover {
-        border: none !important;
+        border: 1px solid transparent;
     }
 }
 @media (max-width: 768px) {
@@ -608,12 +609,13 @@ body::before {
         padding: 8px 16px;
         min-height: 40px;
         gap: 10px;
+        border: none;
     }
     .mute-btn {
         width: 32px;
         height: 32px;
         min-width: 32px;
-        border: none !important;
+        border: 1px solid transparent;
     }
     .mute-btn svg {
         width: 12px;
@@ -700,12 +702,13 @@ body::before {
         padding: 6px 14px;
         min-height: 36px;
         gap: 8px;
+        border: none;
     }
     .mute-btn {
         width: 30px;
         height: 30px;
         min-width: 30px;
-        border: none !important;
+        border: 1px solid transparent;
     }
     .mute-btn svg {
         width: 11px;
