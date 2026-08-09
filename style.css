@@ -236,7 +236,7 @@ body::before {
 /* ---------- Scroll Indicator ---------- */
 .scroll-indicator {
     position: absolute;
-    bottom: 40px;
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     color: rgba(255,255,255,0.85);
@@ -328,10 +328,10 @@ body::before {
 /* ---------- Video Controls ---------- */
 .video-controls {
     position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    right: auto;
+    bottom: 16px;
+    right: 16px;
+    left: auto;
+    transform: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -515,7 +515,7 @@ body::before {
         min-height: 100dvh;
     }
     .main-title {
-        font-size: 3.2rem;
+        font-size: 4.8rem;
         letter-spacing: 1px;
         margin-bottom: 20px;
         line-height: 0.88;
@@ -543,7 +543,7 @@ body::before {
         font-size: 0.9rem;
     }
     .scroll-indicator {
-        bottom: 32px;
+        bottom: 48px;
         width: 36px;
         height: 36px;
         font-size: 1rem;
@@ -589,10 +589,10 @@ body::before {
     .video-controls {
         opacity: 1;
         pointer-events: auto;
-        bottom: 24px;
-        left: 50%;
-        transform: translateX(-50%);
-        right: auto;
+        bottom: 16px;
+        right: 16px;
+        left: auto;
+        transform: none;
         padding: 8px 16px;
         min-height: 40px;
         gap: 10px;
@@ -629,7 +629,7 @@ body::before {
         min-height: 100dvh;
     }
     .main-title {
-        font-size: 2.8rem;
+        font-size: 4.2rem;
         margin-bottom: 18px;
     }
     .tagline {
@@ -653,7 +653,7 @@ body::before {
         font-size: 0.88rem;
     }
     .scroll-indicator {
-        bottom: 28px;
+        bottom: 40px;
         width: 32px;
         height: 32px;
         font-size: 0.9rem;
@@ -676,7 +676,10 @@ body::before {
         border-radius: 14px;
     }
     .video-controls {
-        bottom: 20px;
+        bottom: 14px;
+        right: 14px;
+        left: auto;
+        transform: none;
         padding: 6px 14px;
         min-height: 36px;
         gap: 8px;
