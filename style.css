@@ -338,25 +338,21 @@ body::before {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     z-index: 10;
     opacity: 0;
-    transition: opacity .3s ease, padding .3s ease, gap .3s ease;
+    transition: opacity .3s ease;
     pointer-events: none;
-    background: rgba(0,0,0,.75);
-    padding: 6px 14px;
+    background: rgba(0,0,0,.5);
+    padding: 4px 10px;
     border-radius: 999px;
-    border: none;
-    min-height: 38px;
+    border: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(8px);
+    min-height: 34px;
 }
 
-.video-controls.muted {
-    padding: 0;
-    gap: 0;
-    background: transparent;
-}
-
-.work-card:hover .video-controls {
+.work-card:hover .video-controls,
+.work-card.active .video-controls {
     opacity: 1;
     pointer-events: auto;
 }
@@ -365,6 +361,7 @@ body::before {
     width: 26px;
     height: 26px;
     min-width: 26px;
+    border: 1px solid rgba(255,255,255,.15);
     border-radius: 50%;
     cursor: pointer;
     background: rgba(255,255,255,.08);
@@ -373,10 +370,11 @@ body::before {
     flex-shrink: 0;
     margin: 0;
     padding: 0;
-    border: 1px solid transparent;
+    order: 2;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
 }
 
 .mute-btn svg {
@@ -386,18 +384,20 @@ body::before {
 }
 
 .mute-btn:hover {
-    background: rgba(255,255,255,0.2);
+    background: var(--accent);
+    transform: scale(1.08);
+    border-color: var(--accent);
 }
 
-/* Обводка кнопки mute появляется только при наведении/нажатии на ползунок */
-.volume-slider:hover ~ .mute-btn,
-.volume-slider:active ~ .mute-btn {
-    border: 1px solid rgba(255,255,255,0.35);
+/* При муте убираем обводку и делаем фон прозрачнее */
+.mute-btn.muted {
+    border-color: transparent !important;
+    background: rgba(255,255,255,.05) !important;
 }
 
-/* При муте обводки нет */
-.video-controls.muted .mute-btn {
-    border: 1px solid transparent !important;
+.mute-btn.muted:hover {
+    background: var(--accent) !important;
+    border-color: var(--accent) !important;
 }
 
 .volume-slider {
@@ -407,69 +407,24 @@ body::before {
     height: 3px;
     border-radius: 4px;
     outline: none;
-    background: rgba(255,255,255,.2);
+    background: rgba(255,255,255,.15);
+    transition: width .3s ease, opacity .3s ease;
     cursor: pointer;
     flex-shrink: 0;
     margin: 0;
     padding: 0;
     border: none;
+    order: 1;
 }
 
-.volume-slider::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 3px;
-    background: rgba(255,255,255,.2);
-    border-radius: 4px;
-    border: none;
-}
-
-.volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #ffffff;
-    cursor: pointer;
-    margin-top: -4.5px;
-    border: none;
-    box-shadow: 0 0 4px rgba(0,0,0,0.3);
-    transition: transform .15s;
-}
-
-.volume-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
-}
-
-.volume-slider::-moz-range-track {
-    width: 100%;
-    height: 3px;
-    background: rgba(255,255,255,.2);
-    border-radius: 4px;
-    border: none;
-}
-
-.volume-slider::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #ffffff;
-    cursor: pointer;
-    border: none;
-    box-shadow: 0 0 4px rgba(0,0,0,0.3);
-    transition: transform .15s;
-}
-
-.volume-slider::-moz-range-thumb:hover {
-    transform: scale(1.2);
-}
-
-.volume-slider::-moz-range-progress {
-    height: 3px;
-    background: rgba(255,255,255,0.5);
+.volume-slider:focus,
+.volume-slider:active {
+    outline: 2px solid rgba(255,255,255,0.5);
+    outline-offset: 4px;
     border-radius: 4px;
 }
 
+/* При муте скрываем ползунок */
 .volume-slider.muted {
     width: 0 !important;
     opacity: 0 !important;
@@ -480,16 +435,77 @@ body::before {
     background: transparent !important;
 }
 
+/* Скрываем кружок при муте */
 .volume-slider.muted::-webkit-slider-thumb {
     opacity: 0 !important;
     width: 0 !important;
     height: 0 !important;
 }
-
 .volume-slider.muted::-moz-range-thumb {
     opacity: 0 !important;
     width: 0 !important;
     height: 0 !important;
+}
+
+/* WebKit */
+.volume-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,.15);
+    border-radius: 4px;
+    border: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff !important;
+    cursor: pointer;
+    margin-top: -3.5px;
+    box-shadow: none !important;
+    border: 1px solid rgba(255,255,255,.3);
+    transition: opacity .2s, transform .15s, background .2s;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    background: var(--accent) !important;
+    border-color: var(--accent);
+}
+
+/* Firefox */
+.volume-slider::-moz-range-track {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,.15);
+    border-radius: 4px;
+    border: none;
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff !important;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,.3);
+    box-shadow: none !important;
+    transition: opacity .2s, transform .15s, background .2s;
+}
+
+.volume-slider::-moz-range-thumb:hover {
+    transform: scale(1.15);
+    background: var(--accent) !important;
+    border-color: var(--accent);
+}
+
+.volume-slider::-moz-range-progress {
+    height: 3px;
+    background: rgba(255,255,255,.3);
+    border-radius: 4px;
 }
 
 /* ---------- Animations ---------- */
@@ -605,21 +621,6 @@ body::before {
         transform: none !important;
     }
     .video-controls {
-        opacity: 0;
-        pointer-events: none;
-        bottom: 16px;
-        right: 16px;
-        left: auto;
-        transform: none;
-        padding: 0;
-        min-height: auto;
-        gap: 8px;
-        border: none;
-        background: transparent;
-        transition: opacity .3s ease;
-    }
-    .work-card.active .video-controls,
-    .work-card:active .video-controls {
         opacity: 1;
         pointer-events: auto;
     }
@@ -627,29 +628,8 @@ body::before {
         width: 32px;
         height: 32px;
         min-width: 32px;
-        border: 1px solid transparent;
-        background: rgba(0,0,0,0.45);
     }
-    .mute-btn svg {
-        width: 12px;
-        height: 12px;
-    }
-    .volume-slider {
-        width: 80px;
-        height: 4px;
-    }
-    .volume-slider::-webkit-slider-thumb {
-        width: 14px;
-        height: 14px;
-        margin-top: -5px;
-    }
-    .volume-slider::-moz-range-thumb {
-        width: 14px;
-        height: 14px;
-    }
-    .video-controls.muted {
-        background: transparent;
-    }
+
 }
 
 @media (max-width: 480px) {
@@ -709,21 +689,6 @@ body::before {
         transform: none !important;
     }
     .video-controls {
-        opacity: 0;
-        pointer-events: none;
-        bottom: 14px;
-        right: 14px;
-        left: auto;
-        transform: none;
-        padding: 0;
-        min-height: auto;
-        gap: 6px;
-        border: none;
-        background: transparent;
-        transition: opacity .3s ease;
-    }
-    .work-card.active .video-controls,
-    .work-card:active .video-controls {
         opacity: 1;
         pointer-events: auto;
     }
@@ -731,27 +696,6 @@ body::before {
         width: 30px;
         height: 30px;
         min-width: 30px;
-        border: 1px solid transparent;
-        background: rgba(0,0,0,0.45);
     }
-    .mute-btn svg {
-        width: 11px;
-        height: 11px;
-    }
-    .volume-slider {
-        width: 70px;
-        height: 3px;
-    }
-    .volume-slider::-webkit-slider-thumb {
-        width: 12px;
-        height: 12px;
-        margin-top: -4.5px;
-    }
-    .volume-slider::-moz-range-thumb {
-        width: 12px;
-        height: 12px;
-    }
-    .video-controls.muted {
-        background: transparent;
-    }
+
 }
