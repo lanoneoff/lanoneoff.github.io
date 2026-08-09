@@ -236,7 +236,7 @@ body::before {
 /* ---------- Scroll Indicator ---------- */
 .scroll-indicator {
     position: absolute;
-    bottom: 28px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     color: rgba(255,255,255,0.85);
@@ -328,21 +328,23 @@ body::before {
 /* ---------- Video Controls ---------- */
 .video-controls {
     position: absolute;
-    bottom: 16px;
-    right: 16px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     z-index: 10;
     opacity: 0;
     transition: opacity .3s ease, padding .3s ease, gap .3s ease;
     pointer-events: none;
     background: rgba(0,0,0,.75);
-    padding: 4px 10px;
+    padding: 6px 14px;
     border-radius: 999px;
     border: 1px solid rgba(255,255,255,0.15);
-    min-height: 34px;
+    min-height: 38px;
 }
 
 .video-controls.muted {
@@ -508,84 +510,188 @@ body::before {
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
     .hero {
-        padding: 24px 20px 20px;
+        padding: 40px 20px 30px;
         min-height: 100vh;
         min-height: 100dvh;
     }
     .main-title {
-        font-size: 2.6rem;
+        font-size: 3.2rem;
         letter-spacing: 1px;
-        margin-bottom: 10px;
-        line-height: 0.85;
+        margin-bottom: 20px;
+        line-height: 0.88;
     }
     .tagline {
-        font-size: 0.8rem;
-        max-width: 260px;
-        line-height: 1.5;
-        margin-bottom: 16px;
+        font-size: 0.78rem;
+        max-width: 100%;
+        padding: 0 24px;
+        line-height: 1.45;
+        margin-bottom: 28px;
     }
     .social-links {
-        gap: 10px;
-        margin-bottom: 20px;
+        gap: 14px;
+        margin-bottom: 32px;
     }
     .social-item {
-        height: 40px;
+        height: 44px;
+        width: 130px;
+        padding: 0 18px;
+        font-size: 0.85rem;
+    }
+    .btn-hire {
+        height: 48px;
+        width: 140px;
+        font-size: 0.9rem;
+    }
+    .scroll-indicator {
+        bottom: 32px;
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+    .portfolio {
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: 40px 16px;
+        display: flex;
+        flex-direction: column;
+    }
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 24px;
+        flex-shrink: 0;
+    }
+    .work-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        max-width: 100%;
+        margin: 0;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+        flex: 1;
+        padding: 0 16px 40px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .work-card {
+        flex-shrink: 0;
+        scroll-snap-align: start;
+        min-height: calc(100dvh - 140px);
+        max-height: calc(100dvh - 140px);
+        max-width: 340px;
+        width: 100%;
+        margin: 0 auto 24px;
+        aspect-ratio: auto;
+        border-radius: 16px;
+    }
+    .work-card:last-child {
+        margin-bottom: 0;
+    }
+    .video-controls {
+        opacity: 1;
+        pointer-events: auto;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+        padding: 8px 16px;
+        min-height: 40px;
+        gap: 10px;
+    }
+    .mute-btn {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        border-color: transparent !important;
+    }
+    .mute-btn svg {
+        width: 12px;
+        height: 12px;
+    }
+    .volume-slider {
+        width: 80px;
+        height: 4px;
+    }
+    .volume-slider::-webkit-slider-thumb {
+        width: 14px;
+        height: 14px;
+        margin-top: -5px;
+    }
+    .volume-slider::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 32px 16px 24px;
+        min-height: 100vh;
+        min-height: 100dvh;
+    }
+    .main-title {
+        font-size: 2.8rem;
+        margin-bottom: 18px;
+    }
+    .tagline {
+        font-size: 0.75rem;
+        padding: 0 20px;
+        line-height: 1.4;
+        margin-bottom: 24px;
+    }
+    .social-links {
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+    .social-item {
+        height: 42px;
         width: 120px;
-        padding: 0 16px;
         font-size: 0.82rem;
     }
     .btn-hire {
-        height: 44px;
+        height: 46px;
         width: 130px;
         font-size: 0.88rem;
     }
     .scroll-indicator {
-        bottom: 12px;
+        bottom: 28px;
         width: 32px;
         height: 32px;
         font-size: 0.9rem;
     }
     .portfolio {
-        padding: 50px 16px 60px;
+        padding: 32px 12px;
     }
     .section-title {
         font-size: 1.6rem;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
     }
     .work-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-        max-width: 280px;
-        margin: 0 auto;
+        padding: 0 12px 32px;
     }
     .work-card {
-        min-height: 460px;
-        aspect-ratio: 9/16;
+        min-height: calc(100dvh - 130px);
+        max-height: calc(100dvh - 130px);
+        max-width: 300px;
+        margin: 0 auto 20px;
         border-radius: 14px;
-        max-width: 280px;
-        margin: 0 auto;
     }
     .video-controls {
-        opacity: 1;
-        pointer-events: auto;
-        bottom: 14px;
-        right: 14px;
-        padding: 4px 10px;
-        min-height: 34px;
+        bottom: 20px;
+        padding: 6px 14px;
+        min-height: 36px;
         gap: 8px;
     }
     .mute-btn {
-        width: 28px;
-        height: 28px;
-        min-width: 28px;
-        border-color: transparent !important;
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
     }
     .mute-btn svg {
         width: 11px;
         height: 11px;
     }
     .volume-slider {
-        width: 60px;
+        width: 70px;
         height: 3px;
     }
     .volume-slider::-webkit-slider-thumb {
@@ -596,78 +702,5 @@ body::before {
     .volume-slider::-moz-range-thumb {
         width: 12px;
         height: 12px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero {
-        padding: 20px 16px 16px;
-        min-height: 100vh;
-        min-height: 100dvh;
-    }
-    .main-title {
-        font-size: 2.2rem;
-        margin-bottom: 8px;
-    }
-    .tagline {
-        font-size: 0.75rem;
-        max-width: 240px;
-        line-height: 1.45;
-        margin-bottom: 14px;
-    }
-    .social-links {
-        gap: 8px;
-        margin-bottom: 16px;
-    }
-    .social-item {
-        height: 38px;
-        width: 110px;
-        font-size: 0.78rem;
-    }
-    .btn-hire {
-        height: 40px;
-        width: 120px;
-        font-size: 0.85rem;
-    }
-    .scroll-indicator {
-        bottom: 10px;
-        width: 28px;
-        height: 28px;
-        font-size: 0.8rem;
-    }
-    .portfolio {
-        padding: 40px 16px 50px;
-    }
-    .section-title {
-        font-size: 1.4rem;
-        margin-bottom: 20px;
-    }
-    .work-grid {
-        max-width: 240px;
-        gap: 14px;
-    }
-    .work-card {
-        min-height: 400px;
-        max-width: 240px;
-        border-radius: 12px;
-    }
-    .video-controls {
-        bottom: 12px;
-        right: 12px;
-        padding: 4px 8px;
-        min-height: 32px;
-        gap: 6px;
-    }
-    .mute-btn {
-        width: 26px;
-        height: 26px;
-        min-width: 26px;
-    }
-    .mute-btn svg {
-        width: 10px;
-        height: 10px;
-    }
-    .volume-slider {
-        width: 50px;
     }
 }
