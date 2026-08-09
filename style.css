@@ -236,7 +236,7 @@ body::before {
 /* ---------- Scroll Indicator ---------- */
 .scroll-indicator {
     position: absolute;
-    bottom: 60px;
+    bottom: 80px;
     left: 50%;
     transform: translateX(-50%);
     color: rgba(255,255,255,0.85);
@@ -553,7 +553,7 @@ body::before {
         font-size: 0.9rem;
     }
     .scroll-indicator {
-        bottom: 48px;
+        bottom: 64px;
         width: 36px;
         height: 36px;
         font-size: 1rem;
@@ -597,8 +597,8 @@ body::before {
         margin-bottom: 0;
     }
     .video-controls {
-        opacity: 1;
-        pointer-events: auto;
+        opacity: 0;
+        pointer-events: none;
         bottom: 16px;
         right: 16px;
         left: auto;
@@ -607,6 +607,12 @@ body::before {
         min-height: 40px;
         gap: 10px;
         border: none;
+        transition: opacity .3s ease, padding .3s ease, gap .3s ease;
+    }
+    .work-card:active .video-controls,
+    .work-card:focus-within .video-controls {
+        opacity: 1;
+        pointer-events: auto;
     }
     .mute-btn {
         width: 32px;
@@ -669,7 +675,7 @@ body::before {
         font-size: 0.88rem;
     }
     .scroll-indicator {
-        bottom: 40px;
+        bottom: 56px;
         width: 32px;
         height: 32px;
         font-size: 0.9rem;
@@ -692,6 +698,8 @@ body::before {
         border-radius: 14px;
     }
     .video-controls {
+        opacity: 0;
+        pointer-events: none;
         bottom: 14px;
         right: 14px;
         left: auto;
@@ -700,6 +708,12 @@ body::before {
         min-height: 36px;
         gap: 8px;
         border: none;
+        transition: opacity .3s ease, padding .3s ease, gap .3s ease;
+    }
+    .work-card:active .video-controls,
+    .work-card:focus-within .video-controls {
+        opacity: 1;
+        pointer-events: auto;
     }
     .mute-btn {
         width: 30px;

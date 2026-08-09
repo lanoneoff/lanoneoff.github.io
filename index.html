@@ -126,6 +126,7 @@
                 }
             }
 
+            // Desktop hover
             card.addEventListener("mouseenter", () => {
                 video.volume = 0.5;
                 volumeSlider.value = 0.5;
@@ -141,6 +142,50 @@
                 setMuted(true);
                 updateSliderFill();
             });
+
+            // Mobile touch — tap card to play
+            card.addEventListener("touchstart", (e) => {
+                // Ignore touches on controls
+                if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
+
+                // Pause all other cards
+                document.querySelectorAll(".work-card").forEach(otherCard => {
+                    if (otherCard !== card) {
+                        const otherVideo = otherCard.querySelector("video");
+                        const otherSlider = otherCard.querySelector(".volume-slider");
+                        const otherControls = otherCard.querySelector(".video-controls");
+                        const otherMuteBtn = otherCard.querySelector(".mute-btn");
+                        if (otherVideo && !otherVideo.paused) {
+                            otherVideo.pause();
+                            otherVideo.currentTime = 0;
+                            if (otherSlider) {
+                                otherSlider.value = 0;
+                                otherSlider.classList.add('muted');
+                                otherSlider.style.background = 'rgba(255,255,255,.2)';
+                            }
+                            if (otherControls) otherControls.classList.add('muted');
+                            if (otherMuteBtn) {
+                                otherMuteBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
+                            }
+                        }
+                    }
+                });
+
+                video.volume = 0.5;
+                volumeSlider.value = 0.5;
+                setMuted(false);
+                updateSliderFill();
+                video.play();
+            }, { passive: true });
+
+            // Prevent touch on controls from bubbling to card
+            muteBtn.addEventListener("touchstart", (e) => {
+                e.stopPropagation();
+            }, { passive: true });
+
+            volumeSlider.addEventListener("touchstart", (e) => {
+                e.stopPropagation();
+            }, { passive: true });
 
             muteBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
