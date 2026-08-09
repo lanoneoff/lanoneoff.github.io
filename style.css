@@ -611,15 +611,14 @@ body::before {
         right: 16px;
         left: auto;
         transform: none;
-        padding: 4px 10px;
-        min-height: 34px;
+        padding: 0;
+        min-height: auto;
         gap: 8px;
         border: none;
-        background: rgba(0,0,0,0.35);
-        transition: opacity .3s ease, padding .3s ease, gap .3s ease;
+        background: transparent;
+        transition: opacity .3s ease;
     }
-    .work-card:active .video-controls,
-    .work-card:focus-within .video-controls {
+    .work-card:active .video-controls {
         opacity: 1;
         pointer-events: auto;
     }
@@ -628,6 +627,7 @@ body::before {
         height: 32px;
         min-width: 32px;
         border: 1px solid transparent;
+        background: rgba(0,0,0,0.45);
     }
     .mute-btn svg {
         width: 12px;
@@ -647,8 +647,6 @@ body::before {
         height: 14px;
     }
     .video-controls.muted {
-        padding: 0;
-        border: none;
         background: transparent;
     }
 }
@@ -716,15 +714,14 @@ body::before {
         right: 14px;
         left: auto;
         transform: none;
-        padding: 4px 8px;
-        min-height: 32px;
+        padding: 0;
+        min-height: auto;
         gap: 6px;
         border: none;
-        background: rgba(0,0,0,0.35);
-        transition: opacity .3s ease, padding .3s ease, gap .3s ease;
+        background: transparent;
+        transition: opacity .3s ease;
     }
-    .work-card:active .video-controls,
-    .work-card:focus-within .video-controls {
+    .work-card:active .video-controls {
         opacity: 1;
         pointer-events: auto;
     }
@@ -733,6 +730,7 @@ body::before {
         height: 30px;
         min-width: 30px;
         border: 1px solid transparent;
+        background: rgba(0,0,0,0.45);
     }
     .mute-btn svg {
         width: 11px;
@@ -752,8 +750,6 @@ body::before {
         height: 12px;
     }
     .video-controls.muted {
-        padding: 0;
-        border: none;
         background: transparent;
     }
 }
