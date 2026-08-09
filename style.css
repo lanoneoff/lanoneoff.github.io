@@ -362,7 +362,7 @@ body::before {
     flex-shrink: 0;
     margin: 0;
     padding: 0;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid transparent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -376,8 +376,17 @@ body::before {
 
 .mute-btn:hover {
     background: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.4);
 }
+/* Обводка кнопки mute появляется только при наведении на ползунок */
+.volume-slider:hover ~ .mute-btn {
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* При муте обводки нет — даже если наведён ползунок */
+.video-controls.muted .mute-btn {
+    border-color: transparent !important;
+}
+
 
 .volume-slider {
     -webkit-appearance: none;
