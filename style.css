@@ -348,8 +348,10 @@ body::before {
 }
 
 .video-controls.muted {
-    padding: 4px;
+    padding: 0;
     gap: 0;
+    border: none;
+    background: transparent;
 }
 
 .work-card:hover .video-controls {
@@ -531,10 +533,10 @@ body::before {
         line-height: 0.88;
     }
     .tagline {
-        font-size: 0.72rem;
+        font-size: 0.62rem;
         max-width: 100%;
-        padding: 0 16px;
-        line-height: 1.45;
+        padding: 0 4px;
+        line-height: 1.4;
         margin-bottom: 28px;
     }
     .social-links {
@@ -630,6 +632,11 @@ body::before {
         width: 14px;
         height: 14px;
     }
+    .video-controls.muted {
+        padding: 0;
+        border: none;
+        background: transparent;
+    }
 }
 
 @media (max-width: 480px) {
@@ -643,9 +650,9 @@ body::before {
         margin-bottom: 18px;
     }
     .tagline {
-        font-size: 0.7rem;
-        padding: 0 12px;
-        line-height: 1.4;
+        font-size: 0.58rem;
+        padding: 0 2px;
+        line-height: 1.35;
         margin-bottom: 24px;
     }
     .social-links {
@@ -716,5 +723,10 @@ body::before {
     .volume-slider::-moz-range-thumb {
         width: 12px;
         height: 12px;
+    }
+    .video-controls.muted {
+        padding: 0;
+        border: none;
+        background: transparent;
     }
 }
