@@ -143,11 +143,8 @@
                 updateSliderFill();
             });
 
-            // Mobile touch — tap card to play
-            card.addEventListener("touchstart", (e) => {
-                // Ignore touches on controls
-                if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
-
+            // Mobile tap — touch + click card to play
+            function playCard() {
                 // Pause all other cards
                 document.querySelectorAll(".work-card").forEach(otherCard => {
                     if (otherCard !== card) {
@@ -175,17 +172,26 @@
                 volumeSlider.value = 0.5;
                 setMuted(false);
                 updateSliderFill();
-                video.play();
+                video.play().catch(() => {});
+            }
+
+            card.addEventListener("touchstart", (e) => {
+                if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
+                playCard();
             }, { passive: true });
 
-            // Prevent touch on controls from bubbling to card
-            muteBtn.addEventListener("touchstart", (e) => {
-                e.stopPropagation();
-            }, { passive: true });
+            card.addEventListener("click", (e) => {
+                // Ignore clicks on controls
+                if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
 
-            volumeSlider.addEventListener("touchstart", (e) => {
+                if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
+                playCard();
+            });
+
+            // Prevent clicks on controls from bubbling to card
+            muteBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
-            }, { passive: true });
+            });
 
             muteBtn.addEventListener("click", (e) => {
                 e.stopPropagation();

@@ -618,6 +618,7 @@ body::before {
         background: transparent;
         transition: opacity .3s ease;
     }
+    .work-card.active .video-controls,
     .work-card:active .video-controls {
         opacity: 1;
         pointer-events: auto;
@@ -721,6 +722,7 @@ body::before {
         background: transparent;
         transition: opacity .3s ease;
     }
+    .work-card.active .video-controls,
     .work-card:active .video-controls {
         opacity: 1;
         pointer-events: auto;
