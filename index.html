@@ -50,8 +50,8 @@
                     </video>
                     <div class="video-controls">
                         <input type="range" class="volume-slider muted" min="0" max="1" step="0.01" value="0">
-                        <button class="mute-btn">
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                        <button class="mute-btn muted">
+                            <i class="fas fa-volume-mute"></i>
                         </button>
                     </div>
                 </article>
@@ -62,8 +62,8 @@
                     </video>
                     <div class="video-controls">
                         <input type="range" class="volume-slider muted" min="0" max="1" step="0.01" value="0">
-                        <button class="mute-btn">
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                        <button class="mute-btn muted">
+                            <i class="fas fa-volume-mute"></i>
                         </button>
                     </div>
                 </article>
@@ -74,8 +74,8 @@
                     </video>
                     <div class="video-controls">
                         <input type="range" class="volume-slider muted" min="0" max="1" step="0.01" value="0">
-                        <button class="mute-btn">
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                        <button class="mute-btn muted">
+                            <i class="fas fa-volume-mute"></i>
                         </button>
                     </div>
                 </article>
@@ -102,108 +102,77 @@
             const video = card.querySelector("video");
             const muteBtn = card.querySelector(".mute-btn");
             const volumeSlider = card.querySelector(".volume-slider");
-            const controls = card.querySelector(".video-controls");
 
-            let isMuted = true;
-
-            function updateSliderFill() {
-                const val = volumeSlider.value;
-                const pct = val * 100;
-                volumeSlider.style.background = `linear-gradient(to right, rgba(255,255,255,0.6) ${pct}%, rgba(255,255,255,0.12) ${pct}%)`;
-            }
-
-            function setMuted(muted) {
-                isMuted = muted;
-                video.muted = muted;
-                if (muted) {
-                    controls.classList.add('muted');
-                    volumeSlider.classList.add('muted');
-                    muteBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
-                } else {
-                    controls.classList.remove('muted');
-                    volumeSlider.classList.remove('muted');
-                    muteBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>';
-                }
-            }
-
-            // Desktop hover
             card.addEventListener("mouseenter", () => {
+                video.muted = false;
                 video.volume = 0.5;
                 volumeSlider.value = 0.5;
-                setMuted(false);
-                updateSliderFill();
+                volumeSlider.classList.remove('muted');
+                muteBtn.classList.remove('muted');
+                muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
                 video.play();
             });
 
             card.addEventListener("mouseleave", () => {
                 video.pause();
                 video.currentTime = 0;
+                video.muted = true;
                 volumeSlider.value = 0;
-                setMuted(true);
-                updateSliderFill();
+                volumeSlider.classList.add('muted');
+                muteBtn.classList.add('muted');
+                muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
             });
 
-            // Mobile tap — touch + click card to play
-            function playCard() {
-                // Pause all other cards
+            // Mobile tap
+            card.addEventListener("touchstart", (e) => {
+                if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
+
+                // Pause other cards
                 document.querySelectorAll(".work-card").forEach(otherCard => {
                     if (otherCard !== card) {
                         const otherVideo = otherCard.querySelector("video");
                         const otherSlider = otherCard.querySelector(".volume-slider");
-                        const otherControls = otherCard.querySelector(".video-controls");
                         const otherMuteBtn = otherCard.querySelector(".mute-btn");
                         if (otherVideo && !otherVideo.paused) {
                             otherVideo.pause();
                             otherVideo.currentTime = 0;
+                            otherVideo.muted = true;
                             if (otherSlider) {
                                 otherSlider.value = 0;
                                 otherSlider.classList.add('muted');
-                                otherSlider.style.background = 'rgba(255,255,255,.2)';
                             }
-                            if (otherControls) otherControls.classList.add('muted');
                             if (otherMuteBtn) {
-                                otherMuteBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
+                                otherMuteBtn.classList.add('muted');
+                                otherMuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
                             }
                         }
                     }
                 });
 
+                video.muted = false;
                 video.volume = 0.5;
                 volumeSlider.value = 0.5;
-                setMuted(false);
-                updateSliderFill();
+                volumeSlider.classList.remove('muted');
+                muteBtn.classList.remove('muted');
+                muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
                 video.play().catch(() => {});
-            }
-
-            card.addEventListener("touchstart", (e) => {
-                if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
-                playCard();
             }, { passive: true });
 
-            card.addEventListener("click", (e) => {
-                // Ignore clicks on controls
-                if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
-
-                if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
-                playCard();
-            });
-
-            // Prevent clicks on controls from bubbling to card
             muteBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
-            });
-
-            muteBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                if (isMuted) {
-                    video.volume = 0.5;
-                    volumeSlider.value = 0.5;
-                    setMuted(false);
-                } else {
+                video.muted = !video.muted;
+                if (video.muted) {
+                    muteBtn.classList.add('muted');
+                    muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
                     volumeSlider.value = 0;
-                    setMuted(true);
+                    volumeSlider.classList.add('muted');
+                } else {
+                    muteBtn.classList.remove('muted');
+                    muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                    volumeSlider.value = 0.5;
+                    video.volume = 0.5;
+                    volumeSlider.classList.remove('muted');
                 }
-                updateSliderFill();
             });
 
             volumeSlider.addEventListener("input", (e) => {
@@ -211,11 +180,16 @@
                 const volume = parseFloat(e.target.value);
                 video.volume = volume;
                 if (volume === 0) {
-                    setMuted(true);
+                    video.muted = true;
+                    muteBtn.classList.add('muted');
+                    muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                    volumeSlider.classList.add('muted');
                 } else {
-                    setMuted(false);
+                    video.muted = false;
+                    muteBtn.classList.remove('muted');
+                    muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                    volumeSlider.classList.remove('muted');
                 }
-                updateSliderFill();
             });
         });
     </script>

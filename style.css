@@ -325,7 +325,6 @@ body::before {
 .portfolio-video {
     width: 100%;
     height: 100%;
-    aspect-ratio: 9/16;
     object-fit: cover;
     display: block;
 }
@@ -335,7 +334,7 @@ body::before {
     position: absolute;
     bottom: 16px;
     right: 16px;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
@@ -343,6 +342,10 @@ body::before {
     opacity: 0;
     transition: opacity .3s ease;
     pointer-events: none;
+    background: transparent;
+    padding: 0;
+    border: none;
+    min-height: auto;
 }
 
 .work-card:hover .video-controls,
@@ -355,10 +358,10 @@ body::before {
     width: 32px;
     height: 32px;
     min-width: 32px;
-    border: none;
+    border: 1px solid rgba(255,255,255,.2);
     border-radius: 50%;
     cursor: pointer;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.5);
     color: white;
     transition: all .2s;
     flex-shrink: 0;
@@ -380,17 +383,18 @@ body::before {
 .mute-btn:hover {
     background: var(--accent);
     transform: scale(1.08);
+    border-color: var(--accent);
 }
 
-/* При муте — никакой обводки, только полупрозрачный фон */
+/* При муте убираем обводку и делаем фон прозрачнее */
 .mute-btn.muted {
-    border: none !important;
-    background: rgba(0,0,0,0.45) !important;
+    border-color: transparent !important;
+    background: rgba(255,255,255,.05) !important;
 }
 
 .mute-btn.muted:hover {
     background: var(--accent) !important;
-    border: none !important;
+    border-color: var(--accent) !important;
 }
 
 .volume-slider {
@@ -566,56 +570,28 @@ body::before {
         font-size: 1rem;
     }
     .portfolio {
-        min-height: 100vh;
-        min-height: 100dvh;
         padding: 40px 16px;
-        display: flex;
-        flex-direction: column;
     }
     .section-title {
         font-size: 1.8rem;
         margin-bottom: 24px;
-        flex-shrink: 0;
     }
     .work-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-        max-width: 100%;
-        margin: 0;
-        overflow-y: auto;
-        scroll-snap-type: none;
-        flex: 1;
-        padding: 0 16px 40px;
-        -webkit-overflow-scrolling: touch;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        max-width: 340px;
+        margin: 0 auto;
     }
     .work-card {
-        flex-shrink: 0;
-        scroll-snap-align: start;
-        min-height: calc(100dvh - 140px);
-        max-height: calc(100dvh - 140px);
-        max-width: 340px;
-        width: 100%;
-        margin: 0 auto 24px;
-        aspect-ratio: auto;
+        min-height: 480px;
+        aspect-ratio: 9/16;
         border-radius: 16px;
     }
-    .work-card:last-child {
-        margin-bottom: 0;
-    }
-    .work-card:active {
-        transform: none !important;
-    }
-    .video-controls {
+    .work-card.active .video-controls {
         opacity: 1;
         pointer-events: auto;
     }
-    .mute-btn {
-        width: 36px;
-        height: 36px;
-        min-width: 36px;
-    }
-
 }
 
 @media (max-width: 480px) {
@@ -673,15 +649,6 @@ body::before {
     }
     .work-card:active {
         transform: none !important;
-    }
-    .video-controls {
-        opacity: 1;
-        pointer-events: auto;
-    }
-    .mute-btn {
-        width: 32px;
-        height: 32px;
-        min-width: 32px;
     }
 
 }
