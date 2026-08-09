@@ -337,29 +337,34 @@ body::before {
     right: 16px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
+    gap: 0;
     z-index: 10;
     opacity: 0;
     transition: opacity .3s ease;
     pointer-events: none;
-    background: transparent;
-    padding: 0;
-    border: none;
-    min-height: auto;
+    background: rgba(0,0,0,0.5);
+    padding: 6px 12px;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
 }
 
-.work-card:hover .video-controls,
+.work-card:hover .video-controls {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* На мобильных контролы видны когда карточка активна */
 .work-card.active .video-controls {
     opacity: 1;
     pointer-events: auto;
 }
 
+/* --- MUTE BUTTON --- */
 .mute-btn {
     width: 32px;
     height: 32px;
     min-width: 32px;
-    border: 1px solid rgba(255,255,255,.2);
+    border: none;
     border-radius: 50%;
     cursor: pointer;
     background: rgba(0,0,0,0.5);
@@ -368,132 +373,120 @@ body::before {
     flex-shrink: 0;
     margin: 0;
     padding: 0;
-    order: 2;
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    order: 2;
 }
 
 .mute-btn svg {
     display: block;
-    margin: 0;
-    padding: 0;
+    width: 14px;
+    height: 14px;
 }
 
 .mute-btn:hover {
-    background: var(--accent);
-    transform: scale(1.08);
-    border-color: var(--accent);
+    background: rgba(0,0,0,0.7);
+    transform: scale(1.05);
 }
 
-/* При муте убираем обводку и делаем фон прозрачнее */
-.mute-btn.muted {
-    border-color: transparent !important;
-    background: rgba(255,255,255,.05) !important;
+.mute-btn:active {
+    transform: scale(0.95);
 }
 
-.mute-btn.muted:hover {
-    background: var(--accent) !important;
-    border-color: var(--accent) !important;
-}
-
+/* --- VOLUME SLIDER (YouTube Shorts style) --- */
 .volume-slider {
     -webkit-appearance: none;
     appearance: none;
-    width: 60px;
     height: 3px;
     border-radius: 4px;
     outline: none;
-    background: rgba(255,255,255,.15);
-    transition: width .3s ease, opacity .3s ease;
+    background: rgba(255,255,255,.25);
     cursor: pointer;
-    flex-shrink: 0;
-    margin: 0;
-    padding: 0;
+    transition: width .3s ease, opacity .3s ease, margin .3s ease;
     border: none;
+    padding: 0;
+    margin: 0;
     order: 1;
 }
 
-/* При муте скрываем ползунок */
-.volume-slider.muted {
-    width: 0 !important;
-    opacity: 0 !important;
+/* Ползунок виден когда НЕ в муте */
+.video-controls:not(.muted) .volume-slider {
+    width: 70px;
+    opacity: 1;
+    margin-right: 8px;
+}
+
+/* Ползунок скрыт когда в муте */
+.video-controls.muted .volume-slider {
+    width: 0;
+    opacity: 0;
+    margin-right: 0;
     pointer-events: none;
-    margin: 0 !important;
-    padding: 0 !important;
-    min-width: 0 !important;
-    background: transparent !important;
 }
 
-/* Скрываем кружок при муте */
-.volume-slider.muted::-webkit-slider-thumb {
-    opacity: 0 !important;
-    width: 0 !important;
-    height: 0 !important;
-}
-.volume-slider.muted::-moz-range-thumb {
-    opacity: 0 !important;
-    width: 0 !important;
-    height: 0 !important;
-}
-
-/* WebKit */
+/* WebKit Track */
 .volume-slider::-webkit-slider-runnable-track {
     width: 100%;
     height: 3px;
-    background: rgba(255,255,255,.15);
+    background: transparent;
     border-radius: 4px;
     border: none;
 }
 
+/* WebKit Thumb */
 .volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
-    background: #ffffff !important;
+    background: #ffffff;
     cursor: pointer;
-    margin-top: -4.5px;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.7) !important;
-    border: none;
-    transition: opacity .2s, transform .15s, background .2s;
+    margin-top: -5.5px;
+    border: 2px solid rgba(0,0,0,0.6);
+    box-shadow: none;
+    transition: transform .15s;
 }
 
 .volume-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.15);
+    transform: scale(1.2);
 }
 
-/* Firefox */
+/* Firefox Track */
 .volume-slider::-moz-range-track {
     width: 100%;
     height: 3px;
-    background: rgba(255,255,255,.15);
+    background: transparent;
     border-radius: 4px;
     border: none;
 }
 
+/* Firefox Thumb */
 .volume-slider::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
-    background: #ffffff !important;
+    background: #ffffff;
     cursor: pointer;
-    border: none;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.7) !important;
-    transition: opacity .2s, transform .15s, background .2s;
+    border: 2px solid rgba(0,0,0,0.6);
+    box-shadow: none;
+    transition: transform .15s;
 }
 
 .volume-slider::-moz-range-thumb:hover {
-    transform: scale(1.15);
+    transform: scale(1.2);
 }
 
+/* Firefox Progress */
 .volume-slider::-moz-range-progress {
     height: 3px;
-    background: rgba(255,255,255,.3);
+    background: rgba(255,255,255,0.5);
     border-radius: 4px;
 }
+
+/* WebKit Progress (via JS background gradient) */
 
 /* ---------- Animations ---------- */
 @keyframes fadeInUp {
@@ -528,7 +521,7 @@ body::before {
 }
 @media (max-width: 768px) {
     .bg-image {
-        filter: brightness(0.35) contrast(1.1);
+        filter: brightness(0.55) contrast(1.05);
     }
     .hero {
         padding: 40px 20px 30px;
@@ -587,10 +580,6 @@ body::before {
         min-height: 480px;
         aspect-ratio: 9/16;
         border-radius: 16px;
-    }
-    .work-card.active .video-controls {
-        opacity: 1;
-        pointer-events: auto;
     }
 }
 

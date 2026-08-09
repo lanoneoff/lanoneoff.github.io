@@ -102,94 +102,105 @@
             const video = card.querySelector("video");
             const muteBtn = card.querySelector(".mute-btn");
             const volumeSlider = card.querySelector(".volume-slider");
+            const controls = card.querySelector(".video-controls");
 
+            function updateSliderFill() {
+                const val = volumeSlider.value;
+                const pct = val * 100;
+                volumeSlider.style.background = `linear-gradient(to right, rgba(255,255,255,0.6) ${pct}%, rgba(255,255,255,0.15) ${pct}%)`;
+            }
+
+            function setMuted(muted) {
+                video.muted = muted;
+                if (muted) {
+                    controls.classList.add('muted');
+                    volumeSlider.classList.add('muted');
+                    muteBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
+                } else {
+                    controls.classList.remove('muted');
+                    volumeSlider.classList.remove('muted');
+                    muteBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>';
+                }
+            }
+
+            // Desktop hover
             card.addEventListener("mouseenter", () => {
-                video.muted = false;
                 video.volume = 0.5;
                 volumeSlider.value = 0.5;
-                volumeSlider.classList.remove('muted');
-                muteBtn.classList.remove('muted');
-                muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                setMuted(false);
+                updateSliderFill();
                 video.play();
             });
 
             card.addEventListener("mouseleave", () => {
                 video.pause();
                 video.currentTime = 0;
-                video.muted = true;
                 volumeSlider.value = 0;
-                volumeSlider.classList.add('muted');
-                muteBtn.classList.add('muted');
-                muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                setMuted(true);
+                updateSliderFill();
             });
 
             // Mobile tap
-            card.addEventListener("touchstart", (e) => {
+            card.addEventListener("click", (e) => {
+                // Ignore clicks on controls
                 if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
 
-                // Pause other cards
+                // Remove active from all other cards
                 document.querySelectorAll(".work-card").forEach(otherCard => {
                     if (otherCard !== card) {
+                        otherCard.classList.remove('active');
                         const otherVideo = otherCard.querySelector("video");
+                        const otherControls = otherCard.querySelector(".video-controls");
                         const otherSlider = otherCard.querySelector(".volume-slider");
                         const otherMuteBtn = otherCard.querySelector(".mute-btn");
                         if (otherVideo && !otherVideo.paused) {
                             otherVideo.pause();
                             otherVideo.currentTime = 0;
-                            otherVideo.muted = true;
-                            if (otherSlider) {
-                                otherSlider.value = 0;
-                                otherSlider.classList.add('muted');
-                            }
-                            if (otherMuteBtn) {
-                                otherMuteBtn.classList.add('muted');
-                                otherMuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                            }
+                        }
+                        if (otherControls) otherControls.classList.add('muted');
+                        if (otherSlider) {
+                            otherSlider.value = 0;
+                            otherSlider.classList.add('muted');
+                        }
+                        if (otherMuteBtn) {
+                            otherMuteBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
                         }
                     }
                 });
 
-                video.muted = false;
+                card.classList.add('active');
                 video.volume = 0.5;
                 volumeSlider.value = 0.5;
-                volumeSlider.classList.remove('muted');
-                muteBtn.classList.remove('muted');
-                muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                setMuted(false);
+                updateSliderFill();
                 video.play().catch(() => {});
-            }, { passive: true });
-
-            muteBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                video.muted = !video.muted;
-                if (video.muted) {
-                    muteBtn.classList.add('muted');
-                    muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                    volumeSlider.value = 0;
-                    volumeSlider.classList.add('muted');
-                } else {
-                    muteBtn.classList.remove('muted');
-                    muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-                    volumeSlider.value = 0.5;
-                    video.volume = 0.5;
-                    volumeSlider.classList.remove('muted');
-                }
             });
 
+            // Mute button toggle
+            muteBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (video.muted) {
+                    video.volume = 0.5;
+                    volumeSlider.value = 0.5;
+                    setMuted(false);
+                } else {
+                    volumeSlider.value = 0;
+                    setMuted(true);
+                }
+                updateSliderFill();
+            });
+
+            // Volume slider
             volumeSlider.addEventListener("input", (e) => {
                 e.stopPropagation();
                 const volume = parseFloat(e.target.value);
                 video.volume = volume;
                 if (volume === 0) {
-                    video.muted = true;
-                    muteBtn.classList.add('muted');
-                    muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                    volumeSlider.classList.add('muted');
+                    setMuted(true);
                 } else {
-                    video.muted = false;
-                    muteBtn.classList.remove('muted');
-                    muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-                    volumeSlider.classList.remove('muted');
+                    setMuted(false);
                 }
+                updateSliderFill();
             });
         });
     </script>
