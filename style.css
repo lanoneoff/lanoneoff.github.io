@@ -395,6 +395,11 @@ body::before {
     transform: scale(0.95);
 }
 
+/* Чёрная обводка появляется только когда ползунок виден (не в муте) */
+.video-controls:not(.muted) .mute-btn {
+    border: 2px solid rgba(0,0,0,0.5);
+}
+
 /* --- VOLUME SLIDER (YouTube Shorts style) --- */
 .volume-slider {
     -webkit-appearance: none;
@@ -515,9 +520,7 @@ body::before {
     .volume-slider:hover ~ .mute-btn {
         border: 1px solid transparent;
     }
-    .mute-btn:hover {
-        border: 1px solid transparent;
-    }
+
 }
 @media (max-width: 768px) {
     .bg-image {
