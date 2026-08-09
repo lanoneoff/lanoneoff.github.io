@@ -21,6 +21,11 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+a, button, .social-item, .mute-btn, .volume-slider {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -362,7 +367,7 @@ body::before {
     flex-shrink: 0;
     margin: 0;
     padding: 0;
-    border: 1px solid transparent;
+    border: 1px solid rgba(255,255,255,0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -376,17 +381,8 @@ body::before {
 
 .mute-btn:hover {
     background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.4);
 }
-/* Обводка кнопки mute появляется только при наведении на ползунок */
-.volume-slider:hover ~ .mute-btn {
-    border: 1px solid rgba(255,255,255,0.2);
-}
-
-/* При муте обводки нет — даже если наведён ползунок */
-.video-controls.muted .mute-btn {
-    border-color: transparent !important;
-}
-
 
 .volume-slider {
     -webkit-appearance: none;
@@ -513,7 +509,12 @@ body::before {
     .section-title { font-size: 1.8rem; margin-bottom: 30px; }
     .work-grid { grid-template-columns: 1fr; gap: 20px; max-width: 380px; margin: 0 auto; }
     .work-card { min-height: auto; aspect-ratio: 9/16; border-radius: 14px; }
-    .video-controls { opacity: 1; pointer-events: auto; }
+    .video-controls { opacity: 1; pointer-events: auto; bottom: 20px; right: 20px; padding: 6px 14px; min-height: 44px; gap: 12px; }
+    .mute-btn { width: 36px; height: 36px; min-width: 36px; }
+    .mute-btn svg { width: 14px; height: 14px; }
+    .volume-slider { width: 80px; height: 4px; }
+    .volume-slider::-webkit-slider-thumb { width: 16px; height: 16px; margin-top: -6px; }
+    .volume-slider::-moz-range-thumb { width: 16px; height: 16px; }
 }
 
 @media (max-width: 480px) {
@@ -524,4 +525,8 @@ body::before {
     .social-item { width: 100%; max-width: 220px; height: 48px; justify-content: center; }
     .btn-hire { width: 100%; max-width: 220px; height: 48px; }
     .work-grid { gap: 16px; }
+    .video-controls { bottom: 16px; right: 16px; padding: 5px 12px; min-height: 40px; gap: 10px; }
+    .mute-btn { width: 32px; height: 32px; min-width: 32px; }
+    .mute-btn svg { width: 12px; height: 12px; }
+    .volume-slider { width: 70px; }
 }
