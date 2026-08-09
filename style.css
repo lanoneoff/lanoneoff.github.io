@@ -343,12 +343,6 @@ body::before {
     opacity: 0;
     transition: opacity .3s ease;
     pointer-events: none;
-    background: rgba(0,0,0,.5);
-    padding: 4px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,.08);
-    backdrop-filter: blur(8px);
-    min-height: 34px;
 }
 
 .work-card:hover .video-controls,
@@ -358,13 +352,13 @@ body::before {
 }
 
 .mute-btn {
-    width: 26px;
-    height: 26px;
-    min-width: 26px;
-    border: 1px solid rgba(255,255,255,.15);
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border: none;
     border-radius: 50%;
     cursor: pointer;
-    background: rgba(255,255,255,.08);
+    background: rgba(0,0,0,0.6);
     color: white;
     transition: all .2s;
     flex-shrink: 0;
@@ -386,18 +380,17 @@ body::before {
 .mute-btn:hover {
     background: var(--accent);
     transform: scale(1.08);
-    border-color: var(--accent);
 }
 
-/* При муте убираем обводку и делаем фон прозрачнее */
+/* При муте — никакой обводки, только полупрозрачный фон */
 .mute-btn.muted {
-    border-color: transparent !important;
-    background: rgba(255,255,255,.05) !important;
+    border: none !important;
+    background: rgba(0,0,0,0.45) !important;
 }
 
 .mute-btn.muted:hover {
     background: var(--accent) !important;
-    border-color: var(--accent) !important;
+    border: none !important;
 }
 
 .volume-slider {
@@ -415,13 +408,6 @@ body::before {
     padding: 0;
     border: none;
     order: 1;
-}
-
-.volume-slider:focus,
-.volume-slider:active {
-    outline: 2px solid rgba(255,255,255,0.5);
-    outline-offset: 4px;
-    border-radius: 4px;
 }
 
 /* При муте скрываем ползунок */
@@ -625,9 +611,9 @@ body::before {
         pointer-events: auto;
     }
     .mute-btn {
-        width: 32px;
-        height: 32px;
-        min-width: 32px;
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
     }
 
 }
@@ -693,9 +679,9 @@ body::before {
         pointer-events: auto;
     }
     .mute-btn {
-        width: 30px;
-        height: 30px;
-        min-width: 30px;
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
     }
 
 }
