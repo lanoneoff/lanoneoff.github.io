@@ -369,15 +369,15 @@ body::before {
 }
 
 .mute-btn {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     background: rgba(0,0,0,0.5);
     color: white;
-    transition: all .2s;
+    transition: background .2s;
     flex-shrink: 0;
     margin: 0;
     padding: 0;
@@ -390,28 +390,23 @@ body::before {
 
 .mute-btn svg {
     display: block;
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
 }
 
 .mute-btn:hover {
     background: rgba(0,0,0,0.7);
-    transform: scale(1.05);
 }
 
 .mute-btn:active {
-    transform: scale(0.95);
+    /* no transform, no border change */
 }
 
 /* Обводка кнопки только когда ползунок виден (не в муте) */
-.video-controls:not(.muted) .mute-btn {
-    border: 2px solid rgba(0,0,0,0.5);
-}
+.video-controls:not(.muted) 
 
 /* В муте — без обводки */
-.video-controls.muted .mute-btn {
-    border: none;
-}
+.video-controls.muted 
 
 /* --- VOLUME SLIDER --- */
 .volume-slider {
