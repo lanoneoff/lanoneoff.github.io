@@ -362,7 +362,7 @@ body::before {
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    background: rgba(0,0,0,0.5);
+    background: transparent;
     color: white;
     flex-shrink: 0;
     margin: 0;
@@ -385,13 +385,24 @@ body::before {
 }
 
 /* Обводка кнопки только когда ползунок виден (не в муте) */
-.video-controls:not(.muted) .mute-btn {
-    border: 2px solid rgba(0,0,0,0.5);
+/* Когда видны и НЕ в муте — тёмная плашка с ползунком */
+.video-controls:not(.muted) {
+    background: rgba(0,0,0,0.5);
+    padding: 6px 12px;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+    gap: 8px;
 }
 
-/* В муте — без обводки */
+/* В муте — кнопка с собственным тёмным фоном, без плашки */
 .video-controls.muted .mute-btn {
     border: none !important;
+    background: rgba(0,0,0,0.5);
+}
+
+/* При unmute — кнопка прозрачная внутри тёмной плашки */
+.video-controls:not(.muted) .mute-btn {
+    background: transparent;
 }
 
 /* --- VOLUME SLIDER --- */
