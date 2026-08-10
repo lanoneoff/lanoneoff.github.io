@@ -312,9 +312,10 @@ body::before {
     border: 1px solid var(--border);
     background: var(--surface);
     box-shadow: var(--shadow);
-    transition: all var(--speed);
+    transition: border-color var(--speed), box-shadow var(--speed);
     min-height: 560px;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .work-card:hover {
@@ -583,6 +584,10 @@ body::before {
         min-height: 480px;
         aspect-ratio: 9/16;
         border-radius: 16px;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .work-card:active {
+        transform: none !important;
     }
 }
 
