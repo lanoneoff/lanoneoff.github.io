@@ -27,6 +27,11 @@ a, button, .social-item, .mute-btn, .volume-slider {
     outline: none !important;
 }
 
+.mute-btn:focus {
+    background: rgba(0,0,0,0.5);
+    outline: none;
+}
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -396,8 +401,12 @@ body::before {
 }
 
 /* Чёрная обводка появляется только когда ползунок виден (не в муте) */
-.video-controls:not(.muted) .mute-btn {
+.video-controls:not(.muted) .video-controls:not(.muted) .mute-btn {
     border: 2px solid rgba(0,0,0,0.5);
+}
+
+.video-controls.muted .mute-btn {
+    border: none;
 }
 
 /* --- VOLUME SLIDER (YouTube Shorts style) --- */
