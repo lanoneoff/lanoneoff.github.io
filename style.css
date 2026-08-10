@@ -340,31 +340,34 @@ body::before {
     position: absolute;
     bottom: 16px;
     right: 16px;
-    display: flex;
+    display: none;
     align-items: center;
-    gap: 0;
+    gap: 8px;
     z-index: 10;
-    opacity: 0;
-    transition: opacity .3s ease;
-    pointer-events: none;
+}
+
+/* Показываем при hover (desktop) или active (mobile) */
+.work-card:hover .video-controls,
+.work-card.active .video-controls {
+    display: flex;
+}
+
+/* Когда видны и НЕ в муте — с ползунком, тёмный фон */
+.video-controls:not(.muted) {
     background: rgba(0,0,0,0.5);
     padding: 6px 12px;
     border-radius: 999px;
     backdrop-filter: blur(4px);
 }
 
-.work-card:hover .video-controls {
-    opacity: 1;
-    pointer-events: auto;
+/* Когда видны и в муте — только кнопка, без фона */
+.video-controls.muted {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    backdrop-filter: none;
 }
 
-/* На мобильных контролы видны когда карточка активна */
-.work-card.active .video-controls {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* --- MUTE BUTTON --- */
 .mute-btn {
     width: 32px;
     height: 32px;
@@ -400,16 +403,17 @@ body::before {
     transform: scale(0.95);
 }
 
-/* Чёрная обводка появляется только когда ползунок виден (не в муте) */
+/* Обводка кнопки только когда ползунок виден (не в муте) */
 .video-controls:not(.muted) .mute-btn {
     border: 2px solid rgba(0,0,0,0.5);
 }
 
+/* В муте — без обводки */
 .video-controls.muted .mute-btn {
     border: none;
 }
 
-/* --- VOLUME SLIDER (YouTube Shorts style) --- */
+/* --- VOLUME SLIDER --- */
 .volume-slider {
     -webkit-appearance: none;
     appearance: none;
@@ -421,7 +425,6 @@ body::before {
     transition: width .3s ease, opacity .3s ease, margin .3s ease;
     border: none;
     padding: 0;
-    margin: 0;
     order: 1;
 }
 
@@ -429,18 +432,16 @@ body::before {
 .video-controls:not(.muted) .volume-slider {
     width: 70px;
     opacity: 1;
-    margin-right: 8px;
 }
 
 /* Ползунок скрыт когда в муте */
 .video-controls.muted .volume-slider {
     width: 0;
     opacity: 0;
-    margin-right: 0;
     pointer-events: none;
 }
 
-/* WebKit Track */
+/* WebKit */
 .volume-slider::-webkit-slider-runnable-track {
     width: 100%;
     height: 3px;
@@ -449,7 +450,6 @@ body::before {
     border: none;
 }
 
-/* WebKit Thumb */
 .volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -468,7 +468,7 @@ body::before {
     transform: scale(1.2);
 }
 
-/* Firefox Track */
+/* Firefox */
 .volume-slider::-moz-range-track {
     width: 100%;
     height: 3px;
@@ -477,7 +477,6 @@ body::before {
     border: none;
 }
 
-/* Firefox Thumb */
 .volume-slider::-moz-range-thumb {
     width: 14px;
     height: 14px;
@@ -493,14 +492,11 @@ body::before {
     transform: scale(1.2);
 }
 
-/* Firefox Progress */
 .volume-slider::-moz-range-progress {
     height: 3px;
     background: rgba(255,255,255,0.5);
     border-radius: 4px;
 }
-
-/* WebKit Progress (via JS background gradient) */
 
 /* ---------- Animations ---------- */
 @keyframes fadeInUp {
