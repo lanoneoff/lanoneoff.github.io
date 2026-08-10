@@ -110,6 +110,15 @@
                 volumeSlider.style.background = `linear-gradient(to right, rgba(255,255,255,0.6) ${pct}%, rgba(255,255,255,0.15) ${pct}%)`;
             }
 
+            function resetCard() {
+                video.pause();
+                video.currentTime = 0;
+                volumeSlider.value = 0;
+                setMuted(true);
+                updateSliderFill();
+                card.classList.remove('active');
+            }
+
             function setMuted(muted) {
                 video.muted = muted;
                 if (muted) {
@@ -133,22 +142,23 @@
             });
 
             card.addEventListener("mouseleave", () => {
-                video.pause();
-                video.currentTime = 0;
-                volumeSlider.value = 0;
-                setMuted(true);
-                updateSliderFill();
+                resetCard();
             });
 
-            // Mobile tap
+            // Mobile tap — toggle play/pause
             card.addEventListener("click", (e) => {
                 // Ignore clicks on controls
                 if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
 
-                // Remove active from all other cards
+                // If this video is already playing — pause it (toggle)
+                if (!video.paused) {
+                    resetCard();
+                    return;
+                }
+
+                // Pause all other cards
                 document.querySelectorAll(".work-card").forEach(otherCard => {
                     if (otherCard !== card) {
-                        otherCard.classList.remove('active');
                         const otherVideo = otherCard.querySelector("video");
                         const otherControls = otherCard.querySelector(".video-controls");
                         const otherSlider = otherCard.querySelector(".volume-slider");
@@ -165,6 +175,7 @@
                         if (otherMuteBtn) {
                             otherMuteBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
                         }
+                        otherCard.classList.remove('active');
                     }
                 });
 
@@ -203,6 +214,35 @@
                 updateSliderFill();
             });
         });
+
+        // Pause videos when scrolling away from portfolio (IntersectionObserver)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    const card = entry.target;
+                    const video = card.querySelector("video");
+                    const controls = card.querySelector(".video-controls");
+                    const slider = card.querySelector(".volume-slider");
+                    const muteBtn = card.querySelector(".mute-btn");
+                    if (video && !video.paused) {
+                        video.pause();
+                        video.currentTime = 0;
+                        video.muted = true;
+                        if (controls) controls.classList.add('muted');
+                        if (slider) {
+                            slider.value = 0;
+                            slider.classList.add('muted');
+                        }
+                        if (muteBtn) {
+                            muteBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
+                        }
+                        card.classList.remove('active');
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll(".work-card").forEach(card => observer.observe(card));
     </script>
 </body>
 </html>
