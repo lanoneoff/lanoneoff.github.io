@@ -162,8 +162,9 @@
                         const otherControls = otherCard.querySelector(".video-controls");
                         const otherSlider = otherCard.querySelector(".volume-slider");
                         const otherMuteBtn = otherCard.querySelector(".mute-btn");
-                        if (otherVideo && !otherVideo.paused) {
+                        if (otherVideo) {
                             otherVideo.pause();
+                            otherVideo.currentTime = 0;
                         }
                         if (otherControls) otherControls.classList.add('muted');
                         if (otherSlider) {
@@ -224,6 +225,7 @@
                     const muteBtn = card.querySelector(".mute-btn");
                     if (video && !video.paused) {
                         video.pause();
+                        video.currentTime = 0;
                         video.muted = true;
                         if (controls) controls.classList.add('muted');
                         if (slider) {

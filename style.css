@@ -325,7 +325,7 @@ body::before {
 
 @media (hover: hover) {
     .work-card:hover {
-        transform: translateY(-6px);
+        /* transform убран — не скачет на мобильных */
     }
 }
 
@@ -343,30 +343,16 @@ body::before {
     right: 16px;
     display: none;
     align-items: center;
-    gap: 8px;
     z-index: 10;
+    background: transparent;
+    padding: 0;
+    border: none;
+    gap: 0;
 }
 
-/* Показываем при hover (desktop) или active (mobile) */
 .work-card:hover .video-controls,
 .work-card.active .video-controls {
     display: flex;
-}
-
-/* Когда видны и НЕ в муте — с ползунком, тёмный фон */
-.video-controls:not(.muted) {
-    background: rgba(0,0,0,0.5);
-    padding: 6px 12px;
-    border-radius: 999px;
-    backdrop-filter: blur(4px);
-}
-
-/* Когда видны и в муте — только кнопка, без фона */
-.video-controls.muted {
-    background: transparent;
-    padding: 0;
-    border-radius: 0;
-    backdrop-filter: none;
 }
 
 .mute-btn {
@@ -378,7 +364,6 @@ body::before {
     cursor: pointer;
     background: rgba(0,0,0,0.5);
     color: white;
-    transition: background .2s;
     flex-shrink: 0;
     margin: 0;
     padding: 0;
@@ -399,15 +384,15 @@ body::before {
     background: rgba(0,0,0,0.7);
 }
 
-.mute-btn:active {
-    /* no transform, no border change */
+/* Обводка кнопки только когда ползунок виден (не в муте) */
+.video-controls:not(.muted) .mute-btn {
+    border: 2px solid rgba(0,0,0,0.5);
 }
 
-/* Обводка кнопки только когда ползунок виден (не в муте) */
-.video-controls:not(.muted) 
-
 /* В муте — без обводки */
-.video-controls.muted 
+.video-controls.muted .mute-btn {
+    border: none !important;
+}
 
 /* --- VOLUME SLIDER --- */
 .volume-slider {
@@ -418,16 +403,19 @@ body::before {
     outline: none;
     background: rgba(255,255,255,.25);
     cursor: pointer;
-    transition: width .3s ease, opacity .3s ease, margin .3s ease;
-    border: none;
+    flex-shrink: 0;
+    margin: 0;
     padding: 0;
+    border: none;
     order: 1;
+    transition: none;
 }
 
 /* Ползунок виден когда НЕ в муте */
 .video-controls:not(.muted) .volume-slider {
     width: 70px;
     opacity: 1;
+    margin-right: 8px;
 }
 
 /* Ползунок скрыт когда в муте */
@@ -435,6 +423,7 @@ body::before {
     width: 0;
     opacity: 0;
     pointer-events: none;
+    margin-right: 0;
 }
 
 /* WebKit */
@@ -457,11 +446,6 @@ body::before {
     margin-top: -5.5px;
     border: 2px solid rgba(0,0,0,0.6);
     box-shadow: none;
-    transition: transform .15s;
-}
-
-.volume-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
 }
 
 /* Firefox */
@@ -481,11 +465,6 @@ body::before {
     cursor: pointer;
     border: 2px solid rgba(0,0,0,0.6);
     box-shadow: none;
-    transition: transform .15s;
-}
-
-.volume-slider::-moz-range-thumb:hover {
-    transform: scale(1.2);
 }
 
 .volume-slider::-moz-range-progress {
@@ -585,6 +564,7 @@ body::before {
         aspect-ratio: 9/16;
         border-radius: 16px;
         -webkit-tap-highlight-color: transparent;
+        cursor: default;
     }
     .work-card:active {
         transform: none !important;
