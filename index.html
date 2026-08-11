@@ -145,6 +145,32 @@
             });
 
             // Mobile tap — toggle play/pause
+            card.addEventListener("touchstart", (e) => {
+                if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
+                e.preventDefault();
+                // Trigger same logic as click
+                if (!video.paused) {
+                    resetCard();
+                    return;
+                }
+                document.querySelectorAll(".work-card").forEach(otherCard => {
+                    if (otherCard !== card) {
+                        const otherVideo = otherCard.querySelector("video");
+                        if (otherVideo) {
+                            otherVideo.pause();
+                            otherVideo.currentTime = 0;
+                        }
+                        otherCard.classList.remove('active');
+                    }
+                });
+                card.classList.add('active');
+                video.volume = 0.5;
+                volumeSlider.value = 0.5;
+                setMuted(false);
+                updateSliderFill();
+                video.play().catch(() => {});
+            }, { passive: false });
+
             card.addEventListener("click", (e) => {
                 // Ignore clicks on controls
                 if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;

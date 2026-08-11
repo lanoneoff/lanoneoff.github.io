@@ -356,9 +356,9 @@ body::before {
 }
 
 .mute-btn {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -376,8 +376,8 @@ body::before {
 
 .mute-btn svg {
     display: block;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
 }
 
 .mute-btn:hover {
@@ -388,10 +388,10 @@ body::before {
 /* Когда видны и НЕ в муте — тёмная плашка с ползунком */
 .video-controls:not(.muted) {
     background: rgba(0,0,0,0.5);
-    padding: 6px 12px;
+    padding: 8px 14px;
     border-radius: 999px;
     backdrop-filter: blur(4px);
-    gap: 8px;
+    gap: 10px;
 }
 
 /* В муте — кнопка с собственным тёмным фоном, без плашки */
