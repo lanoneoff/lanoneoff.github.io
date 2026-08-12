@@ -100,6 +100,8 @@
 
         document.querySelectorAll(".work-card").forEach(card => {
             const video = card.querySelector("video");
+            video.volume = 0.5;
+            video.muted = true;
             const muteBtn = card.querySelector(".mute-btn");
             const volumeSlider = card.querySelector(".volume-slider");
             const controls = card.querySelector(".video-controls");
@@ -134,6 +136,7 @@
             // Desktop hover
             card.addEventListener("mouseenter", () => {
                 video.volume = 0.5;
+                video.muted = false;
                 volumeSlider.value = 0.5;
                 setMuted(false);
                 updateSliderFill();
@@ -165,6 +168,7 @@
                 });
                 card.classList.add('active');
                 video.volume = 0.5;
+                video.muted = false;
                 volumeSlider.value = 0.5;
                 setMuted(false);
                 updateSliderFill();
@@ -206,6 +210,7 @@
 
                 card.classList.add('active');
                 video.volume = 0.5;
+                video.muted = false;
                 volumeSlider.value = 0.5;
                 setMuted(false);
                 updateSliderFill();
