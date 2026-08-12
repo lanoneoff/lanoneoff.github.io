@@ -84,7 +84,7 @@ body::before {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 80px 20px 60px;
+    padding: 80px 20px 40px;
     text-align: center;
     overflow: hidden;
 }
@@ -242,7 +242,7 @@ body::before {
 /* ---------- Scroll Indicator ---------- */
 .scroll-indicator {
     position: absolute;
-    bottom: 120px;
+    bottom: 80px;
     left: 50%;
     transform: translateX(-50%);
     color: rgba(255,255,255,0.85);
@@ -282,7 +282,7 @@ body::before {
 
 /* ---------- Portfolio ---------- */
 .portfolio {
-    padding: 140px 5% 120px;
+    padding: 100px 5% 80px;
     position: relative;
     z-index: 1;
 }
@@ -359,12 +359,15 @@ body::before {
     width: 40px;
     height: 40px;
     min-width: 40px;
+    max-width: 40px;
+    min-height: 40px;
+    max-height: 40px;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     background: transparent;
     color: white;
-    flex-shrink: 0;
+    flex: 0 0 40px;
     margin: 0;
     padding: 0;
     display: flex;
@@ -372,12 +375,16 @@ body::before {
     justify-content: center;
     box-sizing: border-box;
     order: 2;
+    overflow: hidden;
 }
 
 .mute-btn svg {
     display: block;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+    flex-shrink: 0;
 }
 
 .mute-btn:hover {
@@ -391,7 +398,6 @@ body::before {
     background: rgba(0,0,0,0.5);
     padding: 8px 14px;
     border-radius: 999px;
-    backdrop-filter: blur(4px);
     gap: 10px;
 }
 
