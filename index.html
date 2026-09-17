@@ -1,278 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lev | Video Editor</title>
-    <meta name="description" content="Professional Video Editor Portfolio">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Editor</title>
+<meta name="description" content="Video editor. Vertical stories that captivate.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://editorlev.com/">
+<meta property="og:title" content="Lev — Video Editor">
+<meta property="og:description" content="Vertical stories that captivate and stay.">
+<meta property="og:image" content="./fineday_clean.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
-    <div class="bg-image"></div>
-    <div class="bg-vignette"></div>
+<div class="bg-image"></div>
+<div class="bg-vignette"></div>
 
-    <section class="hero">
-        <div class="hero-container">
-                    <h1 class="main-title">
-                <span class="white">Video</span>
-                <span class="accent">Editor</span>
-            </h1>
-            <p class="tagline">Transforming ideas into high-quality vertical stories<br>that captivate audiences and leave a lasting impression</p>
-            <div class="social-links">
-                <a href="https://t.me/editor_lev" target="_blank" class="social-item social-tg">
-                    <i class="fab fa-telegram-plane"></i>
-                    <span>Telegram</span>
-                </a>
-                <button class="social-item email-btn social-email" onclick="copyEmail()">
-                    <i class="fas fa-envelope"></i>
-                    <span id="emailText">Email</span>
-                </button>
-            </div>
-            <a href="https://t.me/editor_lev" target="_blank" class="btn-hire btn-hire-delayed">Hire me</a>
-        </div>
-        <a href="#portfolio" class="scroll-indicator" id="scrollArrow">
-            <i class="fas fa-chevron-down"></i>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<div class="fx" aria-hidden="true">
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <div class="glow g3"></div>
+  <div class="glow g4"></div>
+  <div class="glow g5"></div>
+  <div class="glow g6"></div>
+  <div class="line l1"></div>
+  <div class="line l2"></div>
+</div>
+
+<div class="embers" aria-hidden="true">
+  <span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span>
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1 class="main-title">
+      <span class="white fade" style="--d:.1s">Video</span>
+      <span class="accent fade" style="--d:.25s">Editor</span>
+    </h1>
+
+    <div class="rule fade" style="--d:.4s"><span></span></div>
+
+    <div class="hero-cta fade" style="--d:.55s">
+      <p class="tagline">
+        Transforming ideas into vertical stories<br>
+        that captivate and stay.
+      </p>
+      <div class="row">
+        <a href="https://t.me/editor_lev" target="_blank" class="btn">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.38-.49 1.07-.75 4.19-1.82 6.98-3.02 8.38-3.6 3.98-1.66 4.81-1.95 5.35-1.96.12 0 .38.03.55.17.14.12.18.3.2.43-.02.07-.01.21-.03.38z"/></svg>
+          <span>Telegram</span>
         </a>
-    </section>
+        <button class="btn" type="button" onclick="copyEmail(this)">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <span>Email</span>
+        </button>
+      </div>
+      <a href="https://t.me/editor_lev" target="_blank" class="btn btn-red">Hire me</a>
+    </div>
+  </div>
 
-    <section class="portfolio" id="portfolio">
-        <div class="portfolio-wrapper">
-            <h2 class="section-title">My Works</h2>
-            <div class="work-grid">
-                <article class="work-card">
-                    <video class="portfolio-video" muted loop playsinline preload="metadata">
-                        <source src="video1.mp4" type="video/mp4">
-                    </video>
-                    <div class="video-controls muted">
-                        <input type="range" class="volume-slider muted" min="0" max="1" step="0.01" value="0">
-                        <button class="mute-btn muted">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-                        </button>
-                    </div>
-                </article>
+  <a href="#works" class="scroll-btn" id="scrollArrow" aria-label="Scroll to works">
+    <span class="scroll-label">Works</span>
+    <span class="scroll-circle">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </span>
+  </a>
+</section>
 
-                <article class="work-card">
-                    <video class="portfolio-video" muted loop playsinline preload="metadata">
-                        <source src="video2.mp4" type="video/mp4">
-                    </video>
-                    <div class="video-controls muted">
-                        <input type="range" class="volume-slider muted" min="0" max="1" step="0.01" value="0">
-                        <button class="mute-btn muted">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-                        </button>
-                    </div>
-                </article>
+<section class="works" id="works">
+  <h2 class="section-title">Works</h2>
+  <div class="work-grid">
 
-                <article class="work-card">
-                    <video class="portfolio-video" muted loop playsinline preload="metadata">
-                        <source src="video3.mp4" type="video/mp4">
-                    </video>
-                    <div class="video-controls muted">
-                        <input type="range" class="volume-slider muted" min="0" max="1" step="0.01" value="0">
-                        <button class="mute-btn muted">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-                        </button>
-                    </div>
-                </article>
-            </div>
+    <article class="work-card">
+      <div class="frame">
+        <video class="portfolio-video" muted loop playsinline preload="metadata">
+          <source src="./video1.mp4" type="video/mp4">
+        </video>
+        <div class="play-hint">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
         </div>
-    </section>
+        <div class="video-controls">
+          <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0" aria-label="Volume">
+          <button class="mute-btn" type="button" aria-label="Mute"></button>
+        </div>
+      </div>
+    </article>
 
-    <script>
-        function copyEmail() {
-            navigator.clipboard.writeText("editorafterwork@gmail.com");
-            const emailText = document.getElementById("emailText");
-            if (emailText) {
-                emailText.textContent = "Copied!";
-                setTimeout(() => { emailText.textContent = "Email"; }, 2000);
-            }
-        }
+    <article class="work-card">
+      <div class="frame">
+        <video class="portfolio-video" muted loop playsinline preload="metadata">
+          <source src="./video2.mp4" type="video/mp4">
+        </video>
+        <div class="play-hint">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </div>
+        <div class="video-controls">
+          <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0" aria-label="Volume">
+          <button class="mute-btn" type="button" aria-label="Mute"></button>
+        </div>
+      </div>
+    </article>
 
-        document.getElementById("scrollArrow").addEventListener("click", e => {
-            e.preventDefault();
-            document.getElementById("portfolio").scrollIntoView({ behavior: "smooth" });
+    <article class="work-card">
+      <div class="frame">
+        <video class="portfolio-video" muted loop playsinline preload="metadata">
+          <source src="./video3.mp4" type="video/mp4">
+        </video>
+        <div class="play-hint">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </div>
+        <div class="video-controls">
+          <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0" aria-label="Volume">
+          <button class="mute-btn" type="button" aria-label="Mute"></button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<script>
+  function copyEmail(btn){
+    navigator.clipboard.writeText('editorafterwork@gmail.com');
+    const s = btn.querySelector('span'), old = s.textContent;
+    s.textContent = 'Copied!';
+    setTimeout(() => s.textContent = old, 1800);
+  }
+
+  document.getElementById('scrollArrow').addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('works').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  const canHover = matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  const glow = document.getElementById('cursorGlow');
+  if (canHover && glow) {
+    window.addEventListener('mousemove', e => {
+      glow.style.transform = `translate3d(${e.clientX - 150}px, ${e.clientY - 150}px, 0)`;
+    });
+  }
+
+  const ICON_MUTED = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+  const ICON_SOUND = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
+
+  const cards = [...document.querySelectorAll('.work-card')];
+
+  cards.forEach(card => {
+    const video  = card.querySelector('video');
+    const slider = card.querySelector('.volume-slider');
+    const mute   = card.querySelector('.mute-btn');
+    const frame  = card.querySelector('.frame');
+
+    let progressBar = frame.querySelector('.video-progress span');
+    if (!progressBar) {
+      const bar = document.createElement('div');
+      bar.className = 'video-progress';
+      bar.innerHTML = '<span></span>';
+      frame.appendChild(bar);
+      progressBar = bar.querySelector('span');
+    }
+
+    video.addEventListener('timeupdate', () => {
+      if (video.duration) {
+        progressBar.style.width = ((video.currentTime / video.duration) * 100) + '%';
+      }
+    });
+
+    const paint = () => {
+      const p = slider.value * 100;
+      slider.style.background = `linear-gradient(to right,#ffffff ${p}%,rgba(255,255,255,.18) ${p}%)`;
+    };
+    const setMuted = m => {
+      video.muted = m;
+      card.classList.toggle('muted', m);
+      mute.innerHTML = m ? ICON_MUTED : ICON_SOUND;
+      slider.value = m ? 0 : (video.volume || .5);
+      paint();
+    };
+    const play = sound => {
+      cards.forEach(c => c !== card && c._stop());
+      video.volume = .5;
+      setMuted(!sound);
+      card.classList.add('active');
+      const promise = video.play();
+      if (promise !== undefined) {
+        promise.catch(() => {
+          setMuted(true);
+          video.play().catch(() => {});
         });
+      }
+    };
+    const stop = () => {
+      video.pause();
+      video.currentTime = 0;
+      setMuted(true);
+      card.classList.remove('active');
+      if (progressBar) progressBar.style.width = '0%';
+    };
+    card._stop = stop;
+    card._playMuted = () => play(false);
+    setMuted(true);
 
-        document.querySelectorAll(".work-card").forEach(card => {
-            const video = card.querySelector("video");
-            video.volume = 0.5;
-            video.muted = true;
-            const muteBtn = card.querySelector(".mute-btn");
-            const volumeSlider = card.querySelector(".volume-slider");
-            const controls = card.querySelector(".video-controls");
+    if (canHover) {
+      card.addEventListener('mouseenter', () => play(true));
+      card.addEventListener('mouseleave', stop);
+    } else {
+      card.addEventListener('click', e => {
+        if (e.target.closest('.video-controls')) return;
+        if (video.paused) play(true); else setMuted(!video.muted);
+      });
+    }
 
-            function updateSliderFill() {
-                const val = volumeSlider.value;
-                const pct = val * 100;
-                volumeSlider.style.background = `linear-gradient(to right, rgba(255,255,255,0.6) ${pct}%, rgba(255,255,255,0.15) ${pct}%)`;
-            }
+    mute.addEventListener('click', e => {
+      e.stopPropagation();
+      setMuted(!video.muted);
+    });
+    slider.addEventListener('input', e => {
+      e.stopPropagation();
+      const v = +e.target.value;
+      video.volume = v;
+      video.muted = v === 0;
+      card.classList.toggle('muted', v === 0);
+      mute.innerHTML = v === 0 ? ICON_MUTED : ICON_SOUND;
+      paint();
+    });
+  });
 
-            function resetCard() {
-                video.pause();
-                volumeSlider.value = 0;
-                setMuted(true);
-                updateSliderFill();
-                card.classList.remove('active');
-            }
+  const vis = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) en.target._stop();
+      else if (!canHover && en.intersectionRatio >= .6) en.target._playMuted();
+    });
+  }, { threshold: [.1, .6] });
+  cards.forEach(c => vis.observe(c));
 
-            function setMuted(muted) {
-                video.muted = muted;
-                if (muted) {
-                    controls.classList.add('muted');
-                    volumeSlider.classList.add('muted');
-                    muteBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
-                } else {
-                    controls.classList.remove('muted');
-                    volumeSlider.classList.remove('muted');
-                    muteBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>';
-                }
-            }
-
-            // Desktop hover
-            card.addEventListener("mouseenter", () => {
-                video.volume = 0.5;
-                video.muted = false;
-                volumeSlider.value = 0.5;
-                setMuted(false);
-                updateSliderFill();
-                video.play();
-            });
-
-            card.addEventListener("mouseleave", () => {
-                resetCard();
-            });
-
-            // Mobile tap — toggle play/pause
-            card.addEventListener("touchstart", (e) => {
-                if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
-                e.preventDefault();
-                // Trigger same logic as click
-                if (!video.paused) {
-                    resetCard();
-                    return;
-                }
-                document.querySelectorAll(".work-card").forEach(otherCard => {
-                    if (otherCard !== card) {
-                        const otherVideo = otherCard.querySelector("video");
-                        if (otherVideo) {
-                            otherVideo.pause();
-                            otherVideo.currentTime = 0;
-                        }
-                        otherCard.classList.remove('active');
-                    }
-                });
-                card.classList.add('active');
-                video.volume = 0.5;
-                video.muted = false;
-                volumeSlider.value = 0.5;
-                setMuted(false);
-                updateSliderFill();
-                video.play().catch(() => {});
-            }, { passive: false });
-
-            card.addEventListener("click", (e) => {
-                // Ignore clicks on controls
-                if (e.target.closest('.mute-btn') || e.target.closest('.volume-slider')) return;
-
-                // If this video is already playing — pause it (toggle)
-                if (!video.paused) {
-                    resetCard();
-                    return;
-                }
-
-                // Pause all other cards
-                document.querySelectorAll(".work-card").forEach(otherCard => {
-                    if (otherCard !== card) {
-                        const otherVideo = otherCard.querySelector("video");
-                        const otherControls = otherCard.querySelector(".video-controls");
-                        const otherSlider = otherCard.querySelector(".volume-slider");
-                        const otherMuteBtn = otherCard.querySelector(".mute-btn");
-                        if (otherVideo) {
-                            otherVideo.pause();
-                            otherVideo.currentTime = 0;
-                        }
-                        if (otherControls) otherControls.classList.add('muted');
-                        if (otherSlider) {
-                            otherSlider.value = 0;
-                            otherSlider.classList.add('muted');
-                        }
-                        if (otherMuteBtn) {
-                            otherMuteBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
-                        }
-                        otherCard.classList.remove('active');
-                    }
-                });
-
-                card.classList.add('active');
-                video.volume = 0.5;
-                video.muted = false;
-                volumeSlider.value = 0.5;
-                setMuted(false);
-                updateSliderFill();
-                video.play().catch(() => {});
-            });
-
-            // Mute button toggle
-            muteBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                if (video.muted) {
-                    video.volume = 0.5;
-                    volumeSlider.value = 0.5;
-                    setMuted(false);
-                } else {
-                    volumeSlider.value = 0;
-                    setMuted(true);
-                }
-                updateSliderFill();
-            });
-
-            // Volume slider
-            volumeSlider.addEventListener("input", (e) => {
-                e.stopPropagation();
-                const volume = parseFloat(e.target.value);
-                video.volume = volume;
-                if (volume === 0) {
-                    setMuted(true);
-                } else {
-                    setMuted(false);
-                }
-                updateSliderFill();
-            });
-        });
-
-        // Pause videos when scrolling away from portfolio (IntersectionObserver)
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) {
-                    const card = entry.target;
-                    const video = card.querySelector("video");
-                    const controls = card.querySelector(".video-controls");
-                    const slider = card.querySelector(".volume-slider");
-                    const muteBtn = card.querySelector(".mute-btn");
-                    if (video && !video.paused) {
-                        video.pause();
-                        video.currentTime = 0;
-                        video.muted = true;
-                        if (controls) controls.classList.add('muted');
-                        if (slider) {
-                            slider.value = 0;
-                            slider.classList.add('muted');
-                        }
-                        if (muteBtn) {
-                            muteBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
-                        }
-                        card.classList.remove('active');
-                    }
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll(".work-card").forEach(card => observer.observe(card));
-    </script>
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .15 });
+  document.querySelectorAll('.work-card, .works .section-title').forEach(el => {
+    el.classList.add('reveal');
+    io.observe(el);
+  });
+</script>
 </body>
 </html>
