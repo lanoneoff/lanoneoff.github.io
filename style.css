@@ -471,3 +471,38 @@ a,button,input{touch-action:manipulation;-webkit-tap-highlight-color:transparent
   .scroll-btn{opacity:1}
   .fade,.reveal{opacity:1;transform:none;animation:none;transition:none}
 }
+/* ==========================================
+   ТОЧЕЧНЫЕ ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНЫХ (В самый конец файла)
+   ========================================== */
+@media (max-width: 768px) {
+
+    /* 1. ФИКС СТРЕЛКИ "WORKS" (чтобы не залипала вверху при скролле) */
+    .works-trigger, 
+    .scroll-down, 
+    .scroll-indicator,
+    a[href="#works"] {
+        position: absolute !important;
+        bottom: 20px !important;
+        top: auto !important;
+    }
+
+    /* 2. ФИКС ЯРКОСТИ (Затенение фона на OLED экранах) */
+    body, section {
+        /* Приглушаем лишнюю яркую красноту на экранах телефонов */
+        filter: brightness(0.85);
+    }
+
+    /* 3. УБИРАЕМ ОГРОМНУЮ ДЫРУ МЕЖДУ СЕКЦИЯМИ */
+    #works, .works, section:nth-of-type(2) {
+        height: auto !important;
+        min-height: auto !important;
+        padding-top: 40px !important;
+        padding-bottom: 60px !important;
+    }
+
+    /* 4. ВИДЕО И КАРТОЧКИ (чтобы влезали по ширине экрана) */
+    video, iframe, img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
