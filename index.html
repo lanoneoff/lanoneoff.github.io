@@ -1,111 +1,347 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#070304" />
-  <title>Video Editor — vertical stories</title>
-
-  <!-- Шрифты -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<title>Lev — Video Editor</title>
+<meta name="description" content="Video editor. Vertical stories that captivate and stay.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://editorlev.com/">
+<meta property="og:title" content="Lev — Video Editor">
+<meta property="og:description" content="Vertical stories that captivate and stay.">
+<meta property="og:image" content="./fineday_clean.png">
+<link rel="icon" type="image/png" href="./fineday_clean.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
-  <!-- ================= ГЛАВНЫЙ ЭКРАН ================= -->
-  <header class="hero">
-    <div class="hero__bg"></div>
-    <div class="hero__overlay"></div>
+<!-- ===== BACKGROUND LAYERS ===== -->
+<div class="bg-image"></div>
+<div class="bg-vignette"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
 
-    <div class="hero__content">
-      <h1 class="hero__title">
-        Video
-        <span class="hero__title-accent">Editor</span>
-      </h1>
+<div class="fx" aria-hidden="true">
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <div class="glow g3"></div>
+  <div class="glow g4"></div>
+  <div class="glow g5"></div>
+  <div class="glow g6"></div>
+  <div class="line l1"></div>
+  <div class="line l2"></div>
+</div>
 
-      <div class="hero__divider"></div>
+<div class="embers" aria-hidden="true">
+  <span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span>
+</div>
 
-      <p class="hero__subtitle">
-        Transforming ideas into vertical stories that captivate and stay.
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1 class="main-title">
+      <span class="white fade" style="--d:.1s">Video</span>
+      <span class="accent fade" style="--d:.25s">Editor</span>
+    </h1>
+
+    <div class="rule fade" style="--d:.4s"><span></span></div>
+
+    <div class="hero-cta fade" style="--d:.55s">
+      <p class="tagline">
+        Transforming ideas into vertical stories<br>
+        that captivate and stay.
       </p>
-
-      <div class="hero__buttons">
-        <!-- ЗАМЕНИ ссылку на свой телеграм -->
-        <a href="https://t.me/ваш_ник" class="btn btn--ghost" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
-          </svg>
-          Telegram
+      <div class="row">
+        <a href="https://t.me/editor_lev" target="_blank" rel="noreferrer" class="btn">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.38-.49 1.07-.75 4.19-1.82 6.98-3.02 8.38-3.6 3.98-1.66 4.81-1.95 5.35-1.96.12 0 .38.03.55.17.14.12.18.3.2.43-.02.07-.01.21-.03.38z"/></svg>
+          <span>Telegram</span>
         </a>
-
-        <!-- ЗАМЕНИ на свою почту -->
-        <a href="mailto:your@email.com" class="btn btn--ghost">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="14" rx="2"/>
-            <path d="m3 7 9 6 9-6"/>
-          </svg>
-          Email
-        </a>
+        <button class="btn" type="button" onclick="copyEmail(this)">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <span>Email</span>
+        </button>
       </div>
-
-      <!-- Кнопка Hire me -->
-      <a href="https://t.me/ваш_ник" class="btn btn--primary" target="_blank" rel="noopener">
-        Hire me
-      </a>
+      <a href="https://t.me/editor_lev" target="_blank" rel="noreferrer" class="btn btn-red">Hire me</a>
     </div>
+  </div>
 
-    <!-- Индикатор WORKS (стрелка вниз) -->
-    <a href="#works" class="hero__works" aria-label="Scroll to works">
-      <span>Works</span>
-      <span class="hero__works-circle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="m6 9 6 6 6-6"/>
-        </svg>
-      </span>
-    </a>
-  </header>
-
-  <!-- ================= СЕКЦИЯ WORKS ================= -->
-  <section class="works" id="works">
-    <h2 class="works__title">Works</h2>
-
-    <div class="works__grid">
-
-      <!-- Карточка 1 -->
-      <article class="card">
-        <div class="card__media">
-          <!-- ЗАМЕНИ src на свою картинку/видео -->
-          <!-- Для видео используй:
-               <video src="works/video-1.mp4" autoplay muted loop playsinline></video>
-               Для YouTube Shorts:
-               <iframe src="https://www.youtube.com/embed/ID" allowfullscreen></iframe>
-          -->
-          <img src="works/work-1.jpg" alt="Project 1" />
-        </div>
-        <p class="card__caption">Video Editor</p>
-      </article>
-
-      <!-- Карточка 2 -->
-      <article class="card">
-        <div class="card__media">
-          <img src="works/work-2.jpg" alt="Project 2" />
-        </div>
-        <p class="card__caption">Video Editor</p>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- Кнопка «наверх» -->
-  <a href="#top" class="to-top" aria-label="Back to top" id="top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-      <path d="M12 19V5"/>
-      <path d="m5 12 7-7 7 7"/>
-    </svg>
+  <a href="#works" class="scroll-btn" id="scrollArrow" aria-label="Scroll to works">
+    <span class="scroll-label">Works</span>
+    <span class="scroll-circle">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </span>
   </a>
+</section>
 
+<!-- ===== WORKS ===== -->
+<section class="works" id="works">
+  <h2 class="section-title">Works</h2>
+  <div class="work-grid">
+
+    <article class="work-card">
+      <div class="frame">
+        <video class="portfolio-video" muted loop playsinline preload="metadata">
+          <source src="./video1.mp4" type="video/mp4">
+        </video>
+        <div class="play-hint">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </div>
+        <div class="video-controls">
+          <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0" aria-label="Volume">
+          <button class="mute-btn" type="button" aria-label="Mute"></button>
+        </div>
+        <div class="video-progress"><span></span></div>
+      </div>
+    </article>
+
+    <article class="work-card">
+      <div class="frame">
+        <video class="portfolio-video" muted loop playsinline preload="metadata">
+          <source src="./video2.mp4" type="video/mp4">
+        </video>
+        <div class="play-hint">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </div>
+        <div class="video-controls">
+          <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0" aria-label="Volume">
+          <button class="mute-btn" type="button" aria-label="Mute"></button>
+        </div>
+        <div class="video-progress"><span></span></div>
+      </div>
+    </article>
+
+    <article class="work-card">
+      <div class="frame">
+        <video class="portfolio-video" muted loop playsinline preload="metadata">
+          <source src="./video3.mp4" type="video/mp4">
+        </video>
+        <div class="play-hint">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </div>
+        <div class="video-controls">
+          <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0" aria-label="Volume">
+          <button class="mute-btn" type="button" aria-label="Mute"></button>
+        </div>
+        <div class="video-progress"><span></span></div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<script>
+/* ===== COPY EMAIL ===== */
+function copyEmail(btn) {
+  var email = 'editorafterwork@gmail.com';
+  var s = btn.querySelector('span');
+  var old = s.textContent;
+
+  var copied = false;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).then(function() {
+      s.textContent = 'Copied!';
+      setTimeout(function() { s.textContent = old; }, 1800);
+    }).catch(fallback);
+  } else {
+    fallback();
+  }
+
+  function fallback() {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = email;
+      ta.style.cssText = 'position:fixed;opacity:0;left:-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      copied = true;
+    } catch(e) {}
+    if (copied) {
+      s.textContent = 'Copied!';
+      setTimeout(function() { s.textContent = old; }, 1800);
+    }
+  }
+}
+
+/* ===== SMOOTH SCROLL ===== */
+document.getElementById('scrollArrow').addEventListener('click', function(e) {
+  e.preventDefault();
+  document.getElementById('works').scrollIntoView({ behavior: 'smooth' });
+});
+
+/* ===== DEVICE CAPABILITY ===== */
+var canHover = matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+/* ===== CURSOR GLOW ===== */
+var glow = document.getElementById('cursorGlow');
+if (canHover && glow) {
+  var raf = 0, gx = -400, gy = -400;
+  window.addEventListener('mousemove', function(e) {
+    gx = e.clientX - 150;
+    gy = e.clientY - 150;
+    if (!raf) {
+      raf = requestAnimationFrame(function() {
+        glow.style.transform = 'translate3d(' + gx + 'px,' + gy + 'px,0)';
+        raf = 0;
+      });
+    }
+  }, { passive: true });
+} else if (glow) {
+  glow.style.display = 'none';
+}
+
+/* ===== ICONS ===== */
+var ICON_MUTED = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+var ICON_SOUND = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
+
+/* ===== VIDEO CARDS ===== */
+var cards = [].slice.call(document.querySelectorAll('.work-card'));
+
+cards.forEach(function(card) {
+  var video  = card.querySelector('video');
+  var slider = card.querySelector('.volume-slider');
+  var mute   = card.querySelector('.mute-btn');
+  var frame  = card.querySelector('.frame');
+  var progressBar = card.querySelector('.video-progress span');
+
+  video.addEventListener('timeupdate', function() {
+    if (video.duration) {
+      progressBar.style.width = ((video.currentTime / video.duration) * 100) + '%';
+    }
+  });
+
+  var paint = function() {
+    var p = slider.value * 100;
+    slider.style.background = 'linear-gradient(to right,#ffffff ' + p + '%,rgba(255,255,255,.18) ' + p + '%)';
+  };
+
+  var setMuted = function(m) {
+    video.muted = m;
+    card.classList.toggle('muted', m);
+    mute.innerHTML = m ? ICON_MUTED : ICON_SOUND;
+    slider.value = m ? 0 : (video.volume || .5);
+    paint();
+  };
+
+  var play = function(sound) {
+    cards.forEach(function(c) { if (c !== card) c._stop(); });
+    video.volume = .5;
+    setMuted(!sound);
+    card.classList.add('active');
+    card.classList.remove('paused');
+    var promise = video.play();
+    if (promise !== undefined) {
+      promise.catch(function() {
+        setMuted(true);
+        video.play().catch(function() {
+          card.classList.remove('active');
+        });
+      });
+    }
+  };
+
+  var stop = function() {
+    video.pause();
+    try { video.currentTime = 0; } catch(e) {}
+    setMuted(true);
+    card.classList.remove('active');
+    card.classList.remove('paused');
+    progressBar.style.width = '0%';
+  };
+
+  var pause = function() {
+    video.pause();
+    card.classList.remove('active');
+    card.classList.add('paused');
+  };
+
+  var resume = function() {
+    cards.forEach(function(c) { if (c !== card) c._stop(); });
+    card.classList.remove('paused');
+    card.classList.add('active');
+    video.play().catch(function() {});
+  };
+
+  card._stop = stop;
+  card._pause = pause;
+  card._playMuted = function() { play(false); };
+  setMuted(true);
+
+  if (canHover) {
+    card.addEventListener('mouseenter', function() {
+      if (card.classList.contains('paused')) {
+        resume();
+      } else {
+        play(true);
+      }
+    });
+    card.addEventListener('mouseleave', function() {
+      if (!card.classList.contains('paused')) {
+        stop();
+      }
+    });
+  }
+
+  frame.addEventListener('click', function(e) {
+    if (e.target.closest('.video-controls')) return;
+    if (video.paused && !card.classList.contains('paused')) {
+      play(true);
+    } else if (video.paused && card.classList.contains('paused')) {
+      resume();
+    } else {
+      pause();
+    }
+  });
+
+  mute.addEventListener('click', function(e) {
+    e.stopPropagation();
+    setMuted(!video.muted);
+  });
+
+  slider.addEventListener('input', function(e) {
+    e.stopPropagation();
+    var v = +e.target.value;
+    video.volume = v;
+    video.muted = v === 0;
+    card.classList.toggle('muted', v === 0);
+    mute.innerHTML = v === 0 ? ICON_MUTED : ICON_SOUND;
+    paint();
+  });
+});
+
+/* ===== VISIBILITY OBSERVER ===== */
+var vis = new IntersectionObserver(function(entries) {
+  entries.forEach(function(en) {
+    if (!en.isIntersecting) {
+      en.target._stop();
+    } else if (!canHover && en.intersectionRatio >= 0.6) {
+      var v = en.target.querySelector('video');
+      if (v && v.paused) en.target._playMuted();
+    }
+  });
+}, { threshold: [0, 0.1, 0.6] });
+cards.forEach(function(c) { vis.observe(c); });
+
+/* ===== REVEAL ON SCROLL ===== */
+var io = new IntersectionObserver(function(es) {
+  es.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: .15 });
+
+document.querySelectorAll('.work-card, .works .section-title').forEach(function(el) {
+  el.classList.add('reveal');
+  io.observe(el);
+});
+</script>
 </body>
 </html>
