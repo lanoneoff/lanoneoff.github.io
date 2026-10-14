@@ -9,6 +9,7 @@
   --safe-b: env(safe-area-inset-bottom, 0px);
 }
 
+/* ================= RESET ================= */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -93,6 +94,7 @@ a, button, input { touch-action: manipulation; }
   will-change: transform;
 }
 
+/* ===== EMBERS ===== */
 .embers {
   position: fixed;
   inset: 0;
@@ -100,7 +102,6 @@ a, button, input { touch-action: manipulation; }
   z-index: -1;
   overflow: hidden;
 }
-
 .embers span {
   position: absolute;
   bottom: -20px;
@@ -110,27 +111,27 @@ a, button, input { touch-action: manipulation; }
   box-shadow: 0 0 6px rgba(220, 40, 50, 0.9);
   animation: rise 12s linear infinite;
 }
-
 .embers span:nth-child(1)  { left: 10%; animation-duration: 11s; animation-delay: 0s; }
-.embers span:nth-child(2)  { left: 25%; animation-duration: 14s; animation-delay: 2s; width: 2px; height: 2px; }
-.embers span:nth-child(3)  { left: 40%; animation-duration: 9s; animation-delay: 4s; }
-.embers span:nth-child(4)  { left: 55%; animation-duration: 15s; animation-delay: 1s; width: 4px; height: 4px; }
+.embers span:nth-child(2)  { left: 25%; animation-duration: 14s; animation-delay: 2s;   width: 2px; height: 2px; }
+.embers span:nth-child(3)  { left: 40%; animation-duration: 9s;  animation-delay: 4s; }
+.embers span:nth-child(4)  { left: 55%; animation-duration: 15s; animation-delay: 1s;   width: 4px; height: 4px; }
 .embers span:nth-child(5)  { left: 70%; animation-duration: 10s; animation-delay: 5s; }
-.embers span:nth-child(6)  { left: 85%; animation-duration: 13s; animation-delay: 3s; width: 2px; height: 2px; }
+.embers span:nth-child(6)  { left: 85%; animation-duration: 13s; animation-delay: 3s;   width: 2px; height: 2px; }
 .embers span:nth-child(7)  { left: 18%; animation-duration: 16s; animation-delay: 7s; }
 .embers span:nth-child(8)  { left: 62%; animation-duration: 12s; animation-delay: 6s; }
 .embers span:nth-child(9)  { left: 88%; animation-duration: 10s; animation-delay: 8s; }
-.embers span:nth-child(10) { left: 33%; animation-duration: 13s; animation-delay: 9s; width: 2px; height: 2px; }
+.embers span:nth-child(10) { left: 33%; animation-duration: 13s; animation-delay: 9s;   width: 2px; height: 2px; }
 .embers span:nth-child(11) { left: 48%; animation-duration: 11s; animation-delay: 3.5s; }
 .embers span:nth-child(12) { left: 78%; animation-duration: 14s; animation-delay: 1.5s; }
 
 @keyframes rise {
-  0%   { transform: translateY(0) scale(1); opacity: 0; }
+  0%   { transform: translateY(0) scale(1);          opacity: 0; }
   20%  { opacity: 0.85; }
   80%  { opacity: 0.6; }
-  100% { transform: translateY(-105vh) scale(0.2); opacity: 0; }
+  100% { transform: translateY(-105vh) scale(0.2);   opacity: 0; }
 }
 
+/* ===== FX GLOWS / LINES ===== */
 .fx {
   position: fixed;
   inset: 0;
@@ -138,40 +139,34 @@ a, button, input { touch-action: manipulation; }
   pointer-events: none;
   overflow: hidden;
 }
-
 .glow {
   position: absolute;
   border-radius: 50%;
   filter: blur(90px);
   opacity: 0.7;
 }
-
 .g1 {
   width: 480px; height: 480px; left: -220px; top: 18%;
   background: radial-gradient(circle, rgba(190, 25, 45, .7) 0%, rgba(90, 10, 20, .25) 50%, transparent 70%);
   animation: floatA 20s ease-in-out infinite alternate;
 }
-
 .g2 {
   width: 340px; height: 340px; left: -100px; bottom: 5%;
   background: radial-gradient(circle, rgba(140, 30, 25, .55) 0%, transparent 70%);
   filter: blur(80px);
   animation: floatB 16s ease-in-out infinite alternate;
 }
-
 .g3 {
   width: 440px; height: 440px; right: -200px; top: 8%;
   background: radial-gradient(circle, rgba(170, 20, 40, .65) 0%, rgba(70, 8, 18, .2) 55%, transparent 72%);
   animation: floatC 24s ease-in-out infinite alternate;
 }
-
 .g4 {
   width: 360px; height: 360px; right: -140px; top: 48%;
   background: radial-gradient(circle, rgba(100, 18, 30, .55) 0%, transparent 68%);
   filter: blur(100px);
   animation: floatA 18s ease-in-out infinite alternate-reverse;
 }
-
 .g5 {
   width: 260px; height: 260px; right: 2%; bottom: 12%;
   background: radial-gradient(circle, rgba(190, 70, 30, .35) 0%, transparent 70%);
@@ -179,7 +174,6 @@ a, button, input { touch-action: manipulation; }
   opacity: 0.5;
   animation: floatB 14s ease-in-out infinite alternate;
 }
-
 .g6 {
   width: 300px; height: 300px; left: 8%; top: 60%;
   background: radial-gradient(circle, rgba(120, 15, 30, .3) 0%, transparent 70%);
@@ -187,7 +181,6 @@ a, button, input { touch-action: manipulation; }
   opacity: 0.45;
   animation: floatC 19s ease-in-out infinite alternate-reverse;
 }
-
 .line {
   position: absolute;
   width: 2px;
@@ -195,21 +188,20 @@ a, button, input { touch-action: manipulation; }
   filter: blur(5px);
   opacity: 0.28;
 }
-
-.l1 { left: 6%; top: 15%; height: 58vh; transform: rotate(7deg); animation: pulse 10s ease-in-out infinite; }
+.l1 { left: 6%;  top: 15%; height: 58vh; transform: rotate(7deg);  animation: pulse 10s ease-in-out infinite; }
 .l2 { right: 7%; top: 20%; height: 50vh; transform: rotate(-9deg); animation: pulse 12s ease-in-out infinite 1.2s; }
 
-@keyframes floatA { from { transform: translate(0,0) scale(1); } to { transform: translate(36px,-48px) scale(1.08); } }
-@keyframes floatB { from { transform: translate(0,0); } to { transform: translate(-28px,34px) scale(1.1); } }
-@keyframes floatC { from { transform: translate(0,0) scale(1); } to { transform: translate(-40px,28px) scale(1.06); } }
-@keyframes pulse { 0%,100% { opacity: .12; } 50% { opacity: .32; } }
+@keyframes floatA { from { transform: translate(0,0) scale(1); }   to { transform: translate(36px,-48px) scale(1.08); } }
+@keyframes floatB { from { transform: translate(0,0); }           to { transform: translate(-28px,34px) scale(1.1);  } }
+@keyframes floatC { from { transform: translate(0,0) scale(1); }   to { transform: translate(-40px,28px) scale(1.06); } }
+@keyframes pulse  { 0%,100% { opacity: .12; } 50% { opacity: .32; } }
 
+/* ================= TYPOGRAPHY / DECOR ================= */
 .rule {
   display: flex;
   justify-content: center;
   margin: 32px 0;
 }
-
 .rule span {
   width: 58px;
   height: 1px;
@@ -224,6 +216,7 @@ a, button, input { touch-action: manipulation; }
   line-height: 1.1;
 }
 
+/* ================= HERO ================= */
 .hero {
   min-height: 100vh;
   min-height: 100svh;
@@ -235,7 +228,6 @@ a, button, input { touch-action: manipulation; }
   padding: 96px 20px 140px;
   position: relative;
 }
-
 .hero-inner {
   max-width: 700px;
   width: 100%;
@@ -256,16 +248,13 @@ a, button, input { touch-action: manipulation; }
   letter-spacing: .04em;
   margin: 0;
 }
-
 .main-title .white { color: var(--text); }
-
 .main-title .accent {
   color: var(--red);
   font-style: italic;
   text-transform: none;
   letter-spacing: 0;
   font-size: 1.1em;
-  text-shadow: 0 0 40px rgba(200, 16, 46, .45), 0 0 90px rgba(200, 16, 46, .2);
 }
 
 .hero-cta {
@@ -275,7 +264,6 @@ a, button, input { touch-action: manipulation; }
   gap: 32px;
   width: 100%;
 }
-
 .hero-cta > .btn-red { margin-top: 6px; }
 
 .tagline {
@@ -293,6 +281,7 @@ a, button, input { touch-action: manipulation; }
   justify-content: center;
 }
 
+/* ===== BUTTONS ===== */
 .btn {
   width: 148px;
   height: 50px;
@@ -310,15 +299,12 @@ a, button, input { touch-action: manipulation; }
   box-shadow: 0 0 0 1.5px rgba(255,255,255,.3), 0 2px 14px rgba(0,0,0,.4);
   transition: background .25s ease, box-shadow .25s ease, transform .15s ease;
 }
-
 .btn .icon { width: 16px; height: 16px; display: block; flex-shrink: 0; }
-.btn span { line-height: 1; }
-
+.btn span  { line-height: 1; }
 .btn:hover {
   background: var(--red);
   box-shadow: 0 0 0 1.5px var(--red), 0 8px 28px rgba(200,16,46,.4);
 }
-
 .btn:active { transform: scale(.97); }
 
 .btn-red {
@@ -327,12 +313,12 @@ a, button, input { touch-action: manipulation; }
   font-weight: 600;
   box-shadow: 0 0 0 1.5px var(--red), 0 0 30px rgba(200,16,46,.45) !important;
 }
-
 .btn-red:hover {
   background: var(--red-h) !important;
   box-shadow: 0 0 0 1.5px var(--red-h), 0 10px 36px rgba(200,16,46,.55) !important;
 }
 
+/* ================= SCROLL ARROW ================= */
 .scroll-btn {
   position: absolute;
   bottom: calc(96px + var(--safe-b));
@@ -350,7 +336,6 @@ a, button, input { touch-action: manipulation; }
   color: rgba(255,255,255,.9);
   transition: color .25s;
 }
-
 .scroll-label {
   font-family: var(--sans);
   font-size: 10px;
@@ -360,7 +345,6 @@ a, button, input { touch-action: manipulation; }
   color: #fff;
   transition: color .25s;
 }
-
 .scroll-circle {
   width: 46px; height: 46px;
   border-radius: 23px;
@@ -369,18 +353,16 @@ a, button, input { touch-action: manipulation; }
   box-shadow: 0 0 0 1.5px rgba(255,255,255,.32), 0 2px 14px rgba(0,0,0,.4);
   transition: background .25s, box-shadow .25s;
 }
-
 .scroll-btn .icon { width: 18px; height: 18px; display: block; }
-
 .scroll-btn:hover .scroll-circle {
   background: var(--red);
   box-shadow: 0 0 0 1.5px var(--red), 0 8px 24px rgba(200,16,46,.4);
 }
 
-@keyframes in { to { opacity: 1; } }
+@keyframes in  { to { opacity: 1; } }
 @keyframes bob {
   0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, 7px); }
+  50%      { transform: translate(-50%, 7px); }
 }
 
 .fade {
@@ -389,15 +371,14 @@ a, button, input { touch-action: manipulation; }
   animation: up 1s cubic-bezier(.2,.7,.2,1) forwards;
   animation-delay: var(--d, 0s);
 }
-
 @keyframes up { to { opacity: 1; transform: none; } }
 
+/* ================= WORKS ================= */
 .works {
   padding: 64px 24px 96px;
   max-width: 1240px;
   margin: 0 auto;
 }
-
 .works .section-title { margin-bottom: 44px; }
 
 .work-grid {
@@ -407,7 +388,6 @@ a, button, input { touch-action: manipulation; }
   justify-items: center;
   align-items: start;
 }
-
 .work-card {
   width: 100%;
   max-width: 360px;
@@ -424,7 +404,6 @@ a, button, input { touch-action: manipulation; }
   transition: box-shadow .35s, transform .35s;
   cursor: pointer;
 }
-
 .work-card.active .frame {
   transform: translateY(-4px);
   box-shadow:
@@ -440,12 +419,12 @@ a, button, input { touch-action: manipulation; }
   filter: grayscale(.18) brightness(.9);
   transition: filter .45s, transform .6s;
 }
-
 .work-card.active .portfolio-video {
   filter: none;
   transform: scale(1.02);
 }
 
+/* ===== PROGRESS BAR ===== */
 .video-progress {
   position: absolute;
   left: 0; right: 0; bottom: 0;
@@ -456,12 +435,10 @@ a, button, input { touch-action: manipulation; }
   opacity: 0;
   transition: opacity .3s;
 }
-
 .work-card.active .video-progress {
   opacity: 1;
   background: rgba(255,255,255,.15);
 }
-
 .video-progress span {
   display: block;
   height: 100%;
@@ -471,6 +448,7 @@ a, button, input { touch-action: manipulation; }
   transition: width .1s linear;
 }
 
+/* ===== PLAY HINT ===== */
 .play-hint {
   position: absolute;
   inset: 0;
@@ -480,7 +458,6 @@ a, button, input { touch-action: manipulation; }
   pointer-events: none;
   transition: opacity .35s;
 }
-
 .play-hint svg {
   width: 52px; height: 52px;
   border-radius: 26px;
@@ -493,13 +470,11 @@ a, button, input { touch-action: manipulation; }
   box-shadow: 0 0 0 1px rgba(255,255,255,.15), 0 8px 24px rgba(0,0,0,.4);
   transition: transform .25s, background .25s, box-shadow .25s;
 }
-
 .frame:hover .play-hint svg {
   transform: scale(1.08);
   background: rgba(200, 16, 46, .6);
   box-shadow: 0 0 0 1px rgba(200,16,46,.5), 0 8px 24px rgba(0,0,0,.4);
 }
-
 .work-card.active .play-hint { opacity: 0; }
 .work-card.paused .play-hint { opacity: 1; }
 .work-card.paused .video-controls { opacity: 0; pointer-events: none; }
@@ -511,6 +486,7 @@ a, button, input { touch-action: manipulation; }
     0 12px 30px rgba(0,0,0,.4);
 }
 
+/* ===== VIDEO CONTROLS ===== */
 .video-controls {
   position: absolute;
   right: 10px; bottom: 10px;
@@ -527,7 +503,6 @@ a, button, input { touch-action: manipulation; }
   transform: translateY(6px);
   transition: opacity .3s, transform .3s;
 }
-
 .work-card.active .video-controls { opacity: 1; transform: none; }
 
 .mute-btn {
@@ -536,7 +511,6 @@ a, button, input { touch-action: manipulation; }
   display: flex; align-items: center; justify-content: center;
   color: #fff; flex: none; order: 2;
 }
-
 .mute-btn svg { width: 14px; height: 14px; display: block; }
 .work-card.muted .mute-btn { color: rgba(255,255,255,.55); }
 
@@ -552,31 +526,29 @@ a, button, input { touch-action: manipulation; }
   border-radius: 2px;
   transition: width .25s, opacity .25s, margin .25s;
 }
-
 .work-card.muted .volume-slider {
   width: 0; opacity: 0; margin: 0; pointer-events: none;
 }
-
 .volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 10px; height: 10px; border-radius: 5px;
   background: #fff; border: 0;
 }
-
 .volume-slider::-moz-range-thumb {
   width: 10px; height: 10px; border-radius: 5px;
   background: #fff; border: 0;
 }
 
+/* ===== REVEAL ===== */
 .reveal {
   opacity: 0;
   transform: translateY(22px);
   transition: opacity .75s ease, transform .75s cubic-bezier(.2,.7,.2,1);
 }
-
 .reveal.in { opacity: 1; transform: none; }
 .work-card:nth-child(2) { transition-delay: .08s; }
 .work-card:nth-child(3) { transition-delay: .16s; }
+
 
 /* ================= TABLET ================= */
 @media (max-width: 1100px) {
@@ -596,14 +568,12 @@ a, button, input { touch-action: manipulation; }
     transform: none;
     background: none;
   }
-
   .bg-image::before,
   .bg-image::after {
     content: "";
     position: absolute;
     inset: 0;
   }
-
   .bg-image::before {
     inset: -6%;
     background:
@@ -612,33 +582,33 @@ a, button, input { touch-action: manipulation; }
     transform: scale(1.06);
     filter: saturate(1.04) contrast(1.02);
   }
-
   .bg-image::after {
     background:
-      radial-gradient(circle at 50% 18%, rgba(176,24,43,.34) 0%, rgba(176,24,43,.12) 18%, transparent 40%),
       radial-gradient(circle at 50% 62%, rgba(0,0,0,0) 0%, rgba(0,0,0,.24) 48%, rgba(0,0,0,.54) 100%),
-      linear-gradient(180deg, rgba(0,0,0,.48) 0%, rgba(0,0,0,.12) 22%, rgba(0,0,0,.44) 100%);
+      linear-gradient(180deg, rgba(0,0,0,.44) 0%, rgba(0,0,0,.08) 22%, rgba(0,0,0,.4) 100%);
   }
-
   .bg-vignette {
     background:
-      radial-gradient(ellipse at 50% 24%, rgba(255,60,60,.08) 0%, rgba(255,60,60,0) 24%),
-      linear-gradient(to bottom, rgba(5,5,5,.42) 0%, rgba(5,5,5,.06) 24%, rgba(5,5,5,.48) 100%);
+      linear-gradient(to bottom, rgba(5,5,5,.4) 0%, rgba(5,5,5,.04) 24%, rgba(5,5,5,.44) 100%);
   }
 
   .hero {
     justify-content: flex-start;
     padding: max(88px, 14svh) 18px 150px;
+    /* svh-fallback: 88px минимум, даже если svh не поддерживается */
     padding-top: 88px;
     padding-top: max(88px, 14svh);
   }
-
-  .main-title { font-size: clamp(54px, 16vw, 78px); }
+  .main-title {
+    font-size: clamp(54px, 16vw, 78px);
+  }
   .rule { margin: 26px 0; }
-  .tagline { font-size: 16px; line-height: 1.35; }
+  .tagline {
+    font-size: 16px;
+    line-height: 1.35;
+  }
   .hero-cta { gap: 26px; }
   .row { gap: 14px; }
-
   .btn {
     width: 138px;
     height: 46px;
@@ -646,24 +616,35 @@ a, button, input { touch-action: manipulation; }
     font-size: .8rem;
   }
 
-  .scroll-btn { bottom: calc(56px + var(--safe-b)); }
-  .scroll-circle { width: 42px; height: 42px; border-radius: 21px; }
-  .scroll-label { font-size: 9px; letter-spacing: .32em; }
+  .scroll-btn {
+    bottom: calc(56px + var(--safe-b));
+  }
+  .scroll-circle {
+    width: 42px; height: 42px; border-radius: 21px;
+  }
+  .scroll-label {
+    font-size: 9px;
+    letter-spacing: .32em;
+  }
 
+  /* убираем тяжёлые эффекты */
   .glow,
   .cursor-glow,
   .embers,
   .line { display: none; }
 
   .works { padding: 56px 16px 64px; }
-  .works .section-title { margin-bottom: 34px; font-size: 34px; }
+  .works .section-title {
+    margin-bottom: 34px;
+    font-size: 34px;
+  }
 
+  /* одна колонка, без snap-ловушек и вложенного скролла */
   .work-grid {
     grid-template-columns: 1fr;
     gap: 34px;
     max-width: none;
   }
-
   .work-card {
     max-width: 330px;
     width: 100%;
@@ -684,10 +665,16 @@ a, button, input { touch-action: manipulation; }
   .row { gap: 10px; }
 }
 
+/* крупнее кнопки на тач */
 @media (hover: none) {
-  .mute-btn { width: 36px; height: 36px; border-radius: 18px; }
+  .mute-btn {
+    width: 36px; height: 36px; border-radius: 18px;
+  }
   .mute-btn svg { width: 16px; height: 16px; }
-  .video-controls { padding: 5px; right: 12px; bottom: 12px; }
+  .video-controls {
+    padding: 5px;
+    right: 12px; bottom: 12px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
