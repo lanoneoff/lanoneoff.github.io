@@ -618,6 +618,7 @@ a, button, input { touch-action: manipulation; }
 
   .scroll-btn {
     bottom: calc(56px + var(--safe-b));
+    animation: in 1s ease-out 1.2s both;
   }
   .scroll-circle {
     width: 42px; height: 42px; border-radius: 21px;
