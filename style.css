@@ -586,6 +586,12 @@ a, button, input { touch-action: manipulation; }
 }
 
 @media (max-width: 768px) {
+  /* фон — без анимации дыхания, чтобы не пикселило */
+  .bg-image {
+    animation: none;
+    transform: none;
+  }
+
   .hero {
     justify-content: flex-start;
     padding: max(88px, 14svh) 18px 150px;
@@ -598,9 +604,14 @@ a, button, input { touch-action: manipulation; }
   .hero-cta { gap: 26px; }
   .row { gap: 14px; }
   .btn { width: 138px; height: 46px; border-radius: 23px; font-size: .8rem; }
-  .scroll-btn { bottom: calc(32px + var(--safe-b)); }
+
+  /* стрелка и Works — выше */
+  .scroll-btn {
+    bottom: calc(56px + var(--safe-b));
+  }
   .scroll-circle { width: 42px; height: 42px; border-radius: 21px; }
   .scroll-label { font-size: 9px; letter-spacing: .32em; }
+
   .glow, .cursor-glow, .embers, .line { display: none; }
   .works { padding: 56px 16px 64px; }
   .works .section-title { margin-bottom: 34px; font-size: 34px; }
