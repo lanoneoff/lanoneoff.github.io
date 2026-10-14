@@ -586,10 +586,11 @@ a, button, input { touch-action: manipulation; }
 }
 
 @media (max-width: 768px) {
-  /* фон — без анимации дыхания, чтобы не пикселило */
   .bg-image {
     animation: none;
     transform: none;
+    background-size: 140%;
+    background-position: center center;
   }
 
   .hero {
@@ -605,7 +606,6 @@ a, button, input { touch-action: manipulation; }
   .row { gap: 14px; }
   .btn { width: 138px; height: 46px; border-radius: 23px; font-size: .8rem; }
 
-  /* стрелка и Works — выше */
   .scroll-btn {
     bottom: calc(56px + var(--safe-b));
   }
