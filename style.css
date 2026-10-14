@@ -52,10 +52,13 @@ a, button, input { touch-action: manipulation; }
 ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 20px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--red); }
 
+/* ================= BACKGROUND ================= */
 .bg-image {
   position: fixed;
   inset: 0;
   z-index: -3;
+  overflow: hidden;
+  isolation: isolate;
   background-color: #060505;
   background-image: url("./fineday_clean.png");
   background-size: cover;
@@ -575,6 +578,7 @@ a, button, input { touch-action: manipulation; }
 .work-card:nth-child(2) { transition-delay: .08s; }
 .work-card:nth-child(3) { transition-delay: .16s; }
 
+/* ================= TABLET ================= */
 @media (max-width: 1100px) {
   .work-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -585,12 +589,36 @@ a, button, input { touch-action: manipulation; }
   .work-card { max-width: 340px; }
 }
 
+/* ================= MOBILE ================= */
 @media (max-width: 768px) {
+  /* фон: убираем дефолтный, делаем двухслойный через псевдоэлементы */
   .bg-image {
     animation: none;
     transform: none;
-    background-size: 140%;
+    background-image: none;
+  }
+  .bg-image::before,
+  .bg-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("./fineday_clean.png");
+    background-repeat: no-repeat;
     background-position: center center;
+  }
+  /* задний слой — размытая заливка на весь экран без полос */
+  .bg-image::before {
+    inset: -12%;
+    background-size: cover;
+    filter: blur(26px) brightness(.42) saturate(1.06);
+    transform: scale(1.18);
+    opacity: .95;
+  }
+  /* передний слой — чёткая полная картинка contain */
+  .bg-image::after {
+    background-size: contain;
+    background-position: center 46%;
+    opacity: .98;
   }
 
   .hero {
@@ -606,15 +634,15 @@ a, button, input { touch-action: manipulation; }
   .row { gap: 14px; }
   .btn { width: 138px; height: 46px; border-radius: 23px; font-size: .8rem; }
 
-  .scroll-btn {
-    bottom: calc(56px + var(--safe-b));
-  }
+  .scroll-btn { bottom: calc(56px + var(--safe-b)); }
   .scroll-circle { width: 42px; height: 42px; border-radius: 21px; }
   .scroll-label { font-size: 9px; letter-spacing: .32em; }
 
   .glow, .cursor-glow, .embers, .line { display: none; }
+
   .works { padding: 56px 16px 64px; }
   .works .section-title { margin-bottom: 34px; font-size: 34px; }
+
   .work-grid { grid-template-columns: 1fr; gap: 34px; max-width: none; }
   .work-card { max-width: 330px; width: 100%; margin: 0 auto; }
 }
