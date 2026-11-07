@@ -240,12 +240,14 @@ cards.forEach(function(card) {
     cards.forEach(function(c) { if (c !== card) c._stop(); });
     video.volume = .5;
     setMuted(!sound);
+    card._autoMuted = !sound;
     card.classList.add('active');
     card.classList.remove('paused');
     var promise = video.play();
     if (promise !== undefined) {
       promise.catch(function() {
         setMuted(true);
+        card._autoMuted = true;
         video.play().catch(function() {
           card.classList.remove('active');
         });
@@ -257,6 +259,7 @@ cards.forEach(function(card) {
     video.pause();
     try { video.currentTime = 0; } catch(e) {}
     setMuted(true);
+    card._autoMuted = true;
     card.classList.remove('active');
     card.classList.remove('paused');
     progressBar.style.width = '0%';
@@ -278,6 +281,7 @@ cards.forEach(function(card) {
   card._stop = stop;
   card._pause = pause;
   card._playMuted = function() { play(false); };
+  card._autoMuted = true;
   setMuted(true);
 
   if (canHover) {
@@ -295,13 +299,23 @@ cards.forEach(function(card) {
     });
   }
 
+  /* --- Главное исправление звука на мобиле --- */
   frame.addEventListener('click', function(e) {
     if (e.target.closest('.video-controls')) return;
-    if (video.paused && !card.classList.contains('paused')) {
-      play(true);
-    } else if (video.paused && card.classList.contains('paused')) {
+
+    if (video.paused) {
+      // было на паузе — включаем звук и играем
+      if (card._autoMuted) {
+        setMuted(false);
+        card._autoMuted = false;
+      }
       resume();
+    } else if (video.muted && card._autoMuted) {
+      // играет, но заглушено автоплеем — включаем звук
+      setMuted(false);
+      card._autoMuted = false;
     } else {
+      // уже со звуком (или юзер сам замьютил) — пауза
       pause();
     }
   });
@@ -309,6 +323,7 @@ cards.forEach(function(card) {
   mute.addEventListener('click', function(e) {
     e.stopPropagation();
     setMuted(!video.muted);
+    card._autoMuted = false;
   });
 
   slider.addEventListener('input', function(e) {
@@ -316,6 +331,7 @@ cards.forEach(function(card) {
     var v = +e.target.value;
     video.volume = v;
     video.muted = v === 0;
+    card._autoMuted = false;
     card.classList.toggle('muted', v === 0);
     mute.innerHTML = v === 0 ? ICON_MUTED : ICON_SOUND;
     paint();
