@@ -1,370 +1,439 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#050505">
-<title>Lev — Video Editor</title>
-<meta name="description" content="Video editor. Vertical stories that captivate and stay.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://editorlev.com/">
-<meta property="og:title" content="Lev — Video Editor">
-<meta property="og:description" content="Vertical stories that captivate and stay.">
-<meta property="og:image" content="./fineday_clean.png">
-<link rel="icon" type="image/png" href="./fineday_clean.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Lev — Video Editor</title>
+  <meta name="description" content="Transforming ideas into vertical stories that captivate and stay." />
+
+  <meta property="og:title" content="Lev — Video Editor" />
+  <meta property="og:description" content="Transforming ideas into vertical stories that captivate and stay." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://editorlev.com/" />
+  <meta name="theme-color" content="#0b0c0f" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%2280%22 height=%2280%22 x=%2210%22 y=%2210%22 rx=%2220%22 fill=%22%23f5f5f7%22/></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./style.css" />
 </head>
+
 <body>
+  <div class="bg" aria-hidden="true">
+    <div class="bg-ambient"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-grid-lit" id="gridLit"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="vignette"></div>
+    <div class="grain"></div>
+  </div>
 
-<!-- ===== BACKGROUND LAYERS ===== -->
-<div class="bg-image"></div>
-<div class="bg-vignette"></div>
-<div class="cursor-glow" id="cursorGlow"></div>
+  <main class="page">
+    <section class="hero" id="top">
+      <div class="hero-inner">
+        <h1 class="main-title">
+          <span class="title-top">VIDEO</span>
+          <span class="accent">Editor</span>
+        </h1>
 
-<div class="fx" aria-hidden="true">
-  <div class="glow g1"></div>
-  <div class="glow g2"></div>
-  <div class="glow g3"></div>
-  <div class="glow g4"></div>
-  <div class="glow g5"></div>
-  <div class="glow g6"></div>
-  <div class="line l1"></div>
-  <div class="line l2"></div>
-</div>
+        <div class="hero-divider" aria-hidden="true">
+          <span class="diamond"></span>
+        </div>
+        
+        <p class="sub">
+          Transforming ideas into vertical stories<br>that captivate and stay.
+        </p>
 
-<div class="embers" aria-hidden="true">
-  <span></span><span></span><span></span><span></span><span></span>
-  <span></span><span></span><span></span><span></span><span></span>
-  <span></span><span></span>
-</div>
+        <div class="hero-cta" role="group" aria-label="Contact links">
+          <div class="row">
+            <a class="btn" href="https://t.me/editor_lev" target="_blank" rel="noreferrer">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+              </svg>
+              <span>Telegram</span>
+            </a>
 
-<!-- ===== HERO ===== -->
-<section class="hero">
-  <div class="hero-inner">
-    <h1 class="main-title">
-      <span class="white fade" style="--d:.1s">Video</span>
-      <span class="accent fade" style="--d:.25s">Editor</span>
-    </h1>
+            <button class="btn" id="copyEmailBtn" type="button" data-email="editorafterwork@gmail.com">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="3"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+              <span class="btn-label">Email</span>
+            </button>
+          </div>
 
-    <div class="rule fade" style="--d:.4s"><span></span></div>
+          <a class="btn btn-primary" href="https://t.me/editor_lev" target="_blank" rel="noreferrer">
+            Hire me
+          </a>
+        </div>
 
-    <div class="hero-cta fade" style="--d:.55s">
-      <p class="tagline">
-        Transforming ideas into vertical stories<br>
-        that captivate and stay.
-      </p>
-      <div class="row">
-        <a href="https://t.me/editor_lev" target="_blank" rel="noreferrer" class="btn">
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.38-.49 1.07-.75 4.19-1.82 6.98-3.02 8.38-3.6 3.98-1.66 4.81-1.95 5.35-1.96.12 0 .38.03.55.17.14.12.18.3.2.43-.02.07-.01.21-.03.38z"/></svg>
-          <span>Telegram</span>
+        <a class="scroll-btn" href="#works" data-scroll="#works" aria-label="Scroll to works">
+          <span class="scroll-text">WORKS</span>
+          <span class="scroll-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </span>
         </a>
-        <button class="btn" type="button" onclick="copyEmail(this)">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-          <span>Email</span>
-        </button>
       </div>
-      <a href="https://t.me/editor_lev" target="_blank" rel="noreferrer" class="btn btn-red">Hire me</a>
-    </div>
-  </div>
+    </section>
 
-  <a href="#works" class="scroll-btn" id="scrollArrow" aria-label="Scroll to works">
-    <span class="scroll-label">Works</span>
-    <span class="scroll-circle">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </span>
-  </a>
-</section>
-
-<!-- ===== WORKS ===== -->
-<section class="works" id="works">
-  <h2 class="section-title">Works</h2>
-  <div class="work-grid">
-
-    <article class="work-card">
-      <div class="frame">
-        <video class="portfolio-video" muted loop playsinline preload="metadata">
-          <source src="./video1.mp4" type="video/mp4">
-        </video>
-        <div class="play-hint">
-          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-        </div>
-        <div class="video-controls">
-          <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0" aria-label="Volume">
-          <button class="mute-btn" type="button" aria-label="Mute"></button>
-        </div>
-        <div class="video-progress"><span></span></div>
+    <section class="works" id="works" aria-label="Works">
+      <div class="works-header">
+        <span class="works-line"></span>
+        <h2 class="works-title">WORKS</h2>
+        <span class="works-line"></span>
       </div>
-    </article>
 
-    <article class="work-card">
-      <div class="frame">
-        <video class="portfolio-video" muted loop playsinline preload="metadata">
-          <source src="./video2.mp4" type="video/mp4">
-        </video>
-        <div class="play-hint">
-          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-        </div>
-        <div class="video-controls">
-          <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0" aria-label="Volume">
-          <button class="mute-btn" type="button" aria-label="Mute"></button>
-        </div>
-        <div class="video-progress"><span></span></div>
+      <div class="work-grid">
+
+        <!-- Video 1 -->
+        <article class="work-card">
+          <div class="frame">
+            <video class="work-video" playsinline preload="metadata" loop muted>
+              <source src="./video1.mp4#t=0.001" type="video/mp4" />
+            </video>
+            
+            <div class="video-overlay">
+              <div class="play-indicator">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              
+              <div class="sound-pill is-muted">
+                <button class="mute-btn" type="button" aria-label="Toggle Mute">
+                  <svg class="vol-icon" viewBox="0 0 24 24" fill="currentColor"></svg>
+                </button>
+                <div class="slider-container">
+                  <input type="range" class="vol-slider" min="0" max="1" step="0.02" value="0.5" aria-label="Volume">
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video 2 -->
+        <article class="work-card">
+          <div class="frame">
+            <video class="work-video" playsinline preload="metadata" loop muted>
+              <source src="./video2.mp4#t=0.001" type="video/mp4" />
+            </video>
+            
+            <div class="video-overlay">
+              <div class="play-indicator">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              
+              <div class="sound-pill is-muted">
+                <button class="mute-btn" type="button" aria-label="Toggle Mute">
+                  <svg class="vol-icon" viewBox="0 0 24 24" fill="currentColor"></svg>
+                </button>
+                <div class="slider-container">
+                  <input type="range" class="vol-slider" min="0" max="1" step="0.02" value="0.5" aria-label="Volume">
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video 3 -->
+        <article class="work-card">
+          <div class="frame">
+            <video class="work-video" playsinline preload="metadata" loop muted>
+              <source src="./video3.mp4#t=0.001" type="video/mp4" />
+            </video>
+            
+            <div class="video-overlay">
+              <div class="play-indicator">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              
+              <div class="sound-pill is-muted">
+                <button class="mute-btn" type="button" aria-label="Toggle Mute">
+                  <svg class="vol-icon" viewBox="0 0 24 24" fill="currentColor"></svg>
+                </button>
+                <div class="slider-container">
+                  <input type="range" class="vol-slider" min="0" max="1" step="0.02" value="0.5" aria-label="Volume">
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
       </div>
-    </article>
 
-    <article class="work-card">
-      <div class="frame">
-        <video class="portfolio-video" muted loop playsinline preload="metadata">
-          <source src="./video3.mp4" type="video/mp4">
-        </video>
-        <div class="play-hint">
-          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-        </div>
-        <div class="video-controls">
-          <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0" aria-label="Volume">
-          <button class="mute-btn" type="button" aria-label="Mute"></button>
-        </div>
-        <div class="video-progress"><span></span></div>
+      <div class="works-bottom">
+        <a class="back-top-btn" href="#top" data-scroll="#top" aria-label="Back to top">
+          <span class="scroll-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m18 15-6-6-6 6"/>
+            </svg>
+          </span>
+          <span class="scroll-text">BACK TO TOP</span>
+        </a>
       </div>
-    </article>
+    </section>
+  </main>
 
-  </div>
-</section>
+  <script>
+    // Copy Email (with fallback for mobile HTTP testing)
+    const emailBtn = document.getElementById('copyEmailBtn');
+    if (emailBtn) {
+      const label = emailBtn.querySelector('.btn-label');
+      let copyTimeout;
 
-<script>
-/* ===== COPY EMAIL ===== */
-function copyEmail(btn) {
-  var email = 'editorafterwork@gmail.com';
-  var s = btn.querySelector('span');
-  var old = s.textContent;
+      function showCopiedFeedback() {
+        clearTimeout(copyTimeout);
+        if (label) label.innerText = 'Copied!';
+        emailBtn.classList.add('copied');
+        copyTimeout = setTimeout(() => {
+          if (label) label.innerText = 'Email';
+          emailBtn.classList.remove('copied');
+        }, 2000);
+      }
 
-  var copied = false;
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(email).then(function() {
-      s.textContent = 'Copied!';
-      setTimeout(function() { s.textContent = old; }, 1800);
-    }).catch(fallback);
-  } else {
-    fallback();
-  }
-
-  function fallback() {
-    try {
-      var ta = document.createElement('textarea');
-      ta.value = email;
-      ta.style.cssText = 'position:fixed;opacity:0;left:-9999px';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      ta.remove();
-      copied = true;
-    } catch(e) {}
-    if (copied) {
-      s.textContent = 'Copied!';
-      setTimeout(function() { s.textContent = old; }, 1800);
-    }
-  }
-}
-
-/* ===== SMOOTH SCROLL ===== */
-document.getElementById('scrollArrow').addEventListener('click', function(e) {
-  e.preventDefault();
-  if (window.innerWidth <= 768) {
-    var firstCard = document.querySelector('.work-card');
-    if (firstCard) {
-      firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  } else {
-    document.getElementById('works').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-});
-
-/* ===== DEVICE CAPABILITY ===== */
-var canHover = matchMedia('(hover:hover) and (pointer:fine)').matches;
-
-/* ===== CURSOR GLOW ===== */
-var glow = document.getElementById('cursorGlow');
-if (canHover && glow) {
-  var raf = 0, gx = -400, gy = -400;
-  window.addEventListener('mousemove', function(e) {
-    gx = e.clientX - 150;
-    gy = e.clientY - 150;
-    if (!raf) {
-      raf = requestAnimationFrame(function() {
-        glow.style.transform = 'translate3d(' + gx + 'px,' + gy + 'px,0)';
-        raf = 0;
+      emailBtn.addEventListener('click', () => {
+        const email = emailBtn.getAttribute('data-email');
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(email).then(showCopiedFeedback);
+        } else {
+          const textArea = document.createElement('textarea');
+          textArea.value = email;
+          textArea.style.position = 'fixed';
+          textArea.style.opacity = '0';
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          try {
+            document.execCommand('copy');
+            showCopiedFeedback();
+          } catch (err) {}
+          document.body.removeChild(textArea);
+        }
       });
     }
-  }, { passive: true });
-} else if (glow) {
-  glow.style.display = 'none';
-}
 
-/* ===== ICONS ===== */
-var ICON_MUTED = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
-var ICON_SOUND = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
+    // Smooth Scroll for #works and #top
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-scroll]');
+      if (!btn) return;
+      const selector = btn.getAttribute('data-scroll');
+      const target = document.querySelector(selector);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
 
-/* ===== VIDEO CARDS ===== */
-var cards = [].slice.call(document.querySelectorAll('.work-card'));
+    // Cursor Light & Interactive Grid Illumination (Desktop only)
+    const cursorGlow = document.getElementById('cursorGlow');
+    const gridLit = document.getElementById('gridLit');
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-cards.forEach(function(card) {
-  var video  = card.querySelector('video');
-  var slider = card.querySelector('.volume-slider');
-  var mute   = card.querySelector('.mute-btn');
-  var frame  = card.querySelector('.frame');
-  var progressBar = card.querySelector('.video-progress span');
-
-  video.addEventListener('timeupdate', function() {
-    if (video.duration) {
-      progressBar.style.width = ((video.currentTime / video.duration) * 100) + '%';
+    if (canHover) {
+      window.addEventListener('pointermove', (e) => {
+        const x = `${e.clientX}px`;
+        const y = `${e.clientY}px`;
+        if (cursorGlow) {
+          cursorGlow.style.setProperty('--mx', x);
+          cursorGlow.style.setProperty('--my', y);
+        }
+        if (gridLit) {
+          gridLit.style.setProperty('--mx', x);
+          gridLit.style.setProperty('--my', y);
+        }
+      }, { passive: true });
     }
-  });
 
-  var paint = function() {
-    var p = slider.value * 100;
-    slider.style.background = 'linear-gradient(to right,#ffffff ' + p + '%,rgba(255,255,255,.18) ' + p + '%)';
-  };
+    // Volume Icons
+    const ICONS = {
+      mute: '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>',
+      low: '<path d="M7 9v6h4l5 5V4l-5 5H7z"/>',
+      med: '<path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/>',
+      high: '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>'
+    };
 
-  var setMuted = function(m) {
-    video.muted = m;
-    card.classList.toggle('muted', m);
-    mute.innerHTML = m ? ICON_MUTED : ICON_SOUND;
-    slider.value = m ? 0 : (video.volume || .5);
-    paint();
-  };
+    const DEFAULT_VOLUME = 0.5;
+    const cards = Array.from(document.querySelectorAll('.work-card'));
 
-  var play = function(sound) {
-    cards.forEach(function(c) { if (c !== card) c._stop(); });
-    video.volume = .5;
-    setMuted(!sound);
-    card._autoMuted = !sound;
-    card.classList.add('active');
-    card.classList.remove('paused');
-    var promise = video.play();
-    if (promise !== undefined) {
-      promise.catch(function() {
-        setMuted(true);
-        card._autoMuted = true;
-        video.play().catch(function() {
-          card.classList.remove('active');
+    function pauseCard(card, resetTime = false) {
+      card.dataset.wantPlay = 'false';
+      const v = card.querySelector('.work-video');
+      if (!v) return;
+      v.pause();
+      if (resetTime) v.currentTime = 0;
+      card.classList.remove('is-playing');
+    }
+
+    function pauseAllExcept(activeCard) {
+      cards.forEach(c => {
+        if (c !== activeCard) pauseCard(c, false);
+      });
+    }
+
+    cards.forEach((card) => {
+      const video = card.querySelector('.work-video');
+      const muteBtn = card.querySelector('.mute-btn');
+      const volIcon = card.querySelector('.vol-icon');
+      const volSlider = card.querySelector('.vol-slider');
+      const soundPill = card.querySelector('.sound-pill');
+
+      if (!video) return;
+
+      let lastVolume = DEFAULT_VOLUME;
+      video.volume = DEFAULT_VOLUME;
+      card.dataset.wantPlay = 'false';
+
+      function getRestoredVolume() {
+        return lastVolume > 0 ? lastVolume : DEFAULT_VOLUME;
+      }
+
+      function syncVolumeUI() {
+        const effVol = video.muted ? 0 : video.volume;
+        volSlider.value = effVol;
+        volSlider.style.setProperty('--val', `${effVol * 100}%`);
+
+        if (effVol === 0) {
+          volIcon.innerHTML = ICONS.mute;
+          soundPill.classList.add('is-muted');
+        } else {
+          soundPill.classList.remove('is-muted');
+          if (effVol < 0.33) volIcon.innerHTML = ICONS.low;
+          else if (effVol < 0.66) volIcon.innerHTML = ICONS.med;
+          else volIcon.innerHTML = ICONS.high;
+        }
+      }
+
+      syncVolumeUI();
+
+      function playCard(withSound = true) {
+        pauseAllExcept(card);
+        card.dataset.wantPlay = 'true';
+
+        if (withSound) {
+          video.volume = getRestoredVolume();
+          video.muted = false;
+        } else {
+          video.muted = true;
+        }
+        syncVolumeUI();
+
+        const p = video.play();
+        if (p !== undefined) {
+          p.then(() => {
+            if (card.dataset.wantPlay !== 'true') {
+              video.pause();
+              return;
+            }
+            card.classList.add('is-playing');
+            syncVolumeUI();
+          }).catch((err) => {
+            if (card.dataset.wantPlay !== 'true' || err.name === 'AbortError') return;
+            video.muted = true;
+            syncVolumeUI();
+            video.play().then(() => {
+              if (card.dataset.wantPlay !== 'true') {
+                video.pause();
+                return;
+              }
+              card.classList.add('is-playing');
+            }).catch(() => {});
+          });
+        }
+      }
+
+      // Expose playCard for mobile scroll observer
+      card._playCard = playCard;
+
+      // Live volume adjustment while moving slider
+      volSlider.addEventListener('input', (e) => {
+        e.stopPropagation();
+        const val = parseFloat(e.target.value);
+        video.volume = val;
+        if (val > 0) {
+          video.muted = false;
+        } else {
+          video.muted = true;
+        }
+        syncVolumeUI();
+      });
+
+      // Remember chosen volume when user finishes moving the slider (if > 0)
+      volSlider.addEventListener('change', (e) => {
+        e.stopPropagation();
+        const val = parseFloat(e.target.value);
+        if (val > 0) {
+          lastVolume = val;
+        }
+      });
+
+      // Toggle Mute / Unmute to previous or default volume
+      muteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (video.muted || video.volume === 0) {
+          video.volume = getRestoredVolume();
+          video.muted = false;
+          if (video.paused) {
+            playCard(true);
+            return;
+          }
+        } else {
+          if (video.volume > 0) {
+            lastVolume = video.volume;
+          }
+          video.muted = true;
+        }
+        syncVolumeUI();
+      });
+
+      soundPill.addEventListener('click', (e) => e.stopPropagation());
+
+      card.querySelector('.frame').addEventListener('click', () => {
+        if (video.paused) {
+          playCard(true);
+        } else if (video.muted) {
+          video.volume = getRestoredVolume();
+          video.muted = false;
+          syncVolumeUI();
+        } else {
+          pauseCard(card, false);
+        }
+      });
+
+      if (canHover) {
+        card.addEventListener('mouseenter', () => {
+          playCard(true);
         });
-      });
-    }
-  };
-
-  var stop = function() {
-    video.pause();
-    try { video.currentTime = 0; } catch(e) {}
-    setMuted(true);
-    card._autoMuted = true;
-    card.classList.remove('active');
-    card.classList.remove('paused');
-    progressBar.style.width = '0%';
-  };
-
-  var pause = function() {
-    video.pause();
-    card.classList.remove('active');
-    card.classList.add('paused');
-  };
-
-  var resume = function() {
-    cards.forEach(function(c) { if (c !== card) c._stop(); });
-    card.classList.remove('paused');
-    card.classList.add('active');
-    video.play().catch(function() {});
-  };
-
-  card._stop = stop;
-  card._pause = pause;
-  card._playMuted = function() { play(false); };
-  card._autoMuted = true;
-  setMuted(true);
-
-  if (canHover) {
-    card.addEventListener('mouseenter', function() {
-      if (card.classList.contains('paused')) {
-        resume();
-      } else {
-        play(true);
+        card.addEventListener('mouseleave', () => {
+          pauseCard(card, true);
+        });
       }
     });
-    card.addEventListener('mouseleave', function() {
-      if (!card.classList.contains('paused')) {
-        stop();
-      }
-    });
-  }
 
-  /* --- Главное исправление звука на мобиле --- */
-  frame.addEventListener('click', function(e) {
-    if (e.target.closest('.video-controls')) return;
+    // Smart Scroll Observer:
+    // - On mobile (!canHover): auto-plays video (muted) when centered in view, pauses when scrolled away
+    // - On desktop: pauses video if scrolled out of view
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const card = entry.target;
+          const video = card.querySelector('.work-video');
+          if (!video) return;
 
-    if (video.paused) {
-      // было на паузе — включаем звук и играем
-      if (card._autoMuted) {
-        setMuted(false);
-        card._autoMuted = false;
-      }
-      resume();
-    } else if (video.muted && card._autoMuted) {
-      // играет, но заглушено автоплеем — включаем звук
-      setMuted(false);
-      card._autoMuted = false;
-    } else {
-      // уже со звуком (или юзер сам замьютил) — пауза
-      pause();
+          if (!entry.isIntersecting || entry.intersectionRatio < 0.25) {
+            pauseCard(card, false);
+          } else if (!canHover && entry.intersectionRatio >= 0.65) {
+            if (video.paused && card._playCard) {
+              card._playCard(false);
+            }
+          }
+        });
+      }, { threshold: [0.2, 0.65] });
+
+      cards.forEach((card) => observer.observe(card));
     }
-  });
-
-  mute.addEventListener('click', function(e) {
-    e.stopPropagation();
-    setMuted(!video.muted);
-    card._autoMuted = false;
-  });
-
-  slider.addEventListener('input', function(e) {
-    e.stopPropagation();
-    var v = +e.target.value;
-    video.volume = v;
-    video.muted = v === 0;
-    card._autoMuted = false;
-    card.classList.toggle('muted', v === 0);
-    mute.innerHTML = v === 0 ? ICON_MUTED : ICON_SOUND;
-    paint();
-  });
-});
-
-/* ===== VISIBILITY OBSERVER ===== */
-var vis = new IntersectionObserver(function(entries) {
-  entries.forEach(function(en) {
-    if (!en.isIntersecting) {
-      en.target._stop();
-    } else if (!canHover && en.intersectionRatio >= 0.6) {
-      var v = en.target.querySelector('video');
-      if (v && v.paused) en.target._playMuted();
-    }
-  });
-}, { threshold: [0, 0.1, 0.6] });
-cards.forEach(function(c) { vis.observe(c); });
-
-/* ===== REVEAL ON SCROLL ===== */
-var io = new IntersectionObserver(function(es) {
-  es.forEach(function(e) {
-    if (e.isIntersecting) {
-      e.target.classList.add('in');
-      io.unobserve(e.target);
-    }
-  });
-}, { threshold: .15 });
-
-document.querySelectorAll('.work-card, .works .section-title').forEach(function(el) {
-  el.classList.add('reveal');
-  io.observe(el);
-});
-</script>
+  </script>
 </body>
 </html>
