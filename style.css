@@ -711,25 +711,31 @@ main,
 /* ==========================================================================
    RESPONSIVE DESIGN & MOBILE TOUCH OPTIMIZATIONS
    ========================================================================== */
-/* Larger touch-friendly mute button & hidden slider on mobile/touch screens */
+/* Larger touch-friendly mute button on video for mobile/touch screens */
 @media (hover: none), (pointer: coarse) {
   .slider-container {
     display: none !important;
   }
 
+  .video-overlay {
+    padding: 16px;
+  }
+
   .sound-pill {
-    height: 42px;
-    padding: 3px;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    justify-content: center;
   }
 
   .mute-btn {
-    width: 36px;
-    height: 36px;
+    width: 50px;
+    height: 50px;
   }
 
   .mute-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
   }
 }
 
@@ -760,7 +766,11 @@ main,
   }
 
   .works {
-    padding: 40px 20px calc(56px + env(safe-area-inset-bottom, 0px));
+    padding: 28px 20px calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .works-header {
+    margin-bottom: 24px;
   }
 
   .work-grid {
@@ -769,6 +779,6 @@ main,
   }
 
   .work-card {
-    max-width: 352px;
+    max-width: min(352px, 46svh);
   }
 }
