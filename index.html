@@ -93,7 +93,7 @@
         <!-- Video 1 -->
         <article class="work-card">
           <div class="frame">
-            <video class="work-video" playsinline preload="metadata" loop muted>
+            <video class="work-video" playsinline preload="metadata" loop>
               <source src="./video1.mp4#t=0.001" type="video/mp4" />
             </video>
             
@@ -102,7 +102,7 @@
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </div>
               
-              <div class="sound-pill is-muted">
+              <div class="sound-pill">
                 <button class="mute-btn" type="button" aria-label="Toggle Mute">
                   <svg class="vol-icon" viewBox="0 0 24 24" fill="currentColor"></svg>
                 </button>
@@ -117,7 +117,7 @@
         <!-- Video 2 -->
         <article class="work-card">
           <div class="frame">
-            <video class="work-video" playsinline preload="metadata" loop muted>
+            <video class="work-video" playsinline preload="metadata" loop>
               <source src="./video2.mp4#t=0.001" type="video/mp4" />
             </video>
             
@@ -126,7 +126,7 @@
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </div>
               
-              <div class="sound-pill is-muted">
+              <div class="sound-pill">
                 <button class="mute-btn" type="button" aria-label="Toggle Mute">
                   <svg class="vol-icon" viewBox="0 0 24 24" fill="currentColor"></svg>
                 </button>
@@ -141,7 +141,7 @@
         <!-- Video 3 -->
         <article class="work-card">
           <div class="frame">
-            <video class="work-video" playsinline preload="metadata" loop muted>
+            <video class="work-video" playsinline preload="metadata" loop>
               <source src="./video3.mp4#t=0.001" type="video/mp4" />
             </video>
             
@@ -150,7 +150,7 @@
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </div>
               
-              <div class="sound-pill is-muted">
+              <div class="sound-pill">
                 <button class="mute-btn" type="button" aria-label="Toggle Mute">
                   <svg class="vol-icon" viewBox="0 0 24 24" fill="currentColor"></svg>
                 </button>
@@ -215,15 +215,31 @@
       });
     }
 
-    // Smooth Scroll for #works and #top
+    // Smart Smooth Scroll for #works (centers 1st video on mobile) and #top
     document.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-scroll]');
       if (!btn) return;
       const selector = btn.getAttribute('data-scroll');
-      const target = document.querySelector(selector);
-      if (target) {
+
+      if (selector === '#top') {
         e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      if (selector === '#works') {
+        e.preventDefault();
+        const isMobile = window.matchMedia('(max-width: 720px)').matches;
+        const firstCard = document.querySelector('.work-card');
+        const worksSection = document.querySelector('#works');
+
+        if (isMobile && firstCard) {
+          const rect = firstCard.getBoundingClientRect();
+          const targetY = window.scrollY + rect.top - (window.innerHeight - rect.height) / 2;
+          window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        } else if (worksSection) {
+          worksSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     });
 
@@ -283,7 +299,9 @@
       if (!video) return;
 
       let lastVolume = DEFAULT_VOLUME;
+      let soundEnabled = true; // По умолчанию звук включён
       video.volume = DEFAULT_VOLUME;
+      video.muted = false;
       card.dataset.wantPlay = 'false';
 
       function getRestoredVolume() {
@@ -291,7 +309,7 @@
       }
 
       function syncVolumeUI() {
-        const effVol = video.muted ? 0 : video.volume;
+        const effVol = (!soundEnabled || video.muted) ? 0 : video.volume;
         volSlider.value = effVol;
         volSlider.style.setProperty('--val', `${effVol * 100}%`);
 
@@ -308,11 +326,12 @@
 
       syncVolumeUI();
 
-      function playCard(withSound = true) {
+      function playCard(withSound = soundEnabled) {
         pauseAllExcept(card);
         card.dataset.wantPlay = 'true';
+        soundEnabled = Boolean(withSound);
 
-        if (withSound) {
+        if (soundEnabled) {
           video.volume = getRestoredVolume();
           video.muted = false;
         } else {
@@ -331,6 +350,7 @@
             syncVolumeUI();
           }).catch((err) => {
             if (card.dataset.wantPlay !== 'true' || err.name === 'AbortError') return;
+            // Fallback если браузер на ПК заблокировал автоплей со звуком при наведении
             video.muted = true;
             syncVolumeUI();
             video.play().then(() => {
@@ -344,23 +364,20 @@
         }
       }
 
-      // Expose playCard for mobile scroll observer
-      card._playCard = playCard;
-
-      // Live volume adjustment while moving slider
       volSlider.addEventListener('input', (e) => {
         e.stopPropagation();
         const val = parseFloat(e.target.value);
         video.volume = val;
         if (val > 0) {
+          soundEnabled = true;
           video.muted = false;
         } else {
+          soundEnabled = false;
           video.muted = true;
         }
         syncVolumeUI();
       });
 
-      // Remember chosen volume when user finishes moving the slider (if > 0)
       volSlider.addEventListener('change', (e) => {
         e.stopPropagation();
         const val = parseFloat(e.target.value);
@@ -369,20 +386,17 @@
         }
       });
 
-      // Toggle Mute / Unmute to previous or default volume
       muteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (video.muted || video.volume === 0) {
+        if (!soundEnabled || video.muted || video.volume === 0) {
+          soundEnabled = true;
           video.volume = getRestoredVolume();
           video.muted = false;
-          if (video.paused) {
-            playCard(true);
-            return;
-          }
         } else {
           if (video.volume > 0) {
             lastVolume = video.volume;
           }
+          soundEnabled = false;
           video.muted = true;
         }
         syncVolumeUI();
@@ -392,8 +406,10 @@
 
       card.querySelector('.frame').addEventListener('click', () => {
         if (video.paused) {
-          playCard(true);
-        } else if (video.muted) {
+          // Запускает со звуком, если звук включён, и без звука, если был выключен
+          playCard(soundEnabled);
+        } else if (canHover && soundEnabled && video.muted) {
+          // На ПК: если при наведении звук был заблокирован политикой браузера, клик включает звук
           video.volume = getRestoredVolume();
           video.muted = false;
           syncVolumeUI();
@@ -404,7 +420,7 @@
 
       if (canHover) {
         card.addEventListener('mouseenter', () => {
-          playCard(true);
+          playCard(soundEnabled);
         });
         card.addEventListener('mouseleave', () => {
           pauseCard(card, true);
@@ -412,25 +428,16 @@
       }
     });
 
-    // Smart Scroll Observer:
-    // - On mobile (!canHover): auto-plays video (muted) when centered in view, pauses when scrolled away
-    // - On desktop: pauses video if scrolled out of view
+    // Авто-пауза, когда видео уходит с экрана при скролле
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           const card = entry.target;
-          const video = card.querySelector('.work-video');
-          if (!video) return;
-
           if (!entry.isIntersecting || entry.intersectionRatio < 0.25) {
             pauseCard(card, false);
-          } else if (!canHover && entry.intersectionRatio >= 0.65) {
-            if (video.paused && card._playCard) {
-              card._playCard(false);
-            }
           }
         });
-      }, { threshold: [0.2, 0.65] });
+      }, { threshold: [0.25] });
 
       cards.forEach((card) => observer.observe(card));
     }
