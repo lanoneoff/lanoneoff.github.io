@@ -21,7 +21,14 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
+html {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  overflow-x: clip;
+}
+
+body {
   margin: 0;
   padding: 0;
   background-color: var(--bg);
@@ -29,7 +36,7 @@ html, body {
   font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
   cursor: default;
 }
 
@@ -731,8 +738,6 @@ main,
     display: none;
   }
 
-  /* Масштабируем радиус света под пропорции экрана телефона,
-     чтобы в центре был красивый объём, а к краям — мягкое рассеивание (и на IPS, и на AMOLED) */
   .bg-ambient {
     background:
       radial-gradient(
@@ -763,7 +768,6 @@ main,
     scroll-snap-stop: always;
   }
 
-  /* Убираем пересвет от двойного наложения двух свечений на узком экране */
   .hero-inner::before {
     width: 86vw;
     height: 44svh;
@@ -785,8 +789,9 @@ main,
     margin-top: 36px;
   }
 
+  /* Достаточный запас снизу, чтобы 3-е видео всегда могло встать ровно по центру экрана */
   .works {
-    padding: 20px 20px calc(28px + env(safe-area-inset-bottom, 0px));
+    padding: 24px 20px calc(16svh + env(safe-area-inset-bottom, 0px));
   }
 
   .works-header {
@@ -795,16 +800,16 @@ main,
 
   .work-grid {
     grid-template-columns: 1fr;
-    gap: 11svh;
+    gap: 16svh;
   }
 
   .work-card {
-    max-width: min(340px, 43svh);
+    max-width: min(330px, 41svh);
     scroll-snap-align: center;
     scroll-snap-stop: always;
   }
 
   .works-bottom {
-    margin-top: 20px;
+    margin-top: 18px;
   }
 }

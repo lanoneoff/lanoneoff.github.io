@@ -10,7 +10,7 @@
   <meta property="og:description" content="Transforming ideas into vertical stories that captivate and stay." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://editorlev.com/" />
-  <meta name="theme-color" content="#050608" />
+  <meta name="theme-color" content="#0b0c0f" />
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%2280%22 height=%2280%22 x=%2210%22 y=%2210%22 rx=%2220%22 fill=%22%23f5f5f7%22/></svg>">
 
@@ -215,6 +215,16 @@
       });
     }
 
+    const cards = Array.from(document.querySelectorAll('.work-card'));
+
+    // Helper: center a specific card on screen
+    function scrollCardToCenter(card) {
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      const targetY = window.scrollY + rect.top - (window.innerHeight - rect.height) / 2;
+      window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+    }
+
     // Smart Smooth Scroll for #works (centers 1st video on mobile) and #top
     document.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-scroll]');
@@ -230,16 +240,92 @@
       if (selector === '#works') {
         e.preventDefault();
         const isMobile = window.matchMedia('(max-width: 720px)').matches;
-        const firstCard = document.querySelector('.work-card');
+        const firstCard = cards[0];
         const worksSection = document.querySelector('#works');
 
         if (isMobile && firstCard) {
-          firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          scrollCardToCenter(firstCard);
         } else if (worksSection) {
           worksSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }
     });
+
+    // Mobile Swipe Snap Assist: гарантирует ровную доводку ко 2-му и 3-му видео во всех мобильных браузерах
+    (function initMobileSnapAssist() {
+      let userTouched = false;
+      let startScrollY = 0;
+      let startCardIndex = -1;
+      let scrollTimer = null;
+
+      function getClosestCardIndex() {
+        const viewCenter = window.innerHeight / 2;
+        let bestIdx = 0;
+        let minDist = Infinity;
+        cards.forEach((card, idx) => {
+          const rect = card.getBoundingClientRect();
+          const cardCenter = rect.top + rect.height / 2;
+          const dist = Math.abs(cardCenter - viewCenter);
+          if (dist < minDist) {
+            minDist = dist;
+            bestIdx = idx;
+          }
+        });
+        return { index: bestIdx, distance: minDist };
+      }
+
+      window.addEventListener('touchstart', () => {
+        if (!window.matchMedia('(max-width: 720px)').matches) return;
+        userTouched = true;
+        startScrollY = window.scrollY;
+        const closest = getClosestCardIndex();
+        startCardIndex = closest.distance < window.innerHeight * 0.45 ? closest.index : -1;
+        clearTimeout(scrollTimer);
+      }, { passive: true });
+
+      function onScrollCheck() {
+        if (!userTouched || !window.matchMedia('(max-width: 720px)').matches) return;
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => {
+          if (!userTouched) return;
+          userTouched = false;
+
+          // Если мы наверху в Hero-секции — не тянем вниз
+          if (window.scrollY < window.innerHeight * 0.45) return;
+
+          const deltaY = window.scrollY - startScrollY;
+          const closest = getClosestCardIndex();
+          let targetIdx = closest.index;
+
+          // Если свайпнули с карточки вверх или вниз, переключаем на следующую/предыдущую
+          if (startCardIndex !== -1 && Math.abs(deltaY) > 45) {
+            if (deltaY > 0 && closest.index === startCardIndex) {
+              targetIdx = Math.min(cards.length - 1, startCardIndex + 1);
+            } else if (deltaY < 0 && closest.index === startCardIndex) {
+              if (startCardIndex === 0) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+              }
+              targetIdx = Math.max(0, startCardIndex - 1);
+            }
+          }
+
+          const targetCard = cards[targetIdx];
+          if (!targetCard) return;
+
+          const rect = targetCard.getBoundingClientRect();
+          const offsetFromCenter = Math.abs((rect.top + rect.height / 2) - (window.innerHeight / 2));
+
+          // Доводим плавно в центр, если карточка остановилась не ровно по центру
+          if (offsetFromCenter > 6) {
+            scrollCardToCenter(targetCard);
+          }
+        }, 110);
+      }
+
+      window.addEventListener('scroll', onScrollCheck, { passive: true });
+      window.addEventListener('touchend', onScrollCheck, { passive: true });
+    })();
 
     // Cursor Light & Interactive Grid Illumination (Desktop only)
     const cursorGlow = document.getElementById('cursorGlow');
@@ -270,7 +356,6 @@
     };
 
     const DEFAULT_VOLUME = 0.5;
-    const cards = Array.from(document.querySelectorAll('.work-card'));
 
     function pauseCard(card, resetTime = false) {
       card.dataset.wantPlay = 'false';
@@ -348,7 +433,6 @@
             syncVolumeUI();
           }).catch((err) => {
             if (card.dataset.wantPlay !== 'true' || err.name === 'AbortError') return;
-            // Fallback если браузер на ПК заблокировал автоплей со звуком при наведении
             video.muted = true;
             syncVolumeUI();
             video.play().then(() => {
