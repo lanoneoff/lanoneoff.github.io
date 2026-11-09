@@ -722,13 +722,58 @@ main,
 }
 
 @media (max-width: 720px) {
+  html {
+    scroll-snap-type: y mandatory;
+  }
+
   .bg-grid-lit,
   .cursor-glow {
     display: none;
   }
 
+  /* Масштабируем радиус света под пропорции экрана телефона,
+     чтобы в центре был красивый объём, а к краям — мягкое рассеивание (и на IPS, и на AMOLED) */
+  .bg-ambient {
+    background:
+      radial-gradient(
+        ellipse 88vw 46svh at 50% 42%,
+        rgba(242, 232, 213, 0.085) 0%,
+        rgba(242, 232, 213, 0.04) 42%,
+        transparent 78%
+      ),
+      radial-gradient(
+        ellipse 110vw 68svh at 50% 46%,
+        var(--bg-center) 0%,
+        #0e1016 55%,
+        var(--bg) 92%
+      );
+  }
+
+  .vignette {
+    background: radial-gradient(ellipse 92% 85% at 50% 46%, transparent 48%, rgba(5, 6, 8, 0.72) 100%);
+  }
+
+  .grain {
+    opacity: 0.045;
+  }
+
   .hero {
     padding: 36px 20px 28px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Убираем пересвет от двойного наложения двух свечений на узком экране */
+  .hero-inner::before {
+    width: 86vw;
+    height: 44svh;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(242, 232, 213, 0.075) 0%,
+      rgba(242, 232, 213, 0.03) 42%,
+      transparent 76%
+    );
+    filter: blur(28px);
   }
 
   .hero-cta {
@@ -741,19 +786,25 @@ main,
   }
 
   .works {
-    padding: 28px 20px calc(56px + env(safe-area-inset-bottom, 0px));
+    padding: 20px 20px calc(28px + env(safe-area-inset-bottom, 0px));
   }
 
   .works-header {
-    margin-bottom: 24px;
+    margin-bottom: 18px;
   }
 
   .work-grid {
     grid-template-columns: 1fr;
-    gap: 31px;
+    gap: 11svh;
   }
 
   .work-card {
-    max-width: min(352px, 46svh);
+    max-width: min(340px, 43svh);
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  .works-bottom {
+    margin-top: 20px;
   }
 }
