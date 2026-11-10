@@ -523,32 +523,29 @@ main,
   align-self: flex-end;
   display: flex;
   align-items: center;
-  height: 34px;
+  height: 38px;
   border-radius: 999px;
-  background: rgba(15, 17, 22, 0.78);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 3px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  background: rgba(15, 17, 22, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 4px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
   transition:
     background-color 0.25s var(--ease),
     border-color 0.25s var(--ease),
     transform 0.2s var(--ease);
 }
 
-.sound-pill:hover {
-  background: rgba(22, 25, 32, 0.92);
-  border-color: rgba(255, 255, 255, 0.26);
-}
-
-.sound-pill:active {
-  transform: scale(0.94);
+.sound-pill:hover,
+.sound-pill.is-scrubbing {
+  background: rgba(22, 25, 32, 0.94);
+  border-color: rgba(255, 255, 255, 0.28);
 }
 
 .mute-btn {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: none;
   background: transparent;
@@ -559,17 +556,43 @@ main,
   cursor: pointer;
   padding: 0;
   flex-shrink: 0;
+  transition: background-color 0.2s var(--ease), transform 0.15s var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mute-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.mute-btn:active {
+  transform: scale(0.9);
 }
 
 .mute-btn svg {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
   fill: currentColor;
+  display: block;
+}
+
+/* Переключение иконок звука и мута напрямую через CSS */
+.mute-btn .icon-muted {
+  display: none;
+}
+
+.sound-pill.is-muted .mute-btn .icon-unmuted {
+  display: none;
+}
+
+.sound-pill.is-muted .mute-btn .icon-muted {
+  display: block;
+  opacity: 0.85;
 }
 
 .slider-container {
-  width: 66px;
-  height: 28px;
+  width: 84px;
+  height: 30px;
   overflow: hidden;
   transition:
     width 0.3s var(--ease),
@@ -577,8 +600,10 @@ main,
     padding 0.3s var(--ease);
   display: flex;
   align-items: center;
-  padding: 0 8px 0 4px;
+  padding: 0 10px 0 6px;
   opacity: 1;
+  cursor: pointer;
+  touch-action: none;
 }
 
 .work-card:not(.is-playing) .slider-container,
@@ -594,7 +619,17 @@ main,
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 4px;
+  height: 30px;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  margin: 0;
+  pointer-events: none; /* Перетаскивание обрабатывается всем контейнером .slider-container */
+}
+
+.vol-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 5px;
   border-radius: 999px;
   background: linear-gradient(
     to right,
@@ -603,35 +638,54 @@ main,
     rgba(255, 255, 255, 0.24) var(--val, 50%),
     rgba(255, 255, 255, 0.24) 100%
   );
-  outline: none;
-  cursor: pointer;
-  margin: 0;
 }
 
 .vol-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 11px;
-  height: 11px;
+  width: 13px;
+  height: 13px;
+  margin-top: -4px;
   border-radius: 50%;
   background: #ffffff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.55);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.slider-container:hover .vol-slider::-webkit-slider-thumb,
+.sound-pill.is-scrubbing .vol-slider::-webkit-slider-thumb {
+  transform: scale(1.22);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.vol-slider::-moz-range-track {
+  width: 100%;
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    #ffffff 0%,
+    #ffffff var(--val, 50%),
+    rgba(255, 255, 255, 0.24) var(--val, 50%),
+    rgba(255, 255, 255, 0.24) 100%
+  );
+}
+
+.vol-slider::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.55);
   cursor: pointer;
   transition: transform 0.15s ease;
 }
 
-.vol-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-}
-
-.vol-slider::-moz-range-thumb {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  border: none;
-  background: #ffffff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
+.slider-container:hover .vol-slider::-moz-range-thumb,
+.sound-pill.is-scrubbing .vol-slider::-moz-range-thumb {
+  transform: scale(1.22);
 }
 
 .play-indicator {
@@ -708,6 +762,10 @@ main,
     height: 50px;
     padding: 0;
     justify-content: center;
+  }
+
+  .sound-pill:active {
+    transform: scale(0.94);
   }
 
   .mute-btn {
@@ -789,7 +847,6 @@ main,
     margin-top: 36px;
   }
 
-  /* Достаточный запас снизу, чтобы 3-е видео всегда могло встать ровно по центру экрана */
   .works {
     padding: 24px 20px calc(16svh + env(safe-area-inset-bottom, 0px));
   }
