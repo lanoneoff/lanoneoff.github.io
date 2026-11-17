@@ -2,36 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Lev — Video Editor</title>
-  <meta name="description" content="Transforming ideas into vertical stories that captivate and stay." />
+  <meta name="description" content="Lev — Video Editor. Transforming ideas into vertical stories that captivate and stay." />
+  <link rel="canonical" href="https://editorlev.com/" />
 
+  <meta property="og:type" content="website" />
   <meta property="og:title" content="Lev — Video Editor" />
   <meta property="og:description" content="Transforming ideas into vertical stories that captivate and stay." />
-  <meta property="og:type" content="website" />
   <meta property="og:url" content="https://editorlev.com/" />
+  <meta property="og:image" content="https://editorlev.com/og.jpg" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#0b0c0f" />
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%2280%22 height=%2280%22 x=%2210%22 y=%2210%22 rx=%2220%22 fill=%22%23f5f5f7%22/></svg>">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f2e8d5'/%3E%3C/svg%3E" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="./style.css" />
 </head>
-
 <body>
+
   <div class="bg" aria-hidden="true">
     <div class="bg-ambient"></div>
     <div class="bg-grid"></div>
-    <div class="bg-grid-lit" id="gridLit"></div>
-    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="bg-grid-lit"></div>
+    <div class="cursor-glow"></div>
     <div class="vignette"></div>
     <div class="grain"></div>
   </div>
 
-  <main class="page">
+  <main id="main">
+
     <section class="hero" id="top">
       <div class="hero-inner">
         <h1 class="main-title">
@@ -39,138 +44,114 @@
           <span class="accent">Editor</span>
         </h1>
 
-        <div class="hero-divider" aria-hidden="true">
-          <span class="diamond"></span>
-        </div>
-        
-        <p class="sub">
-          Transforming ideas into vertical stories<br>that captivate and stay.
-        </p>
+        <div class="hero-divider" aria-hidden="true"><span class="diamond"></span></div>
 
-        <div class="hero-cta" role="group" aria-label="Contact links">
+        <p class="sub">Transforming ideas into vertical stories that captivate and stay.</p>
+
+        <div class="hero-cta" role="group" aria-label="Contact">
           <div class="row">
-            <a class="btn" href="https://t.me/editor_lev" target="_blank" rel="noreferrer">
-              <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-              </svg>
+            <a class="btn" href="https://t.me/editor_lev" target="_blank" rel="noopener noreferrer">
+              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M21.94 4.66 18.7 19.9c-.24 1.08-.88 1.35-1.79.84l-4.94-3.64-2.38 2.3c-.26.26-.48.48-.99.48l.35-5.02 9.14-8.26c.4-.35-.09-.55-.61-.2L7.02 13.5l-4.9-1.53c-1.07-.33-1.09-1.07.22-1.58L20.5 3.4c.9-.33 1.68.2 1.44 1.26z"/></svg>
               <span>Telegram</span>
             </a>
-
-            <button class="btn" id="copyEmailBtn" type="button" data-email="editorafterwork@gmail.com">
-              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="4" width="20" height="16" rx="3"/>
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-              </svg>
+            <a class="btn" id="copyEmailBtn" href="mailto:editorafterwork@gmail.com">
+              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
               <span class="btn-label">Email</span>
-            </button>
+            </a>
           </div>
-
-          <a class="btn btn-primary" href="https://t.me/editor_lev" target="_blank" rel="noreferrer">
-            Hire me
-          </a>
+          <a class="btn btn-primary" href="https://t.me/editor_lev" target="_blank" rel="noopener noreferrer">Hire me</a>
+          <span id="copyStatus" class="sr-only" role="status" aria-live="polite"></span>
         </div>
 
-        <a class="scroll-btn" href="#works" data-scroll="#works" aria-label="Scroll to works">
-          <span class="scroll-text">WORKS</span>
-          <span class="scroll-box">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m6 9 6 6 6-6"/>
-            </svg>
-          </span>
+        <a class="scroll-btn" href="#works">
+          <span class="scroll-text">Works</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
     </section>
 
-    <section class="works" id="works" aria-label="Works">
-      <div class="works-header">
-        <span class="works-line"></span>
-        <h2 class="works-title">WORKS</h2>
-        <span class="works-line"></span>
-      </div>
+    <section class="works" id="works" aria-labelledby="works-title">
+      <header class="works-header">
+        <span class="works-line" aria-hidden="true"></span>
+        <h2 class="works-title" id="works-title">Works</h2>
+        <span class="works-line" aria-hidden="true"></span>
+      </header>
 
       <div class="work-grid">
 
-        <!-- Video 1 (громче 2-го -> коэффициент 0.68 выравнивает громкость) -->
-        <article class="work-card" data-gain="0.68">
+        <!-- TODO: replace "Work 1/2/3" with real titles (used in labels too) -->
+        <article class="work-card">
+          <h3 class="sr-only" id="work-1-title">Work 1</h3>
           <div class="frame">
-            <video class="work-video" playsinline preload="metadata" loop>
-              <source src="./video1.mp4#t=0.001" type="video/mp4" />
+            <video class="work-video" playsinline controls loop preload="none" disablepictureinpicture disableremoteplayback
+                   poster="./posters/video1.webp" aria-labelledby="work-1-title">
+              <source src="./video1.webm" type="video/webm" />
+              <source src="./video1.mp4" type="video/mp4" />
             </video>
-            
+            <button class="frame-toggle" type="button" aria-label="Play Work 1"></button>
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="center-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></span>
+            <p class="unavailable">Video unavailable</p>
             <div class="video-overlay">
-              <div class="play-indicator">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              </div>
-              
               <div class="sound-pill">
-                <button class="mute-btn" type="button" aria-label="Toggle Mute" aria-pressed="false">
-                  <svg class="vol-icon icon-unmuted" viewBox="0 0 24 24" fill="currentColor">
-                    <path class="vol-path" d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/>
-                  </svg>
-                  <svg class="vol-icon icon-muted" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                  </svg>
+                <button class="mute-btn" type="button" aria-label="Mute Work 1">
+                  <svg class="icon-unmuted" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9.5h3.5L11 6v12l-4.5-3.5H3z"/><path d="M14.5 9.5a4 4 0 0 1 0 5M17.5 7a7.5 7.5 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9.5h3.5L11 6v12l-4.5-3.5H3z"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                 </button>
                 <div class="slider-container">
-                  <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.6" aria-label="Volume">
+                  <input class="vol-slider" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume" />
                 </div>
               </div>
             </div>
           </div>
         </article>
 
-        <!-- Video 2 (эталонная громкость 1.0) -->
-        <article class="work-card" data-gain="1.0">
+        <article class="work-card">
+          <h3 class="sr-only" id="work-2-title">Work 2</h3>
           <div class="frame">
-            <video class="work-video" playsinline preload="metadata" loop>
-              <source src="./video2.mp4#t=0.001" type="video/mp4" />
+            <video class="work-video" playsinline controls loop preload="none" disablepictureinpicture disableremoteplayback
+                   poster="./posters/video2.webp" aria-labelledby="work-2-title">
+              <source src="./video2.webm" type="video/webm" />
+              <source src="./video2.mp4" type="video/mp4" />
             </video>
-            
+            <button class="frame-toggle" type="button" aria-label="Play Work 2"></button>
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="center-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></span>
+            <p class="unavailable">Video unavailable</p>
             <div class="video-overlay">
-              <div class="play-indicator">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              </div>
-              
               <div class="sound-pill">
-                <button class="mute-btn" type="button" aria-label="Toggle Mute" aria-pressed="false">
-                  <svg class="vol-icon icon-unmuted" viewBox="0 0 24 24" fill="currentColor">
-                    <path class="vol-path" d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/>
-                  </svg>
-                  <svg class="vol-icon icon-muted" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                  </svg>
+                <button class="mute-btn" type="button" aria-label="Mute Work 2">
+                  <svg class="icon-unmuted" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9.5h3.5L11 6v12l-4.5-3.5H3z"/><path d="M14.5 9.5a4 4 0 0 1 0 5M17.5 7a7.5 7.5 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9.5h3.5L11 6v12l-4.5-3.5H3z"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                 </button>
                 <div class="slider-container">
-                  <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.6" aria-label="Volume">
+                  <input class="vol-slider" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume" />
                 </div>
               </div>
             </div>
           </div>
         </article>
 
-        <!-- Video 3 (громче 2-го -> коэффициент 0.68 выравнивает громкость) -->
-        <article class="work-card" data-gain="0.68">
+        <article class="work-card">
+          <h3 class="sr-only" id="work-3-title">Work 3</h3>
           <div class="frame">
-            <video class="work-video" playsinline preload="metadata" loop>
-              <source src="./video3.mp4#t=0.001" type="video/mp4" />
+            <video class="work-video" playsinline controls loop preload="none" disablepictureinpicture disableremoteplayback
+                   poster="./posters/video3.webp" aria-labelledby="work-3-title">
+              <source src="./video3.webm" type="video/webm" />
+              <source src="./video3.mp4" type="video/mp4" />
             </video>
-            
+            <button class="frame-toggle" type="button" aria-label="Play Work 3"></button>
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="center-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></span>
+            <p class="unavailable">Video unavailable</p>
             <div class="video-overlay">
-              <div class="play-indicator">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              </div>
-              
               <div class="sound-pill">
-                <button class="mute-btn" type="button" aria-label="Toggle Mute" aria-pressed="false">
-                  <svg class="vol-icon icon-unmuted" viewBox="0 0 24 24" fill="currentColor">
-                    <path class="vol-path" d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/>
-                  </svg>
-                  <svg class="vol-icon icon-muted" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                  </svg>
+                <button class="mute-btn" type="button" aria-label="Mute Work 3">
+                  <svg class="icon-unmuted" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9.5h3.5L11 6v12l-4.5-3.5H3z"/><path d="M14.5 9.5a4 4 0 0 1 0 5M17.5 7a7.5 7.5 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9.5h3.5L11 6v12l-4.5-3.5H3z"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                 </button>
                 <div class="slider-container">
-                  <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.6" aria-label="Volume">
+                  <input class="vol-slider" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume" />
                 </div>
               </div>
             </div>
@@ -180,511 +161,15 @@
       </div>
 
       <div class="works-bottom">
-        <a class="back-top-btn" href="#top" data-scroll="#top" aria-label="Back to top">
-          <span class="scroll-box">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m18 15-6-6-6 6"/>
-            </svg>
-          </span>
-          <span class="scroll-text">BACK TO TOP</span>
+        <a class="back-top-btn" href="#top">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Back to top</span>
         </a>
       </div>
     </section>
+
   </main>
 
-  <script>
-    // Copy Email (with fallback for mobile HTTP testing)
-    const emailBtn = document.getElementById('copyEmailBtn');
-    if (emailBtn) {
-      const label = emailBtn.querySelector('.btn-label');
-      let copyTimeout;
-
-      function showCopiedFeedback() {
-        clearTimeout(copyTimeout);
-        if (label) label.innerText = 'Copied!';
-        emailBtn.classList.add('copied');
-        copyTimeout = setTimeout(() => {
-          if (label) label.innerText = 'Email';
-          emailBtn.classList.remove('copied');
-        }, 2000);
-      }
-
-      emailBtn.addEventListener('click', () => {
-        const email = emailBtn.getAttribute('data-email');
-        if (navigator.clipboard && window.isSecureContext) {
-          navigator.clipboard.writeText(email).then(showCopiedFeedback);
-        } else {
-          const textArea = document.createElement('textarea');
-          textArea.value = email;
-          textArea.style.position = 'fixed';
-          textArea.style.opacity = '0';
-          document.body.appendChild(textArea);
-          textArea.focus();
-          textArea.select();
-          try {
-            document.execCommand('copy');
-            showCopiedFeedback();
-          } catch (err) {}
-          document.body.removeChild(textArea);
-        }
-      });
-    }
-
-    const cards = Array.from(document.querySelectorAll('.work-card'));
-    let isProgrammaticScroll = false;
-    let programmaticTimer = null;
-
-    // Плавный скролл без перехвата со стороны CSS scroll-snap на мобильных
-    function smoothScrollToY(targetY) {
-      const clampedY = Math.max(0, targetY);
-      isProgrammaticScroll = true;
-      clearTimeout(programmaticTimer);
-      document.documentElement.style.scrollSnapType = 'none';
-
-      window.scrollTo({ top: clampedY, behavior: 'smooth' });
-
-      const checkArrival = () => {
-        if (Math.abs(window.scrollY - clampedY) <= 3) {
-          document.documentElement.style.scrollSnapType = '';
-          isProgrammaticScroll = false;
-        } else {
-          programmaticTimer = setTimeout(() => {
-            document.documentElement.style.scrollSnapType = '';
-            isProgrammaticScroll = false;
-          }, 250);
-        }
-      };
-
-      programmaticTimer = setTimeout(checkArrival, 550);
-    }
-
-    function scrollCardToCenter(card) {
-      if (!card) return;
-      const rect = card.getBoundingClientRect();
-      const targetY = window.scrollY + rect.top - (window.innerHeight - rect.height) / 2;
-      smoothScrollToY(targetY);
-    }
-
-    // Smart Smooth Scroll for #works (centers 1st video on mobile) and #top
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-scroll]');
-      if (!btn) return;
-      const selector = btn.getAttribute('data-scroll');
-
-      if (selector === '#top') {
-        e.preventDefault();
-        smoothScrollToY(0);
-        return;
-      }
-
-      if (selector === '#works') {
-        e.preventDefault();
-        const isMobile = window.matchMedia('(max-width: 720px)').matches;
-        const firstCard = cards[0];
-        const worksSection = document.querySelector('#works');
-
-        if (isMobile && firstCard) {
-          scrollCardToCenter(firstCard);
-        } else if (worksSection) {
-          worksSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
-    });
-
-    // Mobile Swipe Snap Assist: доводит свайп ровно в центр 1, 2 и 3 видео, не мешая кнопкам
-    (function initMobileSnapAssist() {
-      let userTouched = false;
-      let startScrollY = 0;
-      let startCardIndex = -1;
-      let scrollTimer = null;
-
-      function getClosestCardIndex() {
-        const viewCenter = window.innerHeight / 2;
-        let bestIdx = 0;
-        let minDist = Infinity;
-        cards.forEach((card, idx) => {
-          const rect = card.getBoundingClientRect();
-          const cardCenter = rect.top + rect.height / 2;
-          const dist = Math.abs(cardCenter - viewCenter);
-          if (dist < minDist) {
-            minDist = dist;
-            bestIdx = idx;
-          }
-        });
-        return { index: bestIdx, distance: minDist };
-      }
-
-      window.addEventListener('touchstart', (e) => {
-        if (!window.matchMedia('(max-width: 720px)').matches) return;
-        if (e.target.closest('a, button, input, .sound-pill, [data-scroll]')) {
-          userTouched = false;
-          return;
-        }
-        userTouched = true;
-        startScrollY = window.scrollY;
-        const closest = getClosestCardIndex();
-        startCardIndex = closest.distance < window.innerHeight * 0.45 ? closest.index : -1;
-        clearTimeout(scrollTimer);
-      }, { passive: true });
-
-      function onScrollCheck() {
-        if (isProgrammaticScroll || !userTouched || !window.matchMedia('(max-width: 720px)').matches) return;
-        clearTimeout(scrollTimer);
-        scrollTimer = setTimeout(() => {
-          if (!userTouched || isProgrammaticScroll) return;
-          userTouched = false;
-
-          if (window.scrollY < window.innerHeight * 0.45) return;
-
-          const deltaY = window.scrollY - startScrollY;
-          const closest = getClosestCardIndex();
-          let targetIdx = closest.index;
-
-          if (startCardIndex !== -1 && Math.abs(deltaY) > 45) {
-            if (deltaY > 0 && closest.index === startCardIndex) {
-              targetIdx = Math.min(cards.length - 1, startCardIndex + 1);
-            } else if (deltaY < 0 && closest.index === startCardIndex) {
-              if (startCardIndex === 0) {
-                smoothScrollToY(0);
-                return;
-              }
-              targetIdx = Math.max(0, startCardIndex - 1);
-            }
-          }
-
-          const targetCard = cards[targetIdx];
-          if (!targetCard) return;
-
-          const rect = targetCard.getBoundingClientRect();
-          const offsetFromCenter = Math.abs((rect.top + rect.height / 2) - (window.innerHeight / 2));
-
-          if (offsetFromCenter > 6) {
-            scrollCardToCenter(targetCard);
-          }
-        }, 110);
-      }
-
-      window.addEventListener('scroll', onScrollCheck, { passive: true });
-      window.addEventListener('touchend', onScrollCheck, { passive: true });
-    })();
-
-    // Cursor Light & Interactive Grid Illumination (Desktop only)
-    const cursorGlow = document.getElementById('cursorGlow');
-    const gridLit = document.getElementById('gridLit');
-    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-    if (canHover) {
-      window.addEventListener('pointermove', (e) => {
-        const x = `${e.clientX}px`;
-        const y = `${e.clientY}px`;
-        if (cursorGlow) {
-          cursorGlow.style.setProperty('--mx', x);
-          cursorGlow.style.setProperty('--my', y);
-        }
-        if (gridLit) {
-          gridLit.style.setProperty('--mx', x);
-          gridLit.style.setProperty('--my', y);
-        }
-      }, { passive: true });
-    }
-
-    // Volume Paths for unmuted states
-    const VOL_PATHS = {
-      low: 'M7 9v6h4l5 5V4l-5 5H7z',
-      med: 'M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z',
-      high: 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z'
-    };
-
-    const DEFAULT_VOLUME = 0.6;
-    let sharedLastVolume = DEFAULT_VOLUME; // Единая память громкости между всеми 3 видео
-
-    // Для iOS Safari (где video.volume всегда = 1) выравниваем громкость через Web Audio GainNode
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    let sharedAudioCtx = null;
-
-    function pauseCard(card, resetTime = false) {
-      card.dataset.wantPlay = 'false';
-      const v = card.querySelector('.work-video');
-      if (!v) return;
-      v.pause();
-      if (resetTime) v.currentTime = 0;
-      card.classList.remove('is-playing');
-    }
-
-    function pauseAllExcept(activeCard) {
-      cards.forEach(c => {
-        if (c !== activeCard) pauseCard(c, false);
-      });
-    }
-
-    cards.forEach((card) => {
-      const video = card.querySelector('.work-video');
-      const muteBtn = card.querySelector('.mute-btn');
-      const volPath = card.querySelector('.vol-path');
-      const volSlider = card.querySelector('.vol-slider');
-      const sliderContainer = card.querySelector('.slider-container');
-      const soundPill = card.querySelector('.sound-pill');
-
-      if (!video) return;
-
-      // Коэффициент громкости конкретного ролика (0.68 для 1 и 3 видео, 1.0 для 2 видео)
-      const cardGain = Math.max(0.05, Math.min(1, parseFloat(card.dataset.gain || '1')));
-      let userVolume = sharedLastVolume;
-      let soundEnabled = true;
-      let iosGainAttached = false;
-
-      function applyHardwareVolume() {
-        const scaledVol = Math.max(0, Math.min(1, userVolume * cardGain));
-        try {
-          video.volume = scaledVol;
-        } catch (err) {}
-      }
-
-      function ensureIOSGainBalance() {
-        if (!isIOS || iosGainAttached || cardGain >= 0.99) return;
-        if (!window.location.protocol.startsWith('http')) return;
-        try {
-          const AudioCtx = window.AudioContext || window.webkitAudioContext;
-          if (!AudioCtx) return;
-          if (!sharedAudioCtx) sharedAudioCtx = new AudioCtx();
-          if (sharedAudioCtx.state === 'suspended') sharedAudioCtx.resume();
-
-          const source = sharedAudioCtx.createMediaElementSource(video);
-          const gainNode = sharedAudioCtx.createGain();
-          gainNode.gain.value = cardGain;
-          source.connect(gainNode);
-          gainNode.connect(sharedAudioCtx.destination);
-          iosGainAttached = true;
-        } catch (err) {}
-      }
-
-      applyHardwareVolume();
-      video.muted = false;
-      card.dataset.wantPlay = 'false';
-
-      function getRestoredVolume() {
-        return sharedLastVolume > 0 ? sharedLastVolume : DEFAULT_VOLUME;
-      }
-
-      function syncVolumeUI() {
-        const isCurrentlyMuted = !soundEnabled || video.muted || userVolume === 0;
-        const effVol = isCurrentlyMuted ? 0 : userVolume;
-
-        volSlider.value = effVol;
-        volSlider.style.setProperty('--val', `${effVol * 100}%`);
-
-        if (isCurrentlyMuted) {
-          soundPill.classList.add('is-muted');
-          muteBtn.setAttribute('aria-pressed', 'true');
-        } else {
-          soundPill.classList.remove('is-muted');
-          muteBtn.setAttribute('aria-pressed', 'false');
-          if (volPath) {
-            if (effVol < 0.33) volPath.setAttribute('d', VOL_PATHS.low);
-            else if (effVol < 0.66) volPath.setAttribute('d', VOL_PATHS.med);
-            else volPath.setAttribute('d', VOL_PATHS.high);
-          }
-        }
-      }
-
-      card._syncVolumeFromShared = () => {
-        userVolume = getRestoredVolume();
-        if (soundEnabled && !video.muted) {
-          applyHardwareVolume();
-        }
-        syncVolumeUI();
-      };
-
-      syncVolumeUI();
-
-      function applyVolumeValue(val, commitShared = false) {
-        const clamped = Math.max(0, Math.min(1, val));
-        userVolume = clamped;
-        applyHardwareVolume();
-
-        if (clamped > 0) {
-          soundEnabled = true;
-          video.muted = false;
-          if (commitShared) {
-            sharedLastVolume = clamped;
-          }
-        } else {
-          soundEnabled = false;
-          video.muted = true;
-        }
-        syncVolumeUI();
-
-        if (commitShared && clamped > 0) {
-          cards.forEach(c => {
-            if (c !== card && c._syncVolumeFromShared) c._syncVolumeFromShared();
-          });
-        }
-      }
-
-      function playCard(withSound = soundEnabled) {
-        pauseAllExcept(card);
-        card.dataset.wantPlay = 'true';
-        soundEnabled = Boolean(withSound);
-
-        if (soundEnabled) {
-          userVolume = getRestoredVolume();
-          applyHardwareVolume();
-          ensureIOSGainBalance();
-          video.muted = false;
-        } else {
-          video.muted = true;
-        }
-        syncVolumeUI();
-
-        const p = video.play();
-        if (p !== undefined) {
-          p.then(() => {
-            if (card.dataset.wantPlay !== 'true') {
-              video.pause();
-              return;
-            }
-            card.classList.add('is-playing');
-            syncVolumeUI();
-          }).catch((err) => {
-            if (card.dataset.wantPlay !== 'true' || err.name === 'AbortError') return;
-            video.muted = true;
-            syncVolumeUI();
-            video.play().then(() => {
-              if (card.dataset.wantPlay !== 'true') {
-                video.pause();
-                return;
-              }
-              card.classList.add('is-playing');
-            }).catch(() => {});
-          });
-        }
-      }
-
-      // Удобное перетаскивание ползунка на ПК (захват по всей высоте плашки с Pointer Capture)
-      let isDraggingSlider = false;
-
-      function updateFromPointer(e, commit = false) {
-        const rect = volSlider.getBoundingClientRect();
-        if (!rect.width) return;
-        const ratio = (e.clientX - rect.left) / rect.width;
-        applyVolumeValue(ratio, commit);
-      }
-
-      sliderContainer.addEventListener('pointerdown', (e) => {
-        if (e.button !== undefined && e.button !== 0) return;
-        e.preventDefault();
-        e.stopPropagation();
-        isDraggingSlider = true;
-        soundPill.classList.add('is-scrubbing');
-        try {
-          sliderContainer.setPointerCapture(e.pointerId);
-        } catch (err) {}
-        updateFromPointer(e, true);
-      });
-
-      sliderContainer.addEventListener('pointermove', (e) => {
-        if (!isDraggingSlider) return;
-        e.preventDefault();
-        e.stopPropagation();
-        updateFromPointer(e, true);
-      });
-
-      function endSliderDrag(e) {
-        if (!isDraggingSlider) return;
-        e.stopPropagation();
-        updateFromPointer(e, true);
-        isDraggingSlider = false;
-        soundPill.classList.remove('is-scrubbing');
-        try {
-          sliderContainer.releasePointerCapture(e.pointerId);
-        } catch (err) {}
-      }
-
-      sliderContainer.addEventListener('pointerup', endSliderDrag);
-      sliderContainer.addEventListener('pointercancel', endSliderDrag);
-      sliderContainer.addEventListener('click', (e) => e.stopPropagation());
-
-      // Fallback для клавиатуры / доступности
-      volSlider.addEventListener('input', (e) => {
-        e.stopPropagation();
-        applyVolumeValue(parseFloat(e.target.value), true);
-      });
-
-      // Регулировка громкости колёсиком мыши при наведении на плашку звука на ПК
-      soundPill.addEventListener('wheel', (e) => {
-        if (!canHover) return;
-        e.preventDefault();
-        e.stopPropagation();
-        const step = e.deltaY < 0 ? 0.06 : -0.06;
-        const currentVol = (!soundEnabled || video.muted) ? 0 : userVolume;
-        applyVolumeValue(currentVol + step, true);
-      }, { passive: false });
-
-      function toggleMute(e) {
-        e.stopPropagation();
-        if (!soundEnabled || video.muted || userVolume === 0) {
-          soundEnabled = true;
-          userVolume = getRestoredVolume();
-          applyHardwareVolume();
-          ensureIOSGainBalance();
-          video.muted = false;
-        } else {
-          if (userVolume > 0) {
-            sharedLastVolume = userVolume;
-          }
-          soundEnabled = false;
-          video.muted = true;
-        }
-        syncVolumeUI();
-      }
-
-      muteBtn.addEventListener('click', toggleMute);
-
-      // На телефоне клик по круглой кнопке звука переключает мут, а на ПК не мешает ползунку
-      soundPill.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!canHover && !e.target.closest('.slider-container')) {
-          toggleMute(e);
-        }
-      });
-
-      card.querySelector('.frame').addEventListener('click', () => {
-        if (video.paused) {
-          playCard(soundEnabled);
-        } else if (canHover && soundEnabled && video.muted) {
-          userVolume = getRestoredVolume();
-          applyHardwareVolume();
-          video.muted = false;
-          syncVolumeUI();
-        } else {
-          pauseCard(card, false);
-        }
-      });
-
-      if (canHover) {
-        card.addEventListener('mouseenter', () => {
-          playCard(soundEnabled);
-        });
-        card.addEventListener('mouseleave', () => {
-          pauseCard(card, true);
-        });
-      }
-    });
-
-    // Авто-пауза, когда видео уходит с экрана при скролле
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          const card = entry.target;
-          if (!entry.isIntersecting || entry.intersectionRatio < 0.25) {
-            pauseCard(card, false);
-          }
-        });
-      }, { threshold: [0.25] });
-
-      cards.forEach((card) => observer.observe(card));
-    }
-  </script>
+  <script src="./app.js" defer></script>
 </body>
 </html>
