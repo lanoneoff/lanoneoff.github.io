@@ -90,8 +90,8 @@
 
       <div class="work-grid">
 
-        <!-- Video 1 -->
-        <article class="work-card">
+        <!-- Video 1 (громче 2-го -> коэффициент 0.68 выравнивает громкость) -->
+        <article class="work-card" data-gain="0.68">
           <div class="frame">
             <video class="work-video" playsinline preload="metadata" loop>
               <source src="./video1.mp4#t=0.001" type="video/mp4" />
@@ -112,15 +112,15 @@
                   </svg>
                 </button>
                 <div class="slider-container">
-                  <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+                  <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.6" aria-label="Volume">
                 </div>
               </div>
             </div>
           </div>
         </article>
 
-        <!-- Video 2 -->
-        <article class="work-card">
+        <!-- Video 2 (эталонная громкость 1.0) -->
+        <article class="work-card" data-gain="1.0">
           <div class="frame">
             <video class="work-video" playsinline preload="metadata" loop>
               <source src="./video2.mp4#t=0.001" type="video/mp4" />
@@ -141,15 +141,15 @@
                   </svg>
                 </button>
                 <div class="slider-container">
-                  <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+                  <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.6" aria-label="Volume">
                 </div>
               </div>
             </div>
           </div>
         </article>
 
-        <!-- Video 3 -->
-        <article class="work-card">
+        <!-- Video 3 (громче 2-го -> коэффициент 0.68 выравнивает громкость) -->
+        <article class="work-card" data-gain="0.68">
           <div class="frame">
             <video class="work-video" playsinline preload="metadata" loop>
               <source src="./video3.mp4#t=0.001" type="video/mp4" />
@@ -170,7 +170,7 @@
                   </svg>
                 </button>
                 <div class="slider-container">
-                  <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+                  <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="0.6" aria-label="Volume">
                 </div>
               </div>
             </div>
@@ -395,8 +395,13 @@
       high: 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z'
     };
 
-    const DEFAULT_VOLUME = 0.5;
-    let sharedLastVolume = DEFAULT_VOLUME; // Запоминает удобную громкость между всеми видео
+    const DEFAULT_VOLUME = 0.6;
+    let sharedLastVolume = DEFAULT_VOLUME; // Единая память громкости между всеми 3 видео
+
+    // Для iOS Safari (где video.volume всегда = 1) выравниваем громкость через Web Audio GainNode
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    let sharedAudioCtx = null;
 
     function pauseCard(card, resetTime = false) {
       card.dataset.wantPlay = 'false';
@@ -423,8 +428,38 @@
 
       if (!video) return;
 
-      let soundEnabled = true; // По умолчанию звук включён
-      video.volume = sharedLastVolume;
+      // Коэффициент громкости конкретного ролика (0.68 для 1 и 3 видео, 1.0 для 2 видео)
+      const cardGain = Math.max(0.05, Math.min(1, parseFloat(card.dataset.gain || '1')));
+      let userVolume = sharedLastVolume;
+      let soundEnabled = true;
+      let iosGainAttached = false;
+
+      function applyHardwareVolume() {
+        const scaledVol = Math.max(0, Math.min(1, userVolume * cardGain));
+        try {
+          video.volume = scaledVol;
+        } catch (err) {}
+      }
+
+      function ensureIOSGainBalance() {
+        if (!isIOS || iosGainAttached || cardGain >= 0.99) return;
+        if (!window.location.protocol.startsWith('http')) return;
+        try {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          if (!sharedAudioCtx) sharedAudioCtx = new AudioCtx();
+          if (sharedAudioCtx.state === 'suspended') sharedAudioCtx.resume();
+
+          const source = sharedAudioCtx.createMediaElementSource(video);
+          const gainNode = sharedAudioCtx.createGain();
+          gainNode.gain.value = cardGain;
+          source.connect(gainNode);
+          gainNode.connect(sharedAudioCtx.destination);
+          iosGainAttached = true;
+        } catch (err) {}
+      }
+
+      applyHardwareVolume();
       video.muted = false;
       card.dataset.wantPlay = 'false';
 
@@ -433,8 +468,8 @@
       }
 
       function syncVolumeUI() {
-        const isCurrentlyMuted = !soundEnabled || video.muted || video.volume === 0;
-        const effVol = isCurrentlyMuted ? 0 : video.volume;
+        const isCurrentlyMuted = !soundEnabled || video.muted || userVolume === 0;
+        const effVol = isCurrentlyMuted ? 0 : userVolume;
 
         volSlider.value = effVol;
         volSlider.style.setProperty('--val', `${effVol * 100}%`);
@@ -454,8 +489,9 @@
       }
 
       card._syncVolumeFromShared = () => {
+        userVolume = getRestoredVolume();
         if (soundEnabled && !video.muted) {
-          video.volume = getRestoredVolume();
+          applyHardwareVolume();
         }
         syncVolumeUI();
       };
@@ -464,7 +500,9 @@
 
       function applyVolumeValue(val, commitShared = false) {
         const clamped = Math.max(0, Math.min(1, val));
-        video.volume = clamped;
+        userVolume = clamped;
+        applyHardwareVolume();
+
         if (clamped > 0) {
           soundEnabled = true;
           video.muted = false;
@@ -490,7 +528,9 @@
         soundEnabled = Boolean(withSound);
 
         if (soundEnabled) {
-          video.volume = getRestoredVolume();
+          userVolume = getRestoredVolume();
+          applyHardwareVolume();
+          ensureIOSGainBalance();
           video.muted = false;
         } else {
           video.muted = true;
@@ -577,19 +617,21 @@
         e.preventDefault();
         e.stopPropagation();
         const step = e.deltaY < 0 ? 0.06 : -0.06;
-        const currentVol = (!soundEnabled || video.muted) ? 0 : video.volume;
+        const currentVol = (!soundEnabled || video.muted) ? 0 : userVolume;
         applyVolumeValue(currentVol + step, true);
       }, { passive: false });
 
       function toggleMute(e) {
         e.stopPropagation();
-        if (!soundEnabled || video.muted || video.volume === 0) {
+        if (!soundEnabled || video.muted || userVolume === 0) {
           soundEnabled = true;
-          video.volume = getRestoredVolume();
+          userVolume = getRestoredVolume();
+          applyHardwareVolume();
+          ensureIOSGainBalance();
           video.muted = false;
         } else {
-          if (video.volume > 0) {
-            sharedLastVolume = video.volume;
+          if (userVolume > 0) {
+            sharedLastVolume = userVolume;
           }
           soundEnabled = false;
           video.muted = true;
@@ -611,7 +653,8 @@
         if (video.paused) {
           playCard(soundEnabled);
         } else if (canHover && soundEnabled && video.muted) {
-          video.volume = getRestoredVolume();
+          userVolume = getRestoredVolume();
+          applyHardwareVolume();
           video.muted = false;
           syncVolumeUI();
         } else {
