@@ -177,9 +177,19 @@
           'aria-label',
           silent ? `Unmute ${this.title}` : `Mute ${this.title}`
         );
+        this.muteBtn.classList.toggle('is-muted', silent);
+
+        // Icons: .icon-muted is shown when silent, .icon-unmuted when sound is on.
+        const mutedIcon = this.muteBtn.querySelector('.icon-muted');
+        const soundIcon = this.muteBtn.querySelector('.icon-unmuted');
+        if (mutedIcon) mutedIcon.style.display = silent ? 'block' : 'none';
+        if (soundIcon) soundIcon.style.display = silent ? 'none' : 'block';
       }
 
-      if (this.pill) this.pill.classList.toggle('muted', silent);
+      if (this.pill) {
+        this.pill.classList.toggle('muted', silent);
+        this.pill.classList.toggle('is-muted', silent);
+      }
 
       if (this.slider) {
         this.slider.value = prefs.volume;
