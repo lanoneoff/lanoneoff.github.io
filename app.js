@@ -177,14 +177,18 @@
           'aria-label',
           silent ? `Unmute ${this.title}` : `Mute ${this.title}`
         );
+        this.muteBtn.dataset.state = silent ? 'muted' : 'sound';
         this.muteBtn.classList.toggle('is-muted', silent);
-
-        // Icons: .icon-muted is shown when silent, .icon-unmuted when sound is on.
-        const mutedIcon = this.muteBtn.querySelector('.icon-muted');
-        const soundIcon = this.muteBtn.querySelector('.icon-unmuted');
-        if (mutedIcon) mutedIcon.style.display = silent ? 'block' : 'none';
-        if (soundIcon) soundIcon.style.display = silent ? 'none' : 'block';
       }
+
+      // Icons are searched in the whole card, so they are found
+      // whether they sit inside the button or next to it.
+      this.card.querySelectorAll('.icon-muted').forEach(el => {
+        el.style.display = silent ? 'block' : 'none';
+      });
+      this.card.querySelectorAll('.icon-unmuted').forEach(el => {
+        el.style.display = silent ? 'none' : 'block';
+      });
 
       if (this.pill) {
         this.pill.classList.toggle('muted', silent);
@@ -317,14 +321,27 @@
       });
     }, { rootMargin: '300px 0px' });
 
-    // Pause when less than 30% of the frame is visible.
+    // On touch screens and narrow layouts, a video is "active" only while it
+    // crosses the central band of the screen. Otherwise a tall card can stay
+    // more than 30% visible while the next one snaps into place.
+    const useBand = mqMobile.matches || mqCoarse.matches;
+
+    // Pause a playing video as soon as it leaves the active area.
     const pauser = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && entry.intersectionRatio >= PAUSE_RATIO) return;
         const c = byFrame.get(entry.target);
-        if (c && !c.video.paused) c.stop();
+        if (!c || c.video.paused) return;
+
+        const active = useBand
+          ? entry.isIntersecting
+          : entry.isIntersecting && entry.intersectionRatio >= PAUSE_RATIO;
+
+        if (!active) c.stop();
       });
-    }, { threshold: [0, PAUSE_RATIO] });
+    }, {
+      rootMargin: useBand ? '-30% 0px -30% 0px' : '0px',
+      threshold: [0, PAUSE_RATIO]
+    });
 
     cards.forEach(c => {
       loader.observe(c.frame);
