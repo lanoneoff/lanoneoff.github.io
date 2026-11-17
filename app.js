@@ -1,563 +1,781 @@
 (() => {
   'use strict';
 
-  // ---------- Config ----------
   const DEFAULT_VOLUME = 0.6;
-  const KEY_VOLUME = 'lev:volume';
-  const KEY_MUTED = 'lev:muted';
-  const SKIP_SEC = 5;
-  const PAUSE_RATIO = 0.3;
-  const EMAIL = 'editorafterwork@gmail.com';
-  const NAV_SNAP_RESTORE_MS = 1500;
 
-  const root = document.documentElement;
+  const prefs = {
+    volume: DEFAULT_VOLUME,
+    lastVolume: DEFAULT_VOLUME,
+    muted: false
+  };
 
-  const mqCoarse = window.matchMedia('(pointer: coarse)');
-  const mqFine = window.matchMedia('(hover: hover) and (pointer: fine)');
-  const mqMobile = window.matchMedia('(max-width: 720px)');
-  const mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = typeof window.matchMedia === 'function'
+    ? window.matchMedia('(hover: hover) and (pointer: fine)')
+    : { matches: false };
 
   let cards = [];
+  let initialized = false;
+  let copiedTimer = 0;
 
-  // ---------- Volume support probe ----------
-  // iOS ignores video.volume. If so, the slider is hidden and only mute remains.
-  (function probeVolume() {
-    const probe = document.createElement('video');
-    probe.volume = 0.5;
-    if (Math.abs(probe.volume - 0.5) > 0.01) root.classList.add('no-volume');
-  })();
+  const clamp = (value, min, max) =>
+    Math.min(max, Math.max(min, value));
 
-  // ---------- Shared preferences ----------
-  const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+  const isSilent = () =>
+    prefs.muted || prefs.volume === 0;
 
-  function loadPrefs() {
-    let volume = DEFAULT_VOLUME;
-    let muted = false; // sound is on by default
-    try {
-      const v = parseFloat(localStorage.getItem(KEY_VOLUME));
-      if (Number.isFinite(v)) volume = clamp(v, 0, 1);
-      muted = localStorage.getItem(KEY_MUTED) === '1';
-    } catch (_) { /* storage unavailable: use defaults */ }
-    return { volume, muted };
-  }
-
-  const prefs = loadPrefs();
-
-  const isSilentByUser = () => prefs.muted || prefs.volume === 0;
-
-  function persistPrefs() {
-    try {
-      localStorage.setItem(KEY_VOLUME, String(prefs.volume));
-      localStorage.setItem(KEY_MUTED, prefs.muted ? '1' : '0');
-    } catch (_) { /* ignore */ }
-  }
-
-  function setVolume(v) {
-    prefs.volume = clamp(v, 0, 1);
-    prefs.muted = prefs.volume === 0;
-  }
-
-  function toggleMute() {
-    if (isSilentByUser()) {
-      prefs.muted = false;
-      if (prefs.volume === 0) prefs.volume = DEFAULT_VOLUME;
-    } else {
-      prefs.muted = true;
+  function enableSound() {
+    if (prefs.volume === 0) {
+      prefs.volume = prefs.lastVolume || DEFAULT_VOLUME;
     }
-    applyAll();
+
+    prefs.muted = false;
   }
 
-  // Applies preferences to every card and saves them.
-  function applyAll() {
-    const audible = !isSilentByUser();
+  function applyAllCards() {
     cards.forEach(card => {
-      // Sound is allowed now: a browser-blocked video switches to sound.
-      if (audible) card.autoMuted = false;
       card.applyAudio();
       card.sync();
     });
-    persistPrefs();
   }
 
-  // ---------- Work card ----------
-  class WorkCard {
-    constructor(card) {
-      this.card = card;
-      this.video = card.querySelector('video.work-video');
-      this.frameToggle = card.querySelector('.frame-toggle');
-      this.muteBtn = card.querySelector('.mute-btn');
-      this.slider = card.querySelector('.vol-slider');
-      this.pill = card.querySelector('.sound-pill');
-      this.overlay = card.querySelector('.video-overlay');
-      const h3 = card.querySelector('h3');
-      this.title = h3 ? h3.textContent.trim() : 'Work';
+  function stopOtherCards(activeCard) {
+    cards.forEach(card => {
+      if (
+        card !== activeCard &&
+        (card.mode !== 'idle' || !card.video.paused)
+      ) {
+        card.stop();
+      }
+    });
+  }
 
-      this.loaded = false;
+  function isFinePointerEvent(event) {
+    return finePointer.matches && (
+      !event.pointerType ||
+      event.pointerType === 'mouse' ||
+      event.pointerType === 'pen'
+    );
+  }
+
+  class VideoCard {
+    constructor(element, index) {
+      this.el = element;
+      this.video = element.querySelector('.work-video');
+      this.frame = element.querySelector('.frame') || element;
+      this.toggle = element.querySelector('.frame-toggle');
+      this.muteButton = element.querySelector('.mute-btn');
+      this.slider = element.querySelector('.vol-slider');
+      this.pill = element.querySelector('.sound-pill');
+      this.number = element.dataset.videoNumber || String(index + 1);
+
+      this.mode = 'idle'; // idle | hover | manual
+      this.fallbackMuted = false;
       this.broken = false;
-      // Browser blocked sound: playing muted until the next click.
-      this.autoMuted = false;
+      this.pendingReset = false;
+      this.playToken = 0;
+      this.loadRequested =
+        this.video.readyState > 0 ||
+        this.video.networkState === 2;
 
-      // JS replaces native controls with the custom overlay.
       this.video.removeAttribute('controls');
+      this.video.setAttribute('playsinline', '');
+      this.video.setAttribute('webkit-playsinline', '');
 
-      this.bind();
-      this.applyAudio();
-      this.sync();
-    }
-
-    bind() {
-      const v = this.video;
-
-      v.addEventListener('play', () => this.sync());
-
-      v.addEventListener('pause', () => {
-        this.autoMuted = false;
-        this.applyAudio();
-        this.sync();
+      this.video.addEventListener('loadedmetadata', () => {
+        this.handleMetadata();
       });
 
-      v.addEventListener('waiting', () => this.card.classList.add('is-loading'));
-      v.addEventListener('stalled', () => this.card.classList.add('is-loading'));
-      v.addEventListener('playing', () => this.card.classList.remove('is-loading'));
-      v.addEventListener('canplay', () => this.card.classList.remove('is-loading'));
-
-      // Errors on <source> do not bubble. Only the last source failing means
-      // no playable file exists.
-      const sources = v.querySelectorAll('source');
-      const last = sources[sources.length - 1];
-      if (last) last.addEventListener('error', () => this.markBroken());
-      else v.addEventListener('error', () => this.markBroken());
-
-      this.frameToggle.addEventListener('click', () => this.handleToggle());
-
-      this.muteBtn.addEventListener('click', () => toggleMute());
-
-      if (this.overlay) {
-        this.overlay.addEventListener('click', e => e.stopPropagation());
-      }
-
-      if (this.slider) {
-        this.slider.addEventListener('input', () => {
-          setVolume(parseFloat(this.slider.value));
-          applyAll();
-        });
-      }
-
-      this.card.addEventListener('keydown', e => this.onKeydown(e));
-    }
-
-    load() {
-      if (this.loaded || this.broken) return;
-      this.loaded = true;
-      this.video.load();
-    }
-
-    applyAudio() {
-      this.video.volume = prefs.volume;
-      this.video.muted = this.autoMuted || isSilentByUser();
-    }
-
-    sync() {
-      const playing = !this.video.paused;
-      const silent = isSilentByUser();
-
-      this.card.classList.toggle('is-playing', playing);
-      this.card.classList.toggle('is-broken', this.broken);
-
-      if (this.frameToggle) {
-        const label = this.broken
-          ? `${this.title}: video unavailable`
-          : playing
-            ? `Pause ${this.title}`
-            : `Play ${this.title}`;
-        this.frameToggle.setAttribute('aria-label', label);
-      }
-
-      if (this.muteBtn) {
-        this.muteBtn.setAttribute(
-          'aria-label',
-          silent ? `Unmute ${this.title}` : `Mute ${this.title}`
-        );
-        this.muteBtn.dataset.state = silent ? 'muted' : 'sound';
-        this.muteBtn.classList.toggle('is-muted', silent);
-      }
-
-      // Icons are searched in the whole card, so they are found
-      // whether they sit inside the button or next to it.
-      this.card.querySelectorAll('.icon-muted').forEach(el => {
-        el.style.display = silent ? 'block' : 'none';
-      });
-      this.card.querySelectorAll('.icon-unmuted').forEach(el => {
-        el.style.display = silent ? 'none' : 'block';
+      this.video.addEventListener('loadeddata', () => {
+        if (this.pendingReset && this.video.paused) {
+          this.seekToFirstFrame();
+        }
       });
 
-      if (this.pill) {
-        this.pill.classList.toggle('muted', silent);
-        this.pill.classList.toggle('is-muted', silent);
-      }
-
-      if (this.slider) {
-        this.slider.value = prefs.volume;
-        this.slider.setAttribute('aria-valuetext', `${Math.round(prefs.volume * 100)}%`);
-      }
-    }
-
-    async play() {
-      if (this.broken) return;
-      this.load();
-
-      // Only one video plays at a time.
-      cards.forEach(other => {
-        if (other !== this && !other.video.paused) other.stop();
-      });
-
-      this.autoMuted = false;
-      this.applyAudio();
-
-      if (this.video.readyState < 3) this.card.classList.add('is-loading');
-
-      try {
-        await this.video.play();
-      } catch (err) {
-        if (err.name === 'AbortError') return; // interrupted by pause: expected
-
-        if (err.name === 'NotAllowedError') {
-          // Browser blocked sound: play muted. The next click turns sound on.
-          this.autoMuted = true;
-          this.applyAudio();
-          try {
-            await this.video.play();
-          } catch (err2) {
-            this.handlePlayError(err2);
-          }
+      this.video.addEventListener('play', () => {
+        if (this.mode === 'idle') {
+          this.pauseVideo();
           return;
         }
 
-        this.handlePlayError(err);
-      }
-    }
+        this.sync();
+      });
 
-    handlePlayError(err) {
-      if (err.name === 'AbortError') return;
-      if (err.name === 'NotSupportedError') {
-        this.markBroken();
-      } else {
-        this.autoMuted = false;
+      this.video.addEventListener('playing', () => {
+        if (this.mode === 'idle') {
+          this.pauseVideo();
+          return;
+        }
+
+        this.el.classList.remove('is-loading');
+        this.sync();
+      });
+
+      this.video.addEventListener('waiting', () => {
+        if (this.mode !== 'idle') {
+          this.el.classList.add('is-loading');
+        }
+      });
+
+      this.video.addEventListener('stalled', () => {
+        if (this.mode !== 'idle') {
+          this.el.classList.add('is-loading');
+        }
+      });
+
+      this.video.addEventListener('pause', () => {
+        this.handlePause();
+      });
+
+      this.video.addEventListener('ended', () => {
+        if (this.video.loop) return;
+
+        this.mode = 'idle';
+        this.fallbackMuted = false;
+        this.playToken += 1;
+        this.el.classList.remove('is-loading');
         this.applyAudio();
         this.sync();
+      });
+
+      this.video.addEventListener('error', () => {
+        this.markBroken();
+      });
+
+      this.video.addEventListener('volumechange', () => {
+        this.sync();
+      });
+
+      if (this.toggle) {
+        this.toggle.addEventListener('click', event => {
+          event.preventDefault();
+          this.togglePlayback();
+        });
+      }
+
+      if (this.muteButton) {
+        this.muteButton.addEventListener('click', event => {
+          event.preventDefault();
+          event.stopPropagation();
+          this.toggleMute();
+        });
+      }
+
+      if (this.slider) {
+        this.slider.addEventListener('pointerdown', event => {
+          event.stopPropagation();
+        });
+
+        this.slider.addEventListener('click', event => {
+          event.stopPropagation();
+        });
+
+        this.slider.addEventListener('input', () => {
+          this.changeVolume();
+        });
+      }
+
+      this.el.addEventListener('pointerenter', event => {
+        if (!isFinePointerEvent(event)) return;
+        this.startHoverPreview();
+      });
+
+      this.el.addEventListener('pointerleave', event => {
+        if (!isFinePointerEvent(event)) return;
+
+        if (this.mode === 'hover') {
+          this.stop({ reset: true });
+        }
+      });
+
+      this.applyAudio();
+      this.sync();
+
+      if (this.video.error) {
+        this.markBroken();
+      } else if (this.video.readyState >= 1) {
+        this.handleMetadata();
       }
     }
 
-    stop() {
-      this.video.pause();
+    handleMetadata() {
+      this.loadRequested = true;
+
+      if (
+        this.mode === 'idle' ||
+        (this.mode === 'hover' && this.pendingReset)
+      ) {
+        this.seekToFirstFrame();
+      }
     }
 
-    handleToggle() {
-      if (this.broken) return;
-
-      if (!this.video.paused && this.autoMuted) {
-        // Playing muted because the browser blocked sound: this click turns sound on.
-        prefs.muted = false;
-        if (prefs.volume === 0) prefs.volume = DEFAULT_VOLUME;
-        applyAll();
+    seekToFirstFrame() {
+      if (this.video.readyState < 1) {
+        this.pendingReset = true;
         return;
       }
 
-      if (this.video.paused) this.play();
-      else this.stop();
+      try {
+        const duration = this.video.duration;
+        const time = Number.isFinite(duration) && duration > 0
+          ? Math.min(0.01, duration / 2)
+          : 0.01;
+
+        if (Math.abs(this.video.currentTime - time) <= 0.001) {
+          this.pendingReset = false;
+          return;
+        }
+
+        this.video.currentTime = time;
+        this.pendingReset = false;
+      } catch {
+        this.pendingReset = true;
+      }
     }
 
-    seek(delta) {
+    handlePause() {
+      if (!this.video.paused) {
+        this.sync();
+        return;
+      }
+
+      this.el.classList.remove('is-loading');
+
+      if (this.mode !== 'idle') {
+        this.mode = 'idle';
+        this.fallbackMuted = false;
+        this.playToken += 1;
+        this.applyAudio();
+      }
+
+      this.sync();
+    }
+
+    pauseVideo() {
+      if (!this.video.paused) {
+        this.video.pause();
+      }
+    }
+
+    applyAudio() {
+      if (!this.video) return;
+
+      const forceMuted =
+        this.mode === 'hover' ||
+        this.fallbackMuted ||
+        isSilent();
+
+      try {
+        this.video.volume = prefs.volume;
+      } catch {
+        // Некоторые мобильные браузеры не разрешают задавать громкость.
+      }
+
+      try {
+        this.video.muted = forceMuted;
+      } catch {
+        // Не прерываем работу карточки, если браузер ограничивает свойство.
+      }
+    }
+
+    sync() {
+      if (!this.video) return;
+
+      const playing = !this.video.paused && !this.video.ended;
+      const muted =
+        this.mode === 'hover' ||
+        this.fallbackMuted ||
+        isSilent();
+
+      this.el.classList.toggle('is-playing', playing);
+      this.el.classList.toggle('is-broken', this.broken);
+
+      if (this.toggle) {
+        this.toggle.disabled = this.broken;
+        this.toggle.setAttribute('aria-pressed', String(playing));
+
+        let label;
+
+        if (playing && this.mode === 'hover') {
+          label = `Enable sound and continue video ${this.number}`;
+        } else if (playing) {
+          label = `Pause video ${this.number}`;
+        } else if (this.mode === 'manual') {
+          label = `Cancel loading video ${this.number}`;
+        } else {
+          label = `Play video ${this.number}`;
+        }
+
+        this.toggle.setAttribute('aria-label', label);
+      }
+
+      if (this.pill) {
+        this.pill.classList.toggle('muted', muted);
+      }
+
+      if (this.muteButton) {
+        this.muteButton.setAttribute('aria-pressed', String(muted));
+        this.muteButton.setAttribute(
+          'aria-label',
+          muted
+            ? `Unmute video ${this.number}`
+            : `Mute video ${this.number}`
+        );
+      }
+
+      if (this.slider) {
+        this.slider.value = String(prefs.volume);
+        this.slider.style.setProperty(
+          '--val',
+          `${Math.round(prefs.volume * 100)}%`
+        );
+        this.slider.setAttribute(
+          'aria-label',
+          `Volume for video ${this.number}`
+        );
+        this.slider.setAttribute(
+          'aria-valuetext',
+          `${Math.round(prefs.volume * 100)}%`
+        );
+      }
+    }
+
+    load() {
+      if (this.loadRequested || this.broken) return;
+
+      this.loadRequested = true;
+
+      try {
+        this.video.load();
+      } catch {
+        // Ошибка загрузки будет обработана событием video.error.
+      }
+    }
+
+    start(mode) {
       if (this.broken) return;
+
+      stopOtherCards(this);
+
+      this.mode = mode;
+      this.fallbackMuted = false;
+
+      if (mode === 'hover') {
+        this.seekToFirstFrame();
+      } else {
+        this.pendingReset = false;
+      }
+
       this.load();
-      const v = this.video;
+      this.applyAudio();
 
-      if (v.readyState < 1) {
-        v.addEventListener('loadedmetadata', () => this.seek(delta), { once: true });
+      const token = ++this.playToken;
+
+      if (this.video.paused) {
+        this.el.classList.add('is-loading');
+      }
+
+      this.sync();
+      this.requestPlay(token, mode === 'manual');
+    }
+
+    requestPlay(token, allowMutedFallback) {
+      let result;
+
+      try {
+        result = this.video.play();
+      } catch (error) {
+        this.handlePlayFailure(error, token, allowMutedFallback);
         return;
       }
 
-      const max = Number.isFinite(v.duration) ? v.duration : Infinity;
-      v.currentTime = clamp(v.currentTime + delta, 0, max);
+      if (!result || typeof result.then !== 'function') return;
+
+      result.then(
+        () => {
+          if (token !== this.playToken || this.mode === 'idle') {
+            return;
+          }
+
+          this.el.classList.remove('is-loading');
+          this.sync();
+        },
+        error => {
+          this.handlePlayFailure(error, token, allowMutedFallback);
+        }
+      );
     }
 
-    onKeydown(e) {
-      if (e.altKey || e.ctrlKey || e.metaKey) return;
-      if (e.target instanceof HTMLInputElement && e.target.type === 'range') return;
-
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        this.seek(-SKIP_SEC);
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        this.seek(SKIP_SEC);
+    handlePlayFailure(error, token, allowMutedFallback) {
+      if (token !== this.playToken || this.mode === 'idle') {
+        return;
       }
+
+      const blockedByAudio =
+        error &&
+        error.name === 'NotAllowedError' &&
+        allowMutedFallback &&
+        this.mode === 'manual' &&
+        !this.video.muted &&
+        !isSilent() &&
+        !this.fallbackMuted;
+
+      if (blockedByAudio) {
+        this.fallbackMuted = true;
+        this.applyAudio();
+        this.el.classList.add('is-loading');
+        this.requestPlay(token, false);
+        return;
+      }
+
+      const unsupported =
+        error && error.name === 'NotSupportedError';
+
+      this.mode = 'idle';
+      this.fallbackMuted = false;
+      this.playToken += 1;
+      this.el.classList.remove('is-loading');
+      this.pauseVideo();
+      this.applyAudio();
+      this.sync();
+
+      if (unsupported) {
+        this.markBroken();
+      }
+    }
+
+    startHoverPreview() {
+      if (
+        this.broken ||
+        this.mode !== 'idle' ||
+        !this.video.paused
+      ) {
+        return;
+      }
+
+      // Предпросмотр при наведении на компьютере запускается без звука.
+      this.start('hover');
+    }
+
+    togglePlayback() {
+      if (this.broken) return;
+
+      // Повторный клик отменяет ещё не завершившийся запуск.
+      if (this.mode === 'manual' && this.video.paused) {
+        this.stop();
+        return;
+      }
+
+      // Повторный клик ставит обычное воспроизведение на паузу.
+      // Тихое превью при наведении — исключение: клик включает звук.
+      if (!this.video.paused && this.mode !== 'hover') {
+        this.stop();
+        return;
+      }
+
+      enableSound();
+      this.fallbackMuted = false;
+
+      this.start('manual');
+      applyAllCards();
+    }
+
+    toggleMute() {
+      if (this.mode === 'hover') {
+        enableSound();
+        this.start('manual');
+        applyAllCards();
+        return;
+      }
+
+      if (this.fallbackMuted || isSilent()) {
+        this.fallbackMuted = false;
+        enableSound();
+      } else {
+        prefs.muted = true;
+      }
+
+      applyAllCards();
+    }
+
+    changeVolume() {
+      const value = Number.parseFloat(this.slider.value);
+      if (!Number.isFinite(value)) return;
+
+      const wasHoverPreview = this.mode === 'hover';
+
+      prefs.volume = clamp(value, 0, 1);
+
+      if (prefs.volume > 0) {
+        prefs.lastVolume = prefs.volume;
+        prefs.muted = false;
+      } else {
+        prefs.muted = true;
+      }
+
+      if (wasHoverPreview) {
+        this.start('manual');
+        applyAllCards();
+        return;
+      }
+
+      this.fallbackMuted = false;
+      applyAllCards();
+    }
+
+    stop({ reset = false } = {}) {
+      if (!this.video) return;
+
+      const wasHoverPreview = this.mode === 'hover';
+
+      this.mode = 'idle';
+      this.fallbackMuted = false;
+      this.playToken += 1;
+      this.el.classList.remove('is-loading');
+
+      this.pauseVideo();
+
+      if (reset || wasHoverPreview) {
+        this.seekToFirstFrame();
+      }
+
+      this.applyAudio();
+      this.sync();
     }
 
     markBroken() {
+      if (this.broken) return;
+
       this.broken = true;
-      this.autoMuted = false;
-      this.video.pause();
-      this.card.classList.remove('is-loading');
-      if (this.frameToggle) this.frameToggle.setAttribute('aria-disabled', 'true');
+      this.mode = 'idle';
+      this.fallbackMuted = false;
+      this.playToken += 1;
+      this.el.classList.remove('is-loading');
+
+      this.pauseVideo();
+      this.applyAudio();
       this.sync();
     }
   }
 
-  // ---------- Lazy loading and auto-pause ----------
-  function setupObservers() {
-    if (!('IntersectionObserver' in window)) {
-      cards.forEach(c => c.load());
-      return;
-    }
-
-    const byFrame = new Map(cards.map(c => [c.frame, c]));
-
-    // Load shortly before a card scrolls into view.
-    const loader = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        byFrame.get(entry.target).load();
-        loader.unobserve(entry.target);
-      });
-    }, { rootMargin: '300px 0px' });
-
-    // On touch screens and narrow layouts, a video is "active" only while it
-    // crosses the central band of the screen. Otherwise a tall card can stay
-    // more than 30% visible while the next one snaps into place.
-    const useBand = mqMobile.matches || mqCoarse.matches;
-
-    // Pause a playing video as soon as it leaves the active area.
-    const pauser = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        const c = byFrame.get(entry.target);
-        if (!c || c.video.paused) return;
-
-        const active = useBand
-          ? entry.isIntersecting
-          : entry.isIntersecting && entry.intersectionRatio >= PAUSE_RATIO;
-
-        if (!active) c.stop();
-      });
-    }, {
-      rootMargin: useBand ? '-30% 0px -30% 0px' : '0px',
-      threshold: [0, PAUSE_RATIO]
-    });
-
-    cards.forEach(c => {
-      loader.observe(c.frame);
-      pauser.observe(c.frame);
-    });
-  }
-
-  // ---------- Cursor light (desktop mouse only) ----------
-  function setCursor(x, y) {
-    root.style.setProperty('--mx', x + 'px');
-    root.style.setProperty('--my', y + 'px');
-  }
-
-  let cursorRaf = 0;
-  let cursorX = 0;
-  let cursorY = 0;
-
-  window.addEventListener('pointermove', e => {
-    if (e.pointerType !== 'mouse' || !mqFine.matches) return;
-    cursorX = e.clientX;
-    cursorY = e.clientY;
-    if (!cursorRaf) {
-      cursorRaf = requestAnimationFrame(() => {
-        cursorRaf = 0;
-        setCursor(cursorX, cursorY);
-      });
-    }
-  }, { passive: true });
-
-  // Pointer left the window: hide the light.
-  document.addEventListener('mouseout', e => {
-    if (!e.relatedTarget) setCursor(-500, -500);
-  });
-
-  // ---------- Clipboard ----------
   async function copyText(text) {
-    if (navigator.clipboard && window.isSecureContext) {
+    if (
+      navigator.clipboard &&
+      typeof navigator.clipboard.writeText === 'function'
+    ) {
       try {
         await navigator.clipboard.writeText(text);
-        return true;
-      } catch (_) { /* fall through to execCommand */ }
+        return;
+      } catch {
+        // Если Clipboard API недоступен, используем запасной способ.
+      }
     }
 
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.setAttribute('readonly', '');
-    ta.style.position = 'fixed';
-    ta.style.top = '-1000px';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    ta.setSelectionRange(0, text.length);
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    textarea.style.pointerEvents = 'none';
 
-    let ok = false;
+    let copied = false;
+
     try {
-      ok = document.execCommand('copy');
-    } catch (_) {
-      ok = false;
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      textarea.setSelectionRange(0, text.length);
+
+      copied = Boolean(
+        document.execCommand &&
+        document.execCommand('copy')
+      );
+    } catch {
+      copied = false;
+    } finally {
+      textarea.remove();
     }
-    ta.remove();
-    return ok;
+
+    if (!copied) {
+      throw new Error('Could not copy email address');
+    }
   }
 
-  function setupEmail() {
-    const btn = document.getElementById('copyEmailBtn');
-    if (!btn) return;
+  function setupEmailButton() {
+    const button = document.getElementById('copyEmailBtn');
+    if (!button) return;
 
-    const label = btn.querySelector('.btn-label');
-    const idleText = label ? label.textContent : 'Email';
-    const status = document.getElementById('copyStatus');
-    let resetTimer = 0;
+    const coarsePointer = typeof window.matchMedia === 'function'
+      ? window.matchMedia('(pointer: coarse)')
+      : { matches: false };
 
-    btn.addEventListener('click', async e => {
-      // Touch devices: let the mailto: link open the mail app.
-      if (mqCoarse.matches) return;
+    button.addEventListener('click', async event => {
+      // На телефоне оставляем стандартное открытие почтового приложения.
+      if (coarsePointer.matches) return;
 
-      e.preventDefault();
+      event.preventDefault();
 
-      let ok = false;
+      const label = button.querySelector('.btn-label');
+
       try {
-        ok = await copyText(EMAIL);
-      } catch (_) {
-        ok = false;
-      }
+        await copyText('editorafterwork@gmail.com');
 
-      if (!ok) {
-        // Copy failed: fall back to the mail app.
-        window.location.href = 'mailto:' + EMAIL;
+        if (label) {
+          label.textContent = 'Copied!';
+        }
+
+        button.classList.add('copied');
+        window.clearTimeout(copiedTimer);
+
+        copiedTimer = window.setTimeout(() => {
+          if (label) {
+            label.textContent = 'Email';
+          }
+
+          button.classList.remove('copied');
+        }, 2000);
+      } catch {
+        window.location.href =
+          button.getAttribute('href') ||
+          'mailto:editorafterwork@gmail.com';
+      }
+    });
+  }
+
+  function setupWorksNavigation() {
+    const worksLink = document.querySelector('.scroll-btn');
+    const firstCard = document.querySelector('.work-card');
+
+    if (!worksLink || !firstCard) return;
+
+    const mobileLayout = window.matchMedia('(max-width: 720px)');
+
+    worksLink.addEventListener('click', event => {
+      // На компьютере работает обычная ссылка на секцию Works.
+      if (!mobileLayout.matches) return;
+
+      event.preventDefault();
+
+      const reducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches;
+
+      firstCard.scrollIntoView({
+        behavior: reducedMotion ? 'auto' : 'smooth',
+        block: 'center',
+        inline: 'nearest'
+      });
+    });
+  }
+
+  function init() {
+    if (initialized) return;
+    initialized = true;
+
+    const elements = Array.from(
+      document.querySelectorAll('.work-card')
+    ).filter(element =>
+      element.querySelector('.work-video') &&
+      element.querySelector('.frame-toggle')
+    );
+
+    cards = elements.map((element, index) => {
+      return new VideoCard(element, index);
+    });
+
+    if ('IntersectionObserver' in window) {
+      const cardByElement = new Map(
+        cards.map(card => [card.el, card])
+      );
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const card = cardByElement.get(entry.target);
+          if (!card) return;
+
+          // Оставляем видео активным, пока видно не меньше 20% карточки.
+          if (
+            entry.isIntersecting &&
+            entry.intersectionRatio >= 0.2
+          ) {
+            return;
+          }
+
+          if (card.mode !== 'idle' || !card.video.paused) {
+            card.stop({ reset: card.mode === 'hover' });
+          }
+        });
+      }, { threshold: [0, 0.2] });
+
+      cards.forEach(card => observer.observe(card.el));
+    } else {
+      window.addEventListener('scroll', () => {
+        cards.forEach(card => {
+          if (card.mode === 'idle' && card.video.paused) return;
+
+          const rect = card.frame.getBoundingClientRect();
+          const outsideViewport =
+            rect.top >= window.innerHeight ||
+            rect.bottom <= 0;
+
+          if (outsideViewport) {
+            card.stop({ reset: card.mode === 'hover' });
+          }
+        });
+      }, { passive: true });
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) return;
+
+      cards.forEach(card => {
+        if (card.mode !== 'idle' || !card.video.paused) {
+          card.stop({ reset: card.mode === 'hover' });
+        }
+      });
+    });
+
+    window.addEventListener('pagehide', () => {
+      cards.forEach(card => {
+        if (card.mode !== 'idle' || !card.video.paused) {
+          card.stop({ reset: card.mode === 'hover' });
+        }
+      });
+    });
+
+    const onPointerModeChange = event => {
+      if (event.matches) return;
+
+      cards.forEach(card => {
+        if (card.mode === 'hover') {
+          card.stop({ reset: true });
+        }
+      });
+    };
+
+    if (typeof finePointer.addEventListener === 'function') {
+      finePointer.addEventListener('change', onPointerModeChange);
+    } else if (typeof finePointer.addListener === 'function') {
+      finePointer.addListener(onPointerModeChange);
+    }
+
+    setupEmailButton();
+    setupWorksNavigation();
+
+    const root = document.documentElement;
+
+    window.addEventListener('pointermove', event => {
+      if (event.pointerType !== 'mouse' || !finePointer.matches) {
         return;
       }
 
-      if (label) label.textContent = 'Copied!';
-      btn.classList.add('copied');
-      if (status) status.textContent = 'Email address copied to clipboard';
-
-      clearTimeout(resetTimer);
-      resetTimer = setTimeout(() => {
-        if (label) label.textContent = idleText;
-        btn.classList.remove('copied');
-        if (status) status.textContent = '';
-      }, 2000);
-    });
+      root.style.setProperty('--mx', `${event.clientX}px`);
+      root.style.setProperty('--my', `${event.clientY}px`);
+    }, { passive: true });
   }
 
-  // ---------- In-page navigation ----------
-  let navSnapTimer = 0;
-
-  // Smooth scroll to a vertical position.
-  // On mobile, mandatory snapping pulls the page to a snap point at the start
-  // of a smooth scroll, which looks like a jump. Snapping is switched off only
-  // while this scroll runs, then restored.
-  function scrollToY(y) {
-    if (mqReduce.matches) {
-      window.scrollTo({ top: y, behavior: 'auto' });
-      return;
-    }
-
-    if (mqMobile.matches) {
-      const restore = () => {
-        root.classList.remove('is-nav-scrolling');
-        window.removeEventListener('scrollend', restore);
-        clearTimeout(navSnapTimer);
-      };
-
-      root.classList.add('is-nav-scrolling');
-      window.addEventListener('scrollend', restore);
-      // Fallback for browsers without the scrollend event.
-      clearTimeout(navSnapTimer);
-      navSnapTimer = setTimeout(restore, NAV_SNAP_RESTORE_MS);
-    }
-
-    window.scrollTo({ top: y, behavior: 'smooth' });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
   }
-
-  function setupNavigation() {
-    document.addEventListener('click', e => {
-      if (e.defaultPrevented || e.button !== 0) return;
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-
-      const link = e.target.closest('a[href^="#"]');
-      if (!link) return;
-
-      const id = link.getAttribute('href').slice(1);
-      const target = document.getElementById(id);
-      if (!target) return;
-
-      e.preventDefault();
-
-      // On mobile, "Works" lands on its title. The title is a snap point,
-      // so the next swipe moves to the first card.
-      let dest = target;
-      if (id === 'works' && mqMobile.matches) {
-        dest = target.querySelector('.works-header') || target;
-      }
-
-      const y = dest.getBoundingClientRect().top + window.scrollY;
-      scrollToY(Math.max(0, y));
-
-      target.setAttribute('tabindex', '-1');
-      target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
-      target.focus({ preventScroll: true });
-
-      history.replaceState(null, '', '#' + id);
-    });
-  }
-
-  // ---------- Global keyboard shortcuts ----------
-  function isEditable(el) {
-    return el instanceof HTMLElement &&
-      (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
-  }
-
-  function setupKeyboard() {
-    document.addEventListener('keydown', e => {
-      if (e.defaultPrevented || e.repeat) return;
-      if (e.altKey || e.ctrlKey || e.metaKey) return;
-      if (isEditable(e.target)) return;
-
-      const key = (e.key || '').toLowerCase();
-
-      if (key === 'm') {
-        e.preventDefault();
-        toggleMute();
-      } else if (key === 'k') {
-        const target = cards.find(c => !c.video.paused) || cards[0];
-        if (target) {
-          e.preventDefault();
-          target.handleToggle();
-        }
-      }
-    });
-  }
-
-  // ---------- Tab visibility ----------
-  function setupVisibility() {
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) return;
-      cards.forEach(c => {
-        if (!c.video.paused) c.stop();
-      });
-    });
-  }
-
-  // ---------- Init ----------
-  function init() {
-    cards = Array.from(document.querySelectorAll('.work-card'))
-      .map(el => (el.querySelector('video') ? new WorkCard(el) : null))
-      .filter(Boolean);
-
-    setupObservers();
-    setupEmail();
-    setupNavigation();
-    setupKeyboard();
-    setupVisibility();
-  }
-
-  init();
 })();
