@@ -8,6 +8,7 @@
   const SKIP_SEC = 5;
   const PAUSE_RATIO = 0.3;
   const EMAIL = 'editorafterwork@gmail.com';
+  const NAV_SNAP_RESTORE_MS = 1500;
 
   const root = document.documentElement;
 
@@ -447,6 +448,35 @@
   }
 
   // ---------- In-page navigation ----------
+  let navSnapTimer = 0;
+
+  // Smooth scroll to a vertical position.
+  // On mobile, mandatory snapping pulls the page to a snap point at the start
+  // of a smooth scroll, which looks like a jump. Snapping is switched off only
+  // while this scroll runs, then restored.
+  function scrollToY(y) {
+    if (mqReduce.matches) {
+      window.scrollTo({ top: y, behavior: 'auto' });
+      return;
+    }
+
+    if (mqMobile.matches) {
+      const restore = () => {
+        root.classList.remove('is-nav-scrolling');
+        window.removeEventListener('scrollend', restore);
+        clearTimeout(navSnapTimer);
+      };
+
+      root.classList.add('is-nav-scrolling');
+      window.addEventListener('scrollend', restore);
+      // Fallback for browsers without the scrollend event.
+      clearTimeout(navSnapTimer);
+      navSnapTimer = setTimeout(restore, NAV_SNAP_RESTORE_MS);
+    }
+
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+
   function setupNavigation() {
     document.addEventListener('click', e => {
       if (e.defaultPrevented || e.button !== 0) return;
@@ -461,15 +491,15 @@
 
       e.preventDefault();
 
-      const behavior = mqReduce.matches ? 'auto' : 'smooth';
+      // On mobile, "Works" lands on its title. The title is a snap point,
+      // so the next swipe moves to the first card.
+      let dest = target;
+      if (id === 'works' && mqMobile.matches) {
+        dest = target.querySelector('.works-header') || target;
+      }
 
-      // On mobile, "Works" centers the first card so scroll-snap lands on it.
-      const useFirstCard = id === 'works' && mqMobile.matches && cards.length > 0;
-      const dest = useFirstCard ? cards[0].card : target;
-      dest.scrollIntoView({
-        behavior,
-        block: dest === target ? 'start' : 'center'
-      });
+      const y = dest.getBoundingClientRect().top + window.scrollY;
+      scrollToY(Math.max(0, y));
 
       target.setAttribute('tabindex', '-1');
       target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });

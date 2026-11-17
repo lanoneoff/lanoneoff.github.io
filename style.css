@@ -897,8 +897,14 @@ main,
 
 @media (max-width: 720px) {
   html {
-    /* proximity instead of mandatory: mandatory can stick on iOS with tall sections */
-    scroll-snap-type: y proximity;
+    /* mandatory: each swipe moves exactly one snap point (one card).
+       Every card fits in the viewport, so mandatory cannot trap the page. */
+    scroll-snap-type: y mandatory;
+  }
+
+  /* Set by app.js only during a programmatic smooth scroll on mobile */
+  html.is-nav-scrolling {
+    scroll-snap-type: none;
   }
 
   .bg-grid-lit,
@@ -953,7 +959,10 @@ main,
     padding: 24px 20px calc(16svh + env(safe-area-inset-bottom, 0px));
   }
 
-  .works-header { margin-bottom: 18px; }
+  .works-header {
+    margin-bottom: 18px;
+    scroll-snap-align: start;
+  }
 
   .work-grid {
     grid-template-columns: 1fr;
@@ -966,7 +975,12 @@ main,
     scroll-snap-stop: always;
   }
 
-  .works-bottom { margin-top: 18px; }
+  .works-bottom {
+    margin-top: 18px;
+    /* Without an end snap point, mandatory snapping would pull the page
+       back to the last card and hide "Back to top". */
+    scroll-snap-align: end;
+  }
 }
 
 /* ---------- Reduced motion ---------- */
