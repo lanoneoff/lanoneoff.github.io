@@ -742,12 +742,12 @@ main {
 
 @media (max-width: 720px) {
   html {
-    /* mandatory: each swipe moves exactly one snap point.
-       Each snap point fills one screen, so the page cannot get stuck. */
+    /* mandatory: каждый свайп переводит ровно на одну точку прилипания.
+       Каждая точка занимает весь экран, поэтому страница не застревает. */
     scroll-snap-type: y mandatory;
   }
 
-  /* Set by app.js only during a programmatic smooth scroll on mobile */
+  /* Включается из app.js только на время программной плавной прокрутки */
   html.is-nav-scrolling {
     scroll-snap-type: none;
   }
@@ -800,19 +800,26 @@ main {
 
   .scroll-btn { margin-top: 36px; }
 
-  /* Works: a title screen, then one full-screen card per swipe */
+  /* Works: заголовок лежит поверх верхней части первого экрана,
+     а первое видео centrируется ниже него */
   .works {
     min-height: 0;
     max-width: none;
     margin: 0;
     padding: 0 0 24px;
     display: block;
+    position: relative;
   }
 
   .works-header {
-    min-height: 100svh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
     margin: 0;
-    padding: 0 20px;
+    padding: 44px 20px 0;
+    pointer-events: none;
     scroll-snap-align: start;
   }
 
@@ -837,7 +844,8 @@ main {
     width: min(330px, 41svh);
   }
 
-  /* "Back to top" gets its own snap point so mandatory snapping can reach it */
+  /* «Back to top» получает собственную точку прилипания,
+     чтобы mandatory-прокрутка могла до неё дойти */
   .works-bottom {
     margin-top: 0;
     height: 40svh;
