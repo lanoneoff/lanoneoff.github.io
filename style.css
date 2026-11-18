@@ -65,26 +65,14 @@ input:focus-visible {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.04) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.04) 1px,
-      transparent 1px
-    );
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(
-    ellipse 90% 85% at 50% 45%,
-    #000 35%,
-    transparent 100%
+    ellipse 90% 85% at 50% 45%, #000 35%, transparent 100%
   );
   -webkit-mask-image: radial-gradient(
-    ellipse 90% 85% at 50% 45%,
-    #000 35%,
-    transparent 100%
+    ellipse 90% 85% at 50% 45%, #000 35%, transparent 100%
   );
 }
 
@@ -93,28 +81,16 @@ input:focus-visible {
   inset: 0;
   z-index: 2;
   background-image:
-    linear-gradient(
-      to right,
-      rgba(242, 232, 213, 0.24) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
-      rgba(242, 232, 213, 0.24) 1px,
-      transparent 1px
-    );
+    linear-gradient(to right, rgba(242, 232, 213, 0.24) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(242, 232, 213, 0.24) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(
     150px circle at var(--mx, -500px) var(--my, -500px),
-    #000 0%,
-    rgba(0, 0, 0, 0.45) 45%,
-    transparent 100%
+    #000 0%, rgba(0, 0, 0, 0.45) 45%, transparent 100%
   );
   -webkit-mask-image: radial-gradient(
     150px circle at var(--mx, -500px) var(--my, -500px),
-    #000 0%,
-    rgba(0, 0, 0, 0.45) 45%,
-    transparent 100%
+    #000 0%, rgba(0, 0, 0, 0.45) 45%, transparent 100%
   );
 }
 
@@ -135,9 +111,7 @@ input:focus-visible {
   inset: 0;
   z-index: 1;
   background: radial-gradient(
-    circle at 50% 45%,
-    transparent 52%,
-    rgba(5, 6, 8, 0.72) 100%
+    circle at 50% 45%, transparent 52%, rgba(5, 6, 8, 0.72) 100%
   );
 }
 
@@ -252,10 +226,7 @@ input:focus-visible {
   flex: 1;
   height: 1px;
   background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(242, 232, 213, 0.35),
-    transparent
+    90deg, transparent, rgba(242, 232, 213, 0.35), transparent
   );
 }
 
@@ -417,23 +388,13 @@ input:focus-visible {
 }
 
 @keyframes floatArrowDown {
-  0%, 100% {
-    transform: translateY(-1px);
-  }
-
-  50% {
-    transform: translateY(3px);
-  }
+  0%, 100% { transform: translateY(-1px); }
+  50% { transform: translateY(3px); }
 }
 
 @keyframes floatArrowUp {
-  0%, 100% {
-    transform: translateY(1px);
-  }
-
-  50% {
-    transform: translateY(-3px);
-  }
+  0%, 100% { transform: translateY(1px); }
+  50% { transform: translateY(-3px); }
 }
 
 /* Работы */
@@ -474,10 +435,7 @@ input:focus-visible {
   width: 72px;
   height: 1px;
   background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
+    90deg, transparent, rgba(255, 255, 255, 0.2), transparent
   );
 }
 
@@ -584,9 +542,7 @@ input:focus-visible {
   background: transparent;
   color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .video-mute svg {
@@ -603,7 +559,7 @@ input:focus-visible {
 }
 
 .video-volume {
-  --volume: 100%;
+  --volume: 50%;
 
   -webkit-appearance: none;
   appearance: none;
@@ -667,6 +623,10 @@ input:focus-visible {
   justify-content: center;
 }
 
+.mobile-back-top {
+  display: none;
+}
+
 /* Планшеты */
 
 @media (max-width: 900px) {
@@ -689,7 +649,7 @@ input:focus-visible {
   }
 }
 
-/* Мобильная версия */
+/* Телефоны */
 
 @media (max-width: 720px) {
   html {
@@ -733,10 +693,12 @@ input:focus-visible {
   }
 
   .work-card {
+    position: relative;
     width: 100%;
     max-width: none;
     min-height: 100vh;
     min-height: 100svh;
+    min-height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -744,34 +706,46 @@ input:focus-visible {
     scroll-snap-stop: always;
   }
 
-  .frame {
+  /* Одинаковый размер для всех трёх роликов */
+  .work-card .frame {
     width: 100%;
     max-width: 352px;
-    max-width: min(352px, calc((100svh - 64px) * 9 / 16));
+    max-width: min(352px, calc((100vh - 80px) * 9 / 16));
+    max-width: min(352px, calc((100dvh - 80px) * 9 / 16));
   }
 
-  /*
-    Для последнего видео оставляем больше места снизу,
-    чтобы кнопка поместилась на том же экране.
-  */
-  .work-card:last-child .frame {
-    max-width: min(352px, calc((100svh - 160px) * 9 / 16));
-  }
-
-  .works-bottom {
-    position: relative;
+  .mobile-back-top {
+    position: absolute;
     z-index: 5;
-    width: 100%;
-    height: 80px;
-    margin: -80px 0 0;
-    padding-bottom: env(safe-area-inset-bottom);
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 44px;
+    height: 44px;
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    background: rgba(15, 17, 22, 0.82);
+    color: var(--cream);
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .mobile-back-top svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .works-bottom {
+    display: none;
   }
 }
-
-/* Уменьшение движения */
 
 @media (prefers-reduced-motion: reduce) {
   *,

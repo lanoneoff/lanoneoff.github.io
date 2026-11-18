@@ -8,17 +8,11 @@ if (emailBtn) {
   function showFeedback(message, copied = false) {
     clearTimeout(feedbackTimeout);
 
-    if (label) {
-      label.textContent = message;
-    }
-
+    if (label) label.textContent = message;
     emailBtn.classList.toggle("copied", copied);
 
     feedbackTimeout = setTimeout(() => {
-      if (label) {
-        label.textContent = "Email";
-      }
-
+      if (label) label.textContent = "Email";
       emailBtn.classList.remove("copied");
     }, 2000);
   }
@@ -70,10 +64,9 @@ if (emailBtn) {
   });
 }
 
-// Прокрутка к работам и наверх
+// Переход к работам и наверх
 document.addEventListener("click", (event) => {
   const link = event.target.closest("[data-scroll]");
-
   if (!link) return;
 
   const selector = link.getAttribute("data-scroll");
@@ -170,7 +163,7 @@ document.querySelectorAll(".work-card").forEach((card, index) => {
 
   const videoNumber = index + 1;
 
-  // Начальная громкость — 50%
+  // Начальная громкость на поддерживаемых устройствах — 50%.
   let lastVolume = 0.5;
   video.volume = lastVolume;
 
@@ -202,6 +195,8 @@ document.querySelectorAll(".work-card").forEach((card, index) => {
   async function togglePlay() {
     if (video.paused) {
       try {
+        // После паузы воспроизводим ролик с начала.
+        video.currentTime = 0;
         await video.play();
       } catch (error) {
         console.error("Could not play video:", error);
@@ -215,9 +210,7 @@ document.querySelectorAll(".work-card").forEach((card, index) => {
 
   video.addEventListener("play", () => {
     videos.forEach((otherVideo) => {
-      if (otherVideo !== video) {
-        otherVideo.pause();
-      }
+      if (otherVideo !== video) otherVideo.pause();
     });
 
     updatePlaybackLabel();
@@ -227,10 +220,7 @@ document.querySelectorAll(".work-card").forEach((card, index) => {
 
   muteButton.addEventListener("click", () => {
     if (video.muted || video.volume === 0) {
-      if (video.volume === 0) {
-        video.volume = lastVolume;
-      }
-
+      if (video.volume === 0) video.volume = lastVolume;
       video.muted = false;
     } else {
       lastVolume = video.volume;
@@ -246,9 +236,7 @@ document.querySelectorAll(".work-card").forEach((card, index) => {
     video.volume = volume;
     video.muted = volume === 0;
 
-    if (volume > 0) {
-      lastVolume = volume;
-    }
+    if (volume > 0) lastVolume = volume;
 
     updateVolumeUI();
   });
@@ -259,7 +247,7 @@ document.querySelectorAll(".work-card").forEach((card, index) => {
   updateVolumeUI();
 });
 
-// Пауза, когда видео почти полностью вышло из видимой области
+// Пауза, когда видео выходит из видимой области
 if ("IntersectionObserver" in window) {
   const observer = new IntersectionObserver(
     (entries) => {
@@ -275,7 +263,7 @@ if ("IntersectionObserver" in window) {
   videos.forEach((video) => observer.observe(video));
 }
 
-// Пауза при переключении на другую вкладку или приложение
+// Пауза при переходе в другую вкладку или приложение
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
     videos.forEach((video) => video.pause());
