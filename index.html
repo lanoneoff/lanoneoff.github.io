@@ -2,41 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Lev — Video Editor</title>
-  <meta name="description" content="Lev — Video Editor. Transforming ideas into vertical stories that captivate and stay." />
-  <link rel="canonical" href="https://editorlev.com/" />
 
-  <meta property="og:type" content="website" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+
+  <title>Lev — Video Editor</title>
+
+  <meta
+    name="description"
+    content="Transforming ideas into vertical stories that captivate and stay."
+  />
+
   <meta property="og:title" content="Lev — Video Editor" />
-  <meta property="og:description" content="Transforming ideas into vertical stories that captivate and stay." />
+  <meta
+    property="og:description"
+    content="Transforming ideas into vertical stories that captivate and stay."
+  />
+  <meta property="og:type" content="website" />
   <meta property="og:url" content="https://editorlev.com/" />
-  <meta property="og:image" content="https://editorlev.com/og.jpg" />
-  <meta property="og:locale" content="en_US" />
-  <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#0b0c0f" />
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f2e8d5'/%3E%3C/svg%3E" />
+  <link
+    rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%2280%22 height=%2280%22 x=%2210%22 y=%2210%22 rx=%2220%22 fill=%22%23f5f5f7%22/></svg>"
+  />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Inter:wght@300;400;500;600;800&display=swap"
+    rel="stylesheet"
+  />
 
   <link rel="stylesheet" href="./style.css" />
+  <script src="./script.js" defer></script>
 </head>
-<body>
 
+<body>
   <div class="bg" aria-hidden="true">
     <div class="bg-ambient"></div>
     <div class="bg-grid"></div>
-    <div class="bg-grid-lit"></div>
-    <div class="cursor-glow"></div>
+    <div class="bg-grid-lit" id="gridLit"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
     <div class="vignette"></div>
     <div class="grain"></div>
   </div>
 
-  <main id="main">
-
+  <main class="page">
     <section class="hero" id="top">
       <div class="hero-inner">
         <h1 class="main-title">
@@ -44,132 +59,278 @@
           <span class="accent">Editor</span>
         </h1>
 
-        <div class="hero-divider" aria-hidden="true"><span class="diamond"></span></div>
-
-        <p class="sub">Transforming ideas into vertical stories that captivate and stay.</p>
-
-        <div class="hero-cta" role="group" aria-label="Contact">
-          <div class="row">
-            <a class="btn" href="https://t.me/editor_lev" target="_blank" rel="noopener noreferrer">
-              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M21.94 4.66 18.7 19.9c-.24 1.08-.88 1.35-1.79.84l-4.94-3.64-2.38 2.3c-.26.26-.48.48-.99.48l.35-5.02 9.14-8.26c.4-.35-.09-.55-.61-.2L7.02 13.5l-4.9-1.53c-1.07-.33-1.09-1.07.22-1.58L20.5 3.4c.9-.33 1.68.2 1.44 1.26z"/></svg>
-              <span>Telegram</span>
-            </a>
-            <a class="btn" id="copyEmailBtn" href="mailto:editorafterwork@gmail.com">
-              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-              <span class="btn-label">Email</span>
-            </a>
-          </div>
-          <a class="btn btn-primary" href="https://t.me/editor_lev" target="_blank" rel="noopener noreferrer">Hire me</a>
-          <span id="copyStatus" class="sr-only" role="status" aria-live="polite"></span>
+        <div class="hero-divider" aria-hidden="true">
+          <span class="diamond"></span>
         </div>
 
-        <a class="scroll-btn" href="#works">
-          <span class="scroll-text">Works</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="sub">
+          Transforming ideas into vertical stories<br />
+          that captivate and stay.
+        </p>
+
+        <div class="hero-cta" role="group" aria-label="Contact links">
+          <div class="row">
+            <a
+              class="btn"
+              href="https://t.me/editor_lev"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                class="btn-icon"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
+              </svg>
+              <span>Telegram</span>
+            </a>
+
+            <button
+              class="btn"
+              id="copyEmailBtn"
+              type="button"
+              data-email="editorafterwork@gmail.com"
+            >
+              <svg
+                class="btn-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="2" y="4" width="20" height="16" rx="3" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              <span class="btn-label" aria-live="polite">Email</span>
+            </button>
+          </div>
+
+          <a
+            class="btn btn-primary"
+            href="https://t.me/editor_lev"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Hire me
+          </a>
+        </div>
+
+        <a
+          class="scroll-btn"
+          href="#works"
+          data-scroll="#works"
+          aria-label="Scroll to works"
+        >
+          <span>WORKS</span>
+          <span class="scroll-box" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </span>
         </a>
       </div>
     </section>
 
-    <section class="works" id="works" aria-labelledby="works-title">
-      <header class="works-header">
+    <section class="works" id="works" aria-label="Works">
+      <div class="works-header">
         <span class="works-line" aria-hidden="true"></span>
-        <h2 class="works-title" id="works-title">Works</h2>
+        <h2 class="works-title">WORKS</h2>
         <span class="works-line" aria-hidden="true"></span>
-      </header>
+      </div>
 
       <div class="work-grid">
-
-        <!-- TODO: replace "Work 1/2/3" with real titles (used in labels too) -->
         <article class="work-card">
-          <h3 class="sr-only" id="work-1-title">Work 1</h3>
           <div class="frame">
-            <video class="work-video" playsinline controls loop preload="none" disablepictureinpicture disableremoteplayback
-                   poster="./posters/video1.webp" aria-labelledby="work-1-title">
-              <source src="./video1.webm" type="video/webm" />
-              <source src="./video1.mp4" type="video/mp4" />
+            <video
+              class="work-video"
+              playsinline
+              preload="metadata"
+              loop
+            >
+              <source src="./video1.mp4#t=0.001" type="video/mp4" />
+              Your browser does not support video playback.
             </video>
-            <button class="frame-toggle" type="button" aria-label="Play Work 1"></button>
-            <span class="spinner" aria-hidden="true"></span>
-            <span class="center-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></span>
-            <p class="unavailable">Video unavailable</p>
-            <div class="video-overlay">
-              <div class="sound-pill">
-                <button class="mute-btn" type="button" aria-label="Mute Work 1">
-                  <svg class="icon-unmuted" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9.5h3.5L11 6v12l-4.5-3.5H3z"/><path d="M14.5 9.5a4 4 0 0 1 0 5M17.5 7a7.5 7.5 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                  <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9.5h3.5L11 6v12l-4.5-3.5H3z"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                </button>
-                <div class="slider-container">
-                  <input class="vol-slider" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume" />
-                </div>
-              </div>
+
+            <button
+              class="video-toggle"
+              type="button"
+              aria-label="Play video 1"
+            ></button>
+
+            <div class="video-controls">
+              <button
+                class="video-mute"
+                type="button"
+                aria-label="Mute video 1"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M11 5 6.5 9H3.5v6h3L11 19V5z" />
+                  <path d="M15 9a4.5 4.5 0 0 1 0 6" />
+                  <path d="M17.8 6.5a8 8 0 0 1 0 11" />
+                </svg>
+              </button>
+
+              <input
+                class="video-volume"
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value="1"
+                aria-label="Volume for video 1"
+              />
             </div>
           </div>
         </article>
 
         <article class="work-card">
-          <h3 class="sr-only" id="work-2-title">Work 2</h3>
           <div class="frame">
-            <video class="work-video" playsinline controls loop preload="none" disablepictureinpicture disableremoteplayback
-                   poster="./posters/video2.webp" aria-labelledby="work-2-title">
-              <source src="./video2.webm" type="video/webm" />
-              <source src="./video2.mp4" type="video/mp4" />
+            <video
+              class="work-video"
+              playsinline
+              preload="metadata"
+              loop
+            >
+              <source src="./video2.mp4#t=0.001" type="video/mp4" />
+              Your browser does not support video playback.
             </video>
-            <button class="frame-toggle" type="button" aria-label="Play Work 2"></button>
-            <span class="spinner" aria-hidden="true"></span>
-            <span class="center-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></span>
-            <p class="unavailable">Video unavailable</p>
-            <div class="video-overlay">
-              <div class="sound-pill">
-                <button class="mute-btn" type="button" aria-label="Mute Work 2">
-                  <svg class="icon-unmuted" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9.5h3.5L11 6v12l-4.5-3.5H3z"/><path d="M14.5 9.5a4 4 0 0 1 0 5M17.5 7a7.5 7.5 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                  <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9.5h3.5L11 6v12l-4.5-3.5H3z"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                </button>
-                <div class="slider-container">
-                  <input class="vol-slider" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume" />
-                </div>
-              </div>
+
+            <button
+              class="video-toggle"
+              type="button"
+              aria-label="Play video 2"
+            ></button>
+
+            <div class="video-controls">
+              <button
+                class="video-mute"
+                type="button"
+                aria-label="Mute video 2"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M11 5 6.5 9H3.5v6h3L11 19V5z" />
+                  <path d="M15 9a4.5 4.5 0 0 1 0 6" />
+                  <path d="M17.8 6.5a8 8 0 0 1 0 11" />
+                </svg>
+              </button>
+
+              <input
+                class="video-volume"
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value="1"
+                aria-label="Volume for video 2"
+              />
             </div>
           </div>
         </article>
 
         <article class="work-card">
-          <h3 class="sr-only" id="work-3-title">Work 3</h3>
           <div class="frame">
-            <video class="work-video" playsinline controls loop preload="none" disablepictureinpicture disableremoteplayback
-                   poster="./posters/video3.webp" aria-labelledby="work-3-title">
-              <source src="./video3.webm" type="video/webm" />
-              <source src="./video3.mp4" type="video/mp4" />
+            <video
+              class="work-video"
+              playsinline
+              preload="metadata"
+              loop
+            >
+              <source src="./video3.mp4#t=0.001" type="video/mp4" />
+              Your browser does not support video playback.
             </video>
-            <button class="frame-toggle" type="button" aria-label="Play Work 3"></button>
-            <span class="spinner" aria-hidden="true"></span>
-            <span class="center-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg></span>
-            <p class="unavailable">Video unavailable</p>
-            <div class="video-overlay">
-              <div class="sound-pill">
-                <button class="mute-btn" type="button" aria-label="Mute Work 3">
-                  <svg class="icon-unmuted" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9.5h3.5L11 6v12l-4.5-3.5H3z"/><path d="M14.5 9.5a4 4 0 0 1 0 5M17.5 7a7.5 7.5 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                  <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9.5h3.5L11 6v12l-4.5-3.5H3z"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                </button>
-                <div class="slider-container">
-                  <input class="vol-slider" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume" />
-                </div>
-              </div>
+
+            <button
+              class="video-toggle"
+              type="button"
+              aria-label="Play video 3"
+            ></button>
+
+            <div class="video-controls">
+              <button
+                class="video-mute"
+                type="button"
+                aria-label="Mute video 3"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M11 5 6.5 9H3.5v6h3L11 19V5z" />
+                  <path d="M15 9a4.5 4.5 0 0 1 0 6" />
+                  <path d="M17.8 6.5a8 8 0 0 1 0 11" />
+                </svg>
+              </button>
+
+              <input
+                class="video-volume"
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value="1"
+                aria-label="Volume for video 3"
+              />
             </div>
           </div>
         </article>
-
       </div>
 
       <div class="works-bottom">
-        <a class="back-top-btn" href="#top">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>Back to top</span>
+        <a
+          class="back-top-btn"
+          href="#top"
+          data-scroll="#top"
+          aria-label="Back to top"
+        >
+          <span class="scroll-box" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m18 15-6-6-6 6" />
+            </svg>
+          </span>
+          <span>BACK TO TOP</span>
         </a>
       </div>
     </section>
-
   </main>
-
-  <script src="./app.js" defer></script>
 </body>
 </html>
