@@ -169,7 +169,10 @@ document.querySelectorAll(".work-card").forEach((card, index) => {
   if (!video || !toggleButton || !muteButton || !volumeSlider) return;
 
   const videoNumber = index + 1;
-  let lastVolume = 1;
+
+  // Начальная громкость — 50%
+  let lastVolume = 0.5;
+  video.volume = lastVolume;
 
   function updatePlaybackLabel() {
     toggleButton.setAttribute(
