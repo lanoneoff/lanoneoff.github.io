@@ -65,14 +65,26 @@ input:focus-visible {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px
+    );
   background-size: 64px 64px;
   mask-image: radial-gradient(
-    ellipse 90% 85% at 50% 45%, #000 35%, transparent 100%
+    ellipse 90% 85% at 50% 45%,
+    #000 35%,
+    transparent 100%
   );
   -webkit-mask-image: radial-gradient(
-    ellipse 90% 85% at 50% 45%, #000 35%, transparent 100%
+    ellipse 90% 85% at 50% 45%,
+    #000 35%,
+    transparent 100%
   );
 }
 
@@ -81,16 +93,28 @@ input:focus-visible {
   inset: 0;
   z-index: 2;
   background-image:
-    linear-gradient(to right, rgba(242, 232, 213, 0.24) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(242, 232, 213, 0.24) 1px, transparent 1px);
+    linear-gradient(
+      to right,
+      rgba(242, 232, 213, 0.24) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(242, 232, 213, 0.24) 1px,
+      transparent 1px
+    );
   background-size: 64px 64px;
   mask-image: radial-gradient(
     150px circle at var(--mx, -500px) var(--my, -500px),
-    #000 0%, rgba(0, 0, 0, 0.45) 45%, transparent 100%
+    #000 0%,
+    rgba(0, 0, 0, 0.45) 45%,
+    transparent 100%
   );
   -webkit-mask-image: radial-gradient(
     150px circle at var(--mx, -500px) var(--my, -500px),
-    #000 0%, rgba(0, 0, 0, 0.45) 45%, transparent 100%
+    #000 0%,
+    rgba(0, 0, 0, 0.45) 45%,
+    transparent 100%
   );
 }
 
@@ -111,7 +135,9 @@ input:focus-visible {
   inset: 0;
   z-index: 1;
   background: radial-gradient(
-    circle at 50% 45%, transparent 52%, rgba(5, 6, 8, 0.72) 100%
+    circle at 50% 45%,
+    transparent 52%,
+    rgba(5, 6, 8, 0.72) 100%
   );
 }
 
@@ -226,7 +252,10 @@ input:focus-visible {
   flex: 1;
   height: 1px;
   background: linear-gradient(
-    90deg, transparent, rgba(242, 232, 213, 0.35), transparent
+    90deg,
+    transparent,
+    rgba(242, 232, 213, 0.35),
+    transparent
   );
 }
 
@@ -435,7 +464,10 @@ input:focus-visible {
   width: 72px;
   height: 1px;
   background: linear-gradient(
-    90deg, transparent, rgba(255, 255, 255, 0.2), transparent
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
   );
 }
 
@@ -542,7 +574,9 @@ input:focus-visible {
   background: transparent;
   color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .video-mute svg {
@@ -677,7 +711,7 @@ input:focus-visible {
 
   .works {
     min-height: 0;
-    padding: 0 20px;
+    padding: 0 20px 15vh;
     display: block;
   }
 
@@ -696,24 +730,28 @@ input:focus-visible {
     position: relative;
     width: 100%;
     max-width: none;
+
+    /* Стабильная высота при скрытии панели браузера */
     min-height: 100vh;
     min-height: 100svh;
-    min-height: 100dvh;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
   }
 
-  /* Одинаковый размер для всех трёх роликов */
+  /* Сам ролик выравнивается по центру экрана */
   .work-card .frame {
     width: 100%;
     max-width: 352px;
     max-width: min(352px, calc((100vh - 80px) * 9 / 16));
-    max-width: min(352px, calc((100dvh - 80px) * 9 / 16));
+    max-width: min(352px, calc((100svh - 80px) * 9 / 16));
+
+    scroll-snap-align: center;
+    scroll-snap-stop: normal;
   }
 
+  /* Стрелка наверх рядом с третьим видео */
   .mobile-back-top {
     position: absolute;
     z-index: 5;
@@ -746,6 +784,8 @@ input:focus-visible {
     display: none;
   }
 }
+
+/* Уменьшение движения */
 
 @media (prefers-reduced-motion: reduce) {
   *,
